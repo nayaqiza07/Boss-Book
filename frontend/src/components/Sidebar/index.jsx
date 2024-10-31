@@ -1,11 +1,15 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { SidebarItem } from "./SidebarItem";
 import { FiMoreVertical } from "react-icons/fi";
 import {
   TbLayoutSidebarLeftExpand,
   TbLayoutSidebarRightExpand,
 } from "react-icons/tb";
+import { IoIosArrowDown } from "react-icons/io";
+
+const SidebarContext = createContext();
 
 export const Sidebar = () => {
   const [expanded, setExpanded] = useState(true);
@@ -36,34 +40,13 @@ export const Sidebar = () => {
         {/* Akhir Header Sidebar */}
 
         {/* Content Sidebar */}
-        <ul className="flex-1 px-3">
-          {SidebarItem.map((item) => (
-            <li
-              key={item.key}
-              className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group ${
-                item.active
-                  ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-                  : "hover:bg-indigo-50 text-gray-600"
-              }`}
-            >
-              {item.icon}
-              <span
-                className={`overflow-hidden transition-all 
-                  ${expanded ? "wl-52 ml-3" : "w-0"}
-                `}
-              >
-                {item.label}
-              </span>
-              {!expanded && (
-                <div
-                  className={`absolute left-full rounded-md px-2 py-1 ml-6 bg-indigo-100 text-indigo-800 text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`}
-                >
-                  {item.label}
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
+        <SidebarContext.Provider value={{ expanded }}>
+          <ul className="flex-1 px-3 pt-10">
+            {SidebarItem.map((item) => (
+              <SidebarSubItem key={item.key} item={item} />
+            ))}
+          </ul>
+        </SidebarContext.Provider>
         {/* Akhir Content Sidebar */}
 
         {/* Footer Sidebar */}
@@ -87,5 +70,84 @@ export const Sidebar = () => {
         {/* Akhir Footer Sidebar */}
       </nav>
     </aside>
+  );
+};
+
+export const SidebarSubItem = ({ item }) => {
+  const { expanded } = useContext(SidebarContext);
+  const { pathname } = useLocation();
+  const [subItemOpen, setSubItemOpen] = useState(false);
+
+  return (
+    <div>
+      <Link to={item.path}>
+        <li
+          className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group ${
+            pathname === item.path
+              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
+              : "hover:bg-indigo-50 text-gray-600"
+          }`}
+          onClick={() => expanded && setSubItemOpen(!subItemOpen)}
+        >
+          {item.icon}
+          <span
+            className={`overflow-hidden transition-all 
+                  ${expanded ? "wl-52 ml-3" : "w-0"}
+                `}
+          >
+            {item.label}
+          </span>
+
+          {/* Sub Item Icon */}
+          {item.sidebarSubItem && expanded && (
+            <IoIosArrowDown
+              className={`transition-all ${subItemOpen && "rotate-180"}`}
+            />
+          )}
+          {/* Akhir Sub Item Icon */}
+
+          {!expanded && (
+            <div
+              className={`absolute left-full rounded-md px-2 py-1 ml-6 bg-indigo-100 text-indigo-800 text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`}
+            >
+              {item.label}
+            </div>
+          )}
+        </li>
+
+        {/* Sub Item Dropdown */}
+        {item.sidebarSubItem && subItemOpen && open && (
+          <ul>
+            {item.sidebarSubItem.map((subItem) => (
+              <li
+                key={subItem.key}
+                className={`relative flex items-center py-2 px-12 my-1 font-medium rounded-md cursor-pointer transition-colors group ${
+                  pathname === item.path
+                    ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
+                    : "hover:bg-indigo-50 text-gray-600"
+                }`}
+              >
+                {subItem.icon}
+                <span
+                  className={`overflow-hidden transition-all 
+                          ${expanded ? "wl-52 ml-3" : "w-0"}
+                        `}
+                >
+                  {subItem.label}
+                </span>
+                {!expanded && (
+                  <div
+                    className={`absolute left-full rounded-md px-2 py-1 ml-6 bg-indigo-100 text-indigo-800 text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`}
+                  >
+                    {subItem.label}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+        {/* Akhir Sub Item Dropdown */}
+      </Link>
+    </div>
   );
 };
