@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"); */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +8,23 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: "Helvetica", helvetica-neue, arial, serif;
   font-size: 14px;
   /* border: 1px solid black; */
+}
+
+/* Color Variable */
+@layer base {
+  :root {
+    --color-primary: #025865;
+    --color-primary-1: #2a737c;
+    --color-primary-2: #538e96;
+    --color-primary-3: #7ba8ae;
+    --color-primary-4: #a4c3c6;
+    --color-secondary: #00d47f;
+    --color-secondary1: #2adb93;
+    --color-secondary2: #52e2a7;
+    --color-secondary3: #7ae9bc;
+    --color-secondary4: #a2f0d0;
+  }
 }

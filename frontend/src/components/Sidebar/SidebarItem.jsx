@@ -1,7 +1,7 @@
 import { LuLayoutDashboard } from "react-icons/lu";
 import { CiBadgeDollar, CiShoppingCart, CiCalculator1 } from "react-icons/ci";
-import { BiPurchaseTag } from "react-icons/bi";
-import { PiHandCoinsLight, PiCoin } from "react-icons/pi";
+// import { BiPurchaseTag } from "react-icons/bi";
+// import { PiHandCoinsLight, PiCoin } from "react-icons/pi";
 
 export const SidebarItem = [
   {
@@ -19,19 +19,19 @@ export const SidebarItem = [
         key: "sales",
         label: "Sales",
         // path: "/sales",
-        icon: <BiPurchaseTag size={20} />,
+        // icon: <BiPurchaseTag size={20} />,
       },
       {
         key: "commission",
         label: "Commission",
         // path: "/sales",
-        icon: <PiHandCoinsLight size={20} />,
+        // icon: <PiHandCoinsLight size={20} />,
       },
       {
         key: "services revenue",
         label: "Services Revenue",
         // path: "/sales",
-        icon: <PiCoin size={20} />,
+        // icon: <PiCoin size={20} />,
       },
     ],
   },
@@ -45,61 +45,61 @@ export const SidebarItem = [
         key: "accommodation",
         label: "Accommodation",
         // path: "/sales",
-        icon: <BiPurchaseTag size={20} />,
+        // icon: <BiPurchaseTag size={20} />,
       },
       {
         key: "ads",
         label: "Ads",
         // path: "/sales",
-        icon: <PiHandCoinsLight size={20} />,
+        // icon: <PiHandCoinsLight size={20} />,
       },
       {
         key: "employee salaries",
         label: "Employee Salaries",
         // path: "/sales",
-        icon: <PiCoin size={20} />,
+        // icon: <PiCoin size={20} />,
       },
       {
         key: "electricity",
         label: "Electricity",
         // path: "/sales",
-        icon: <BiPurchaseTag size={20} />,
+        // icon: <BiPurchaseTag size={20} />,
       },
       {
         key: "tools",
         label: "Tools",
         // path: "/sales",
-        icon: <PiHandCoinsLight size={20} />,
+        // icon: <PiHandCoinsLight size={20} />,
       },
       {
         key: "finishing",
         label: "Finishing",
         // path: "/sales",
-        icon: <PiCoin size={20} />,
+        // icon: <PiCoin size={20} />,
       },
       {
         key: "raw material",
         label: "Raw Material",
         // path: "/sales",
-        icon: <BiPurchaseTag size={20} />,
+        // icon: <BiPurchaseTag size={20} />,
       },
       {
         key: "accessories",
         label: "Accessories",
         // path: "/sales",
-        icon: <PiHandCoinsLight size={20} />,
+        // icon: <PiHandCoinsLight size={20} />,
       },
       {
         key: "foam & fabric",
         label: "Foam & Fabric",
         // path: "/sales",
-        icon: <PiCoin size={20} />,
+        // icon: <PiCoin size={20} />,
       },
       {
         key: "packaging",
         label: "Packaging",
         // path: "/sales",
-        icon: <PiCoin size={20} />,
+        // icon: <PiCoin size={20} />,
       },
     ],
   },
