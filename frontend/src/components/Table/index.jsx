@@ -1,26 +1,44 @@
+import { TableDataItems } from "./TableDataItems";
+import { Modal } from "../Modal";
+import { useState } from "react";
+
 export const Table = () => {
+  const [open, setOpen] = useState(false);
   return (
-    <table className="border-collapse border border-slate-500 ...">
-      <thead>
-        <tr>
-          <th className="border border-slate-600 ...">State</th>
-          <th className="border border-slate-600 ...">City</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td className="border border-slate-700 ...">Indiana</td>
-          <td className="border border-slate-700 ...">Indianapolis</td>
-        </tr>
-        <tr>
-          <td className="border border-slate-700 ...">Ohio</td>
-          <td className="border border-slate-700 ...">Columbus</td>
-        </tr>
-        <tr>
-          <td className="border border-slate-700 ...">Michigan</td>
-          <td className="border border-slate-700 ...">Detroit</td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="relative flex flex-col h-64 overflow-y-scroll scroll-smooth">
+      <table className="w-full cursor-default">
+        <thead>
+          <tr className="border border-solid border-x-0">
+            <th className="text-md px-3 md:px-6 py-3 font-semibold text-[#535353]">
+              Name
+            </th>
+            <th className="text-md px-3 md:px-6 py-3 font-semibold text-[#535353]">
+              Date
+            </th>
+            <th className="text-md px-3 md:px-6 py-3 font-semibold text-[#535353]">
+              Number
+            </th>
+            <th className="text-md px-3 md:px-6 py-3 font-semibold text-[#535353]">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {TableDataItems.map((item) => (
+            <tr key={item.id} className="border-b hover:bg-[#f5f7f9]">
+              <td className="text-sm px-3 md:px-6 py-3">{item.name}</td>
+              <td className="text-sm px-3 sm:px-6 py-3">{item.date}</td>
+              <td className="text-sm px-3 sm:px-6 py-3">{item.number}</td>
+              <td className="text-sm px-3 sm:px-6 py-3 text-center">
+                <button onClick={() => setOpen(true)}>{item.icon}</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Modal open={open} onCLose={() => setOpen(false)}>
+        <div className="w-80 h-80 bg-white">WKWK</div>
+      </Modal>
+    </div>
   );
 };

@@ -3,7 +3,7 @@ import { CiExport } from "react-icons/ci";
 
 export const Filter = () => {
   return (
-    <div className="flex flex-row gap-3">
+    <div className="flex flex-row justify-between gap-3">
       {/* Date Start */}
       <div className="flex items-center border border-gray-300 rounded-lg h-10 mb-5">
         <button className="flex items-center gap-1 border-r h-full px-3">

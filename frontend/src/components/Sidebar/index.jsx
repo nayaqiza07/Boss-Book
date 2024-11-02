@@ -9,10 +9,10 @@ import { createContext, useContext, useState } from "react";
 const SidebarContext = createContext();
 
 export const Sidebar = () => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    <aside className="w-fit h-screen">
+    <aside className="w-fit h-screen sticky top-0">
       <nav className="h-full flex flex-col bg-[#f6f7f9] border-r">
         {/* Header Sidebar */}
         <SidebarContext.Provider value={{ expanded, setExpanded }}>
@@ -39,7 +39,7 @@ export const Sidebar = () => {
           />
           <div
             className={`flex justify-between items-center overflow-hidden transition-all ${
-              expanded ? "w-52 ml-3" : "w-0"
+              expanded ? "w-60 ml-3" : "w-0"
             }
               `}
           >
@@ -91,25 +91,77 @@ export const SidebarHeader = () => {
 export const SidebarMenuItems = ({ item }) => {
   const { expanded } = useContext(SidebarContext);
   const { pathname } = useLocation();
+  const [subItemOpen, setSubItemOpen] = useState(false);
+
   return (
     <div>
       <Link to={item.path}>
         <li
-          className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors ${
+          className={`relative flex items-center py-2 px-3 my-1 font-semibold rounded-md cursor-pointer transition-colors group ${
             pathname === item.path
-              ? "bg-white shadow-md text-black"
-              : "hover:bg-[#eeeeee] text-black"
+              ? "bg-white shadow-md text-primary"
+              : "hover:bg-[#eeeeee] text-[#707174]"
           }`}
+          onClick={() => expanded && setSubItemOpen(!subItemOpen)}
         >
           {item.icon}
           <span
-            className={`overflow-hidden transition-all
-                  ${expanded ? "wl-52 ml-3" : "w-0"}
+            className={`overflow-hidden transition-all flex-1
+                  ${expanded ? "w-60 ml-3" : "w-0"}
                 `}
           >
             {item.label}
           </span>
+
+          {/* Sub Item Icon Start */}
+          {item.sidebarSubItem && expanded && (
+            <IoIosArrowDown
+              className={`transition-all ${subItemOpen && "rotate-180"}`}
+            />
+          )}
+          {/* Sub Item Icon End */}
+
+          {!expanded && (
+            <div
+              className={`absolute left-full rounded-md px-2 py-1 ml-6 bg-primary1 text-white text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`}
+            >
+              {item.label}
+            </div>
+          )}
         </li>
+
+        {/* Sub Item Dropdown Start*/}
+        {item.sidebarSubItem && subItemOpen && open && (
+          <ul className="border-l ml-6 pl-3">
+            {item.sidebarSubItem.map((subItem) => (
+              <li
+                key={subItem.key}
+                className={`relative flex items-center py-2 my-1 font-medium rounded-md cursor-pointer transition-colors group ${
+                  pathname === item.path
+                    ? "bg-white shadow-md text-primary"
+                    : "hover:bg-[#eeeeee] text-[#707174]"
+                }`}
+              >
+                {subItem.icon}
+                <span
+                  className={`overflow-hidden transition-all 
+                          ${expanded ? "wl-60 ml-3" : "w-0"}
+                        `}
+                >
+                  {subItem.label}
+                </span>
+                {!expanded && (
+                  <div
+                    className={`absolute left-full rounded-md px-2 py-1 ml-6 bg-indigo-100 text-indigo-800 text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`}
+                  >
+                    {subItem.label}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+        {/* Sub Item Dropdown End */}
       </Link>
     </div>
   );
