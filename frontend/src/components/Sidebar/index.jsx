@@ -39,7 +39,7 @@ export const Sidebar = () => {
           />
           <div
             className={`flex justify-between items-center overflow-hidden transition-all ${
-              expanded ? "w-60 ml-3" : "w-0"
+              expanded ? "w-40 ml-3" : "w-0"
             }
               `}
           >
@@ -107,7 +107,7 @@ export const SidebarMenuItems = ({ item }) => {
           {item.icon}
           <span
             className={`overflow-hidden transition-all flex-1
-                  ${expanded ? "w-60 ml-3" : "w-0"}
+                  ${expanded ? "w-40 ml-3" : "w-0"}
                 `}
           >
             {item.label}
@@ -145,7 +145,7 @@ export const SidebarMenuItems = ({ item }) => {
                 {subItem.icon}
                 <span
                   className={`overflow-hidden transition-all 
-                          ${expanded ? "wl-60 ml-3" : "w-0"}
+                          ${expanded ? "w-40 ml-3" : "w-0"}
                         `}
                 >
                   {subItem.label}

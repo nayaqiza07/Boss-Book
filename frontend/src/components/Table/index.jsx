@@ -36,7 +36,7 @@ export const Table = () => {
           ))}
         </tbody>
       </table>
-      <Modal open={open} onCLose={() => setOpen(false)}>
+      <Modal open={open} onClose={() => setOpen(false)}>
         <div className="w-80 h-80 bg-white">WKWK</div>
       </Modal>
     </div>

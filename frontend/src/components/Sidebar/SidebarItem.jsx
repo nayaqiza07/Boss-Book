@@ -1,6 +1,7 @@
 import { LuLayoutDashboard } from "react-icons/lu";
 import { CiBadgeDollar, CiShoppingCart, CiCalculator1 } from "react-icons/ci";
 import { TbFileInvoice } from "react-icons/tb";
+import { BiCoin } from "react-icons/bi";
 // import { BiPurchaseTag } from "react-icons/bi";
 // import { PiHandCoinsLight, PiCoin } from "react-icons/pi";
 
@@ -115,5 +116,11 @@ export const SidebarItem = [
     label: "Calculator",
     path: "/calculator",
     icon: <CiCalculator1 size={20} />,
+  },
+  {
+    key: "piutang",
+    label: "Pi/Utang",
+    path: "/piutang",
+    icon: <BiCoin size={20} />,
   },
 ];
