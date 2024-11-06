@@ -12,11 +12,16 @@ import { Modal } from "../Modal";
 
 export const Invoicer = ({ showInvoice, setShowInvoice }) => {
   // For Table Start
-  const [showAddProduct, setShowAddProducts] = useState(false);
   const [name, setName] = useState("");
   const [note, setNote] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
+
+  // Formated Price
+  // const formatedPrice = () => {
+  //   const removeChar = price.value.replace(/[^0-9\.]/g, "");
+  // };
+
   const [List] = useState([]);
   const addData = () => {
     List.push({
@@ -30,11 +35,10 @@ export const Invoicer = ({ showInvoice, setShowInvoice }) => {
     setNote("");
     setQuantity("");
     setPrice("");
-    setShowAddProducts(false);
   };
   // For Table End
 
-  const [clientName, setClientName] = useState("");
+  const [client, setClient] = useState("");
   const [clientAddress, setClientAddress] = useState("");
   // const [invoiceNumber, setInvoiceNumber] = useState("");
   // const [invoiceDate, setInvoiceDate] = useState("");
@@ -47,23 +51,28 @@ export const Invoicer = ({ showInvoice, setShowInvoice }) => {
   return (
     <main className="p-3 lg:max-w-4xl lg:mx-auto">
       {/* Input Invoice Start */}
+      {/* <form action=""> */}
       <div className="flex flex-col gap-3">
-        <div className="flex flex-col">
-          <label htmlFor="clientName">Client Name</label>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="client" className="text-xs">
+            Client
+          </label>
           <input
             type="text"
             name="text"
-            id="website"
+            id="client"
             placeholder="Enter Your Client Name"
             autoComplete="off"
-            value={clientName}
-            onChange={(e) => setClientName(e.target.value)}
-            className="border rounded p-1"
+            value={client}
+            onChange={(e) => setClient(e.target.value)}
+            className="border rounded p-1 focus:outline-none"
           />
         </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="clientAddress">Client Address</label>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="clientAddress" className="text-xs">
+            Client Address
+          </label>
           <input
             type="text"
             name="text"
@@ -72,60 +81,84 @@ export const Invoicer = ({ showInvoice, setShowInvoice }) => {
             autoComplete="off"
             value={clientAddress}
             onChange={(e) => setClientAddress(e.target.value)}
-            className="border rounded p-1"
+            className="border rounded p-1 focus:outline-none"
           />
         </div>
       </div>
 
-      <button
-        onClick={() => setShowAddProducts(!showAddProduct)}
-        className="border rounded p-1 hover:bg-gray-100 my-3"
-      >
-        Add Product
-      </button>
-
       {/* Add Product Invoice Start */}
-      {showAddProduct && (
-        <div>
-          <input
-            type="text"
-            placeholder="Product"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border rounded p-1"
-          />
-          <input
-            type="text"
-            placeholder="Keterangan"
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            className="border rounded p-1"
-          />
-          <input
-            type="number"
-            placeholder="Quantity"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-            className="border rounded p-1 w-10"
-          />
-          <input
-            type="text"
-            inputMode="numeric"
-            placeholder="Price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            className="border rounded p-1 w-16"
-          />
-          <button
-            onClick={addData}
-            className="border rounded p-1 hover:bg-gray-100 my-3"
-          >
-            Add
-          </button>
-        </div>
-      )}
+      <table className="mt-5">
+        <thead className="h-6">
+          <tr className="text-xs text-left">
+            <th className="font-normal">Item</th>
+            <th className="font-normal">Note</th>
+            <th className="text-right font-normal">Qty</th>
+            <th className="text-right font-normal">Price</th>
+            <th className="text-right font-normal">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="border rounded p-1 w-32 mr-3 focus:outline-none"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                className="border rounded p-1 w-32 focus:outline-none"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                className="border rounded p-1 w-10 ml-3 text-right focus:outline-none"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="border rounded p-1 w-16 ml-3 text-right focus:outline-none"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                value={quantity * price}
+                readOnly={true}
+                className="p-1 w-16 ml-3 text-right focus:outline-none cursor-default"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={2}>
+              <button
+                onClick={addData}
+                className="text-xs font-semibold text-primary hover:text-primary1 p-1 my-3"
+              >
+                + ADD ITEM
+              </button>
+            </td>
+            <td className="text-right font-normal text-xs p-1">Total</td>
+            <td colSpan={2} className="text-right font-normal p-1">
+              Rp. {quantity * price}
+            </td>
+          </tr>
+        </tbody>
+      </table>
       {/* Add Product Invoice Start */}
-
+      {/* </form> */}
       {/* Input Invoice End */}
 
       {/* Show Invoice Start */}
@@ -146,7 +179,7 @@ export const Invoicer = ({ showInvoice, setShowInvoice }) => {
 
             <section className="flex flex-row justify-between text-xs">
               <ClientDetailInvoice
-                clientName={clientName}
+                clientName={client}
                 clientAdress={clientAddress}
               />
               <InvoiceNum
