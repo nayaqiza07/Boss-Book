@@ -39,7 +39,7 @@ const Invoice = () => {
         <button className="border rounded p-1">Show</button>
       </div>
       <div className="lg:max-w-4xl lg:mx-auto my-5">
-        <ListInvoice />
+        <ListInvoice open={open} setOpen={setOpen} />
       </div>
     </div>
   );

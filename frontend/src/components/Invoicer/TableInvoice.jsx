@@ -28,7 +28,7 @@ export const TableInvoice = ({ List }) => {
             return (
               <tr key={index} className="border-b">
                 <td className="text-xs px-3 md:px-6 py-3">
-                  <h2 className="font-semibold">{item.name}</h2>
+                  <h2 className="font-semibold">{item.item}</h2>
                   <p>{item.note}</p>
                 </td>
                 <td className="text-sm text-center px-3 sm:px-6 py-3">

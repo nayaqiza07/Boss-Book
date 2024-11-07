@@ -25,7 +25,7 @@ export const DrawerInvoice = ({ open, onClose }) => {
             <Button variant="text" onClick={() => setShowInvoice(!showInvoice)}>
               Preview
             </Button>
-            <Button variant="contained">Send</Button>
+            <Button variant="contained">Save</Button>
           </div>
         </Drawer>
       </Box>

@@ -20,13 +20,13 @@ const Piutang = () => {
           onClick={() => setShowPiutang(false)}
           className="border rounded p-1"
         >
-          Piutang
+          + Piutang
         </button>
         <button
           onClick={() => setShowPiutang(true)}
           className="border rounded p-1"
         >
-          Utang
+          - Utang
         </button>
       </div>
 
