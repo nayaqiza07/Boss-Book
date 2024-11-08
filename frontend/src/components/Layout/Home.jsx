@@ -3,7 +3,7 @@ import { Sidebar } from "../Sidebar";
 
 const Home = () => {
   return (
-    <div className="w-full min-h-screen flex flex-row">
+    <div className="flex flex-row">
       {/* <Sidebar /> */}
       <Sidebar />
       {<Outlet />}

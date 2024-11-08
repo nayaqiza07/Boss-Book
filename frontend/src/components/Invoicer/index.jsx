@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
+import axios from "axios";
 import { ClientDetailInvoice } from "./ClientInvoice";
 import { HeaderInvoice } from "./HeaderInvoice";
 import { InvoiceNum } from "./InvoiceNum";
@@ -7,7 +8,6 @@ import { TableInvoice } from "./TableInvoice";
 import { YourDetailInvoice } from "./YourDetailInvoice";
 import { NotesInvoice } from "./NotesInvoice";
 import { Modal } from "../Modal";
-import axios from "axios";
 // import {useParams} from 'react-router-dom'
 
 export const Invoicer = ({ showInvoice, setShowInvoice }) => {
@@ -42,28 +42,31 @@ export const Invoicer = ({ showInvoice, setShowInvoice }) => {
 
   const [client, setClient] = useState("");
   const [address, setAddress] = useState("");
-  const [total, setTot] = useState(0);
-  const showDate = new Date();
-  const date =
-    ("0" + showDate.getDate()).slice(-2) +
-    "/" +
-    ("0" + (showDate.getMonth() + 1)).slice(-2) +
-    "/" +
-    showDate.getFullYear();
+  const [date, setDate] = useState("");
+  const [total, setTotal] = useState(0);
 
-  // useEffect(() => {
-  //   getInvoiceById();
-  // }, []);
+  // const showDate = new Date();
+  // const asd =
+  //   ("0" + showDate.getDate()).slice(-2) +
+  //   "/" +
+  //   ("0" + (showDate.getMonth() + 1)).slice(-2) +
+  //   "/" +
+  //   showDate.getFullYear();
 
-  // const getInvoiceById = async (id) => {
-  //   const response = await axios.get(`http://localhost:5000/invoices/${id}`);
-  //   setClient(response.data.client);
-  //   setAddress(response.data.address);
-  //   setTot(response.data.total);
-  // };
+  useEffect(() => {
+    getInvoiceById();
+  }, []);
 
-  const saveInvoice = async (e) => {
-    e.preventDefault();
+  const getInvoiceById = async (id) => {
+    const response = await axios.get(`http://localhost:5000/invoices/${id}`);
+    setClient(response.data.client);
+    setAddress(response.data.address);
+    setDate(response.data.date);
+    setTotal(response.data.total);
+  };
+
+  const saveInvoice = async () => {
+    // e.preventDefault();
     try {
       await axios.post("http://localhost:5000/invoices", {
         client,
@@ -118,11 +121,12 @@ export const Invoicer = ({ showInvoice, setShowInvoice }) => {
               Date
             </label>
             <input
-              type="text"
+              type="date"
               name="text"
               id="date"
-              readOnly={true}
+              // readOnly={true}
               value={date}
+              onChange={(e) => setDate(e.target.value)}
               className="border rounded p-1 focus:outline-none"
             />
           </div>
@@ -136,7 +140,7 @@ export const Invoicer = ({ showInvoice, setShowInvoice }) => {
               name="text"
               id="total"
               value={total}
-              onChange={(e) => setTot(e.target.value)}
+              onChange={(e) => setTotal(e.target.value)}
               className="border rounded p-1 focus:outline-none"
             />
           </div>
@@ -222,7 +226,10 @@ export const Invoicer = ({ showInvoice, setShowInvoice }) => {
 
       {/* Show Invoice Start */}
       {showInvoice && (
-        <Modal open={showInvoice} onClose={() => setShowInvoice(false)}>
+        <Modal
+          openModal={showInvoice}
+          onCloseModal={() => setShowInvoice(false)}
+        >
           <div className="border rounded shadow p-5 w-3/4 mx-auto">
             <HeaderInvoice />
             <YourDetailInvoice />

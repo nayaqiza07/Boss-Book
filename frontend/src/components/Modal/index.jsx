@@ -1,25 +1,25 @@
 /* eslint-disable react/prop-types */
-import { IoMdClose } from "react-icons/io";
-export const Modal = ({ open, onClose, children }) => {
+// import { IoMdClose } from "react-icons/io";
+export const Modal = ({ openModal, onCloseModal, children }) => {
   return (
     <div
-      onClick={onClose}
+      onClick={onCloseModal}
       className={`fixed z-10 inset-0 flex justify-center items-center transition-colors ${
-        open ? "visible bg-black/20" : "invisible"
+        openModal ? "visible bg-black/20" : "invisible"
       }`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`bg-white border rounded-lg shadow p-5 transition-all ${
-          open ? "scale-75 lg:scale-100 opacity-100" : "scale-125 opacit-0"
+        className={`w-fit px-4 py-3 bg-white border rounded-lg shadow transition-all ${
+          openModal ? "opacity-100" : "opacity-0"
         }`}
       >
-        <button
+        {/* <button
           onClick={onClose}
-          className="absolute top-2 right-2 p-1 rounded-lg bg-white text-gray-400 hover:bg-gray-50 hover:text-gray-600"
+          className="p-1 rounded-lg bg-white text-gray-400 hover:bg-gray-50 hover:text-gray-600"
         >
           <IoMdClose />
-        </button>
+        </button> */}
         {children}
       </div>
     </div>
