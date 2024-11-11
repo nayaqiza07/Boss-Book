@@ -3,11 +3,10 @@ import { Modal } from "../components/Modal";
 import { useState } from "react";
 // import Select from "react-select";
 
-const Piutang = () => {
+const Utang = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [openModalTerima, setOpenModalTerima] = useState(false);
 
-  const handleModalPiutang = () => {
+  const handleModalUtang = () => {
     setOpenModal(true);
   };
 
@@ -42,7 +41,7 @@ const Piutang = () => {
         <div className="grid grid-cols-1 gap-3 text-center">
           <h1 className="text-6xl font-bold">
             <span className="text-transparent bg-gradient-to-r from-[#3c3dbf] to-[#FF3666] bg-clip-text">
-              Piutang
+              Utang
             </span>
           </h1>
           <hr className="w-3/4 mx-auto" />
@@ -51,7 +50,7 @@ const Piutang = () => {
               Rp. 1.500.000,-
             </h4>
             <span className="text-[#A1A1A1] text-sm">
-              Total yang belum diterima
+              Uang yang belum dibayarkan
             </span>
           </div>
         </div>
@@ -62,12 +61,12 @@ const Piutang = () => {
           <div className="flex justify-between items-center">
             <h4 className="lg:text-2xl font-bold">
               <span className="text-transparent bg-gradient-to-r from-[#3c3dbf] to-[#FF3666] bg-clip-text">
-                Riwayat Piutang
+                Riwayat Utang
               </span>
             </h4>
             <button
-              onClick={handleModalPiutang}
-              className="text-sm lg:text-md rounded-lg px-3 py-2 flex items-center text-white bg-[#3c3dbf] transition all hover:scale-110"
+              onClick={handleModalUtang}
+              className="text-sm lg:text-md rounded-lg px-3 py-2 flex items-center text-white bg-[#FF3666] transition all hover:scale-110"
             >
               Tambah
               <BiSolidPlusCircle className="ml-1" />
@@ -80,39 +79,30 @@ const Piutang = () => {
         <div className="grid grid-cols-1 gap-5">
           {/* Table Start */}
           <div className="overflow-x-auto">
-            <table className="table table-xs lg:table-lg cursor-default">
+            <table className="table cursor-default">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th className="text-[#FF3666]">%</th>
+                  <th>Nama</th>
+                  <th>Dp</th>
+                  <th>Kurang</th>
+                </tr>
+              </thead>
               <tbody>
                 {datas.map((data, index) => {
                   return (
-                    <tr key={index} className="text-[#454545]">
-                      <td className="text-[#3c3dbf] font-semibold">
-                        <div
-                          className="radial-progress text-[#3c3dbf] text-xs"
-                          style={{
-                            "--value": data.persen,
-                            "--size": "2.5rem",
-                            "--thickness": "3px",
-                          }}
-                          role="progressbar"
-                        >
-                          {data.persen}
-                        </div>
+                    <tr
+                      key={index}
+                      onClick={handleModalUtang}
+                      className="hover:bg-[#ffecf0] text-[#454545] cursor-pointer"
+                    >
+                      <td className="text-[#FF3666] font-semibold">
+                        {data.persen}%
                       </td>
-                      <td>
-                        <p>{data.nama}</p>
-                        <p>Rp. {data.dp}</p>
-                        <p className="text-[#a1a1a1]">
-                          Belum diterima: {data.kurang}
-                        </p>
-                      </td>
-                      <td className="text-right">
-                        <button
-                          onClick={() => setOpenModalTerima(true)}
-                          className="rounded-lg px-3 py-2 text-[#3c3dbf] bg-[#e4e5ff]"
-                        >
-                          Terima
-                        </button>
-                      </td>
+                      <td>{data.nama}</td>
+                      <td>Rp. {data.dp}</td>
+                      <td>Rp. {data.kurang}</td>
                     </tr>
                   );
                 })}
@@ -125,7 +115,7 @@ const Piutang = () => {
 
       <Modal openModal={openModal} onCloseModal={() => setOpenModal(false)}>
         {/* Form Start */}
-        <h3 className="mb-5 font-semibold text-xl">Tambah Piutang</h3>
+        <h3 className="mb-5 font-semibold text-xl">Tambah Utang</h3>
         {/* <form onSubmit={saveTransaction}>
           <div>
 
@@ -189,7 +179,7 @@ const Piutang = () => {
           <button
             type="submit"
             onClick={handleSimpan}
-            className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto transition-all hover:scale-105 bg-[#3c3dbf]`}
+            className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto transition-all hover:scale-105 bg-[#FF3666]`}
           >
             Simpan
           </button>
@@ -204,39 +194,8 @@ const Piutang = () => {
         {/* Button didalam Modal */}
         {/* </form> */}
       </Modal>
-
-      {/* Terima Modal */}
-      <Modal
-        openModal={openModalTerima}
-        onCloseModal={() => setOpenModalTerima(false)}
-      >
-        <div className="flex flex-row items-center justify-between mb-5">
-          <h3 className="font-semibold text-lg">Terima Pelunasan</h3>
-          <button onClick={() => setOpenModalTerima(false)}>X</button>
-        </div>
-        {/* Form Start */}
-        {/* Button didalam Modal */}
-        <div className="sm:flex sm:flex-row-reverse">
-          <button
-            type="submit"
-            onClick={handleSimpan}
-            className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto transition-all hover:scale-105 bg-[#3c3dbf]`}
-          >
-            Seluruhnya
-          </button>
-
-          <button
-            type="button"
-            onClick={handleSimpan}
-            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-[#3c3dbf] shadow-sm ring-1 ring-inset ring-[#3c3dbf] hover:bg-gray-50 sm:mt-0 sm:w-auto transition-all hover:scale-105"
-          >
-            Sebagian
-          </button>
-        </div>
-        {/* Button didalam Modal */}
-      </Modal>
     </div>
   );
 };
 
-export default Piutang;
+export default Utang;

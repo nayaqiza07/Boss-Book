@@ -118,9 +118,9 @@ export const SidebarItem = [
     icon: <CiCalculator1 size={20} />,
   },
   {
-    key: "piutang",
-    label: "Pi/Utang",
-    path: "/piutang",
+    key: "transaksi",
+    label: "Transaksi",
+    path: "/transaksi",
     icon: <BiCoin size={20} />,
   },
 ];

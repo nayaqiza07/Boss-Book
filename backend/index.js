@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 // import UserRoute from "./routes/UserRoute.js";
 import InvoiceRoute from "./routes/InvoiceRoute.js";
+import TransactionRoute from "./routes/TransactionRoute.js";
 
 const app = express();
 mongoose.connect("mongodb://localhost:27017/bossbook_db", {
@@ -17,5 +18,6 @@ db.once("open", () => console.log("Database Connected..."));
 app.use(cors());
 app.use(express.json());
 app.use(InvoiceRoute);
+app.use(TransactionRoute);
 
 app.listen(5000, () => console.log("Server up and running..."));
