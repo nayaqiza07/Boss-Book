@@ -15,6 +15,7 @@ export const SidebarItem = [
   {
     key: "income",
     label: "Income",
+    path: "/income",
     icon: <CiBadgeDollar size={20} />,
     sidebarSubItem: [
       {
@@ -40,7 +41,7 @@ export const SidebarItem = [
   {
     key: "outcome",
     label: "Outcome",
-    // path: "/outcome",
+    path: "/outcome",
     icon: <CiShoppingCart size={20} />,
     sidebarSubItem: [
       {
@@ -121,6 +122,12 @@ export const SidebarItem = [
     key: "transaksi",
     label: "Transaksi",
     path: "/transaksi",
+    icon: <BiCoin size={20} />,
+  },
+  {
+    key: "piutang",
+    label: "Piutang",
+    path: "/piutang",
     icon: <BiCoin size={20} />,
   },
 ];

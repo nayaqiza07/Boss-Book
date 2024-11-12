@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { SidebarItem } from "./SidebarItem";
 import { Link, useLocation } from "react-router-dom";
 // icon

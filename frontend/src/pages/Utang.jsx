@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const Utang = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [openModalBayar, setOpenModalBayar] = useState(false);
 
   const handleModalUtang = () => {
     setOpenModal(true);
@@ -36,7 +37,7 @@ const Utang = () => {
   ];
 
   return (
-    <div className="container mx-auto px-5 py-12 border">
+    <div className="container mx-auto px-5 py-12">
       <div className="grid grid-rows-1">
         <div className="grid grid-cols-1 gap-3 text-center">
           <h1 className="text-6xl font-bold">
@@ -50,7 +51,7 @@ const Utang = () => {
               Rp. 1.500.000,-
             </h4>
             <span className="text-[#A1A1A1] text-sm">
-              Uang yang belum dibayarkan
+              Total yang belum dibayarkan
             </span>
           </div>
         </div>
@@ -77,39 +78,69 @@ const Utang = () => {
 
       <div className="grid grid-rows-1 mt-5">
         <div className="grid grid-cols-1 gap-5">
-          {/* Table Start */}
-          <div className="overflow-x-auto">
-            <table className="table cursor-default">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th className="text-[#FF3666]">%</th>
-                  <th>Nama</th>
-                  <th>Dp</th>
-                  <th>Kurang</th>
-                </tr>
-              </thead>
-              <tbody>
-                {datas.map((data, index) => {
-                  return (
-                    <tr
-                      key={index}
-                      onClick={handleModalUtang}
-                      className="hover:bg-[#ffecf0] text-[#454545] cursor-pointer"
-                    >
-                      <td className="text-[#FF3666] font-semibold">
-                        {data.persen}%
-                      </td>
-                      <td>{data.nama}</td>
-                      <td>Rp. {data.dp}</td>
-                      <td>Rp. {data.kurang}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+          {/* Riwayat Piutang List Start */}
+          <div className="grid grid-rows-1 mt-5">
+            {datas.length === 0 ? (
+              <h1>Data Kosong</h1>
+            ) : (
+              <>
+                {datas
+                  // .filter((data) => {
+                  //   return search.toLowerCase() === ""
+                  //     ? data
+                  //     : data.deskripsi.toLowerCase().includes(search);
+                  // })
+                  .map((data, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="grid grid-cols-1 mb-2 border-b py-2"
+                      >
+                        <div
+                          className={`flex justify-between items-center rounded-lg`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div
+                              className="radial-progress bg-[#FFECF0] text-[#FF3666] border-[#FFECF0] border-4"
+                              style={{
+                                "--value": data.persen,
+                                "--size": "2.5rem",
+                                "--thickness": "3px",
+                              }}
+                              role="progressbar"
+                            >
+                              {data.persen}
+                            </div>
+                            <div className="leading-3">
+                              <h6 className="text-[#454545] text-sm">
+                                {data.nama}
+                              </h6>
+                              <p className="text-[#a1a1a1] text-xs">
+                                Rp. {data.dp}
+                              </p>
+                              <span className="text-[#a1a1a1] text-xs">
+                                Belum diterima:
+                                <span className="text-[#FF3666] ml-1">
+                                  Rp. {data.kurang}
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+
+                          <button
+                            onClick={() => setOpenModalBayar(true)}
+                            className="rounded-lg px-3 py-2 text-[#FF3666] bg-[#FFECF0]"
+                          >
+                            Terima
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </>
+            )}
           </div>
-          {/* Table End */}
+          {/* Riwayat Piutang List End */}
         </div>
       </div>
 
@@ -193,6 +224,37 @@ const Utang = () => {
         </div>
         {/* Button didalam Modal */}
         {/* </form> */}
+      </Modal>
+
+      {/* Terima Modal */}
+      <Modal
+        openModal={openModalBayar}
+        onCloseModal={() => setOpenModalBayar(false)}
+      >
+        <div className="flex flex-row items-center justify-between mb-5">
+          <h3 className="font-semibold text-lg">Bayar Pelunasan</h3>
+          <button onClick={() => setOpenModalBayar(false)}>X</button>
+        </div>
+        {/* Form Start */}
+        {/* Button didalam Modal */}
+        <div className="sm:flex sm:flex-row-reverse">
+          <button
+            type="submit"
+            onClick={handleSimpan}
+            className={`inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto transition-all hover:scale-105 bg-[#FF3666]`}
+          >
+            Seluruhnya
+          </button>
+
+          <button
+            type="button"
+            onClick={handleSimpan}
+            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-[#FF3666] shadow-sm ring-1 ring-inset ring-[#FF3666] hover:bg-gray-50 sm:mt-0 sm:w-auto transition-all hover:scale-105"
+          >
+            Sebagian
+          </button>
+        </div>
+        {/* Button didalam Modal */}
       </Modal>
     </div>
   );
