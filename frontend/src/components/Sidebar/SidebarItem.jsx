@@ -1,22 +1,50 @@
-import { LuLayoutDashboard } from "react-icons/lu";
-import { CiBadgeDollar, CiShoppingCart, CiCalculator1 } from "react-icons/ci";
-import { TbFileInvoice } from "react-icons/tb";
-import { BiCoin } from "react-icons/bi";
-// import { BiPurchaseTag } from "react-icons/bi";
-// import { PiHandCoinsLight, PiCoin } from "react-icons/pi";
+import {
+  HiViewGridAdd,
+  HiSwitchVertical,
+  HiSwitchHorizontal,
+  HiTrendingUp,
+  HiTrendingDown,
+  HiUsers,
+  HiDocumentText,
+  HiScale,
+} from "react-icons/hi";
 
 export const SidebarItem = [
   {
     key: "dashboard",
     label: "Dashboard",
     path: "/",
-    icon: <LuLayoutDashboard size={20} />,
+    icon: <HiViewGridAdd size={20} />,
+  },
+  {
+    key: "transaksi",
+    label: "Transaksi",
+    path: "/transaksi",
+    icon: <HiSwitchVertical size={20} />,
+  },
+  {
+    key: "piutang",
+    label: "Piutang",
+    path: "/piutang",
+    icon: <HiSwitchHorizontal size={20} />,
+    sidebarSubItem: [
+      {
+        key: "piutang",
+        label: "Piutang",
+        path: "/piutang",
+      },
+      {
+        key: "utang",
+        label: "Utang",
+        path: "/utang",
+      },
+    ],
   },
   {
     key: "income",
     label: "Income",
     path: "/income",
-    icon: <CiBadgeDollar size={20} />,
+    icon: <HiTrendingUp size={20} />,
     sidebarSubItem: [
       {
         key: "sales",
@@ -42,7 +70,7 @@ export const SidebarItem = [
     key: "outcome",
     label: "Outcome",
     path: "/outcome",
-    icon: <CiShoppingCart size={20} />,
+    icon: <HiTrendingDown size={20} />,
     sidebarSubItem: [
       {
         key: "accommodation",
@@ -110,24 +138,18 @@ export const SidebarItem = [
     key: "invoice",
     label: "Invoice",
     path: "/invoice",
-    icon: <TbFileInvoice size={20} />,
+    icon: <HiDocumentText size={20} />,
   },
   {
     key: "calculator",
     label: "Calculator",
     path: "/calculator",
-    icon: <CiCalculator1 size={20} />,
+    icon: <HiScale size={20} />,
   },
   {
-    key: "transaksi",
-    label: "Transaksi",
-    path: "/transaksi",
-    icon: <BiCoin size={20} />,
-  },
-  {
-    key: "piutang",
-    label: "Piutang",
-    path: "/piutang",
-    icon: <BiCoin size={20} />,
+    key: "client",
+    label: "Client",
+    path: "/client",
+    icon: <HiUsers size={20} />,
   },
 ];

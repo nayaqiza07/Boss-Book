@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 // import { IoMdClose } from "react-icons/io";
 export const Modal = ({ openModal, onCloseModal, children }) => {
   return (

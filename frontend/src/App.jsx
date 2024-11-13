@@ -8,6 +8,7 @@ import Calculator from "./pages/Calculator";
 import Piutang from "./pages/Piutang";
 import Utang from "./pages/Utang";
 import Income from "./pages/Income";
+import Client from "./pages/Client";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="income" element={<Income />} />
           <Route path="invoice" element={<Invoice />} />
           <Route path="calculator" element={<Calculator />} />
+          <Route path="client" element={<Client />} />
         </Route>
       </Routes>
     </Router>

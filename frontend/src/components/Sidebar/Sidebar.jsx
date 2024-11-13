@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { SidebarItem } from "./SidebarItem";
-import { IoIosArrowDown } from "react-icons/io";
+
+import { HiBookOpen } from "react-icons/hi";
 
 export const Sidebar = ({ sidebarOpen }) => {
   return (
@@ -9,12 +10,11 @@ export const Sidebar = ({ sidebarOpen }) => {
         sidebarOpen ? "block" : "hidden lg:block"
       }`}
     >
-      <nav className="w-60">
+      <nav className="w-72">
         {/* Top Sidebar Start */}
-        <div className="px-3 h-16 border-b flex flex-row justify-between items-center cursor-default">
-          <h1 className="text-2xl font-bold text-[#3c3dbf] ml-3">
-            Boss <span className="text-[#FF3666]">Book</span>
-          </h1>
+        <div className="ml-3 px-3 h-16 border-b flex flex-row items-center cursor-default gap-3">
+          <HiBookOpen className="text-4xl text-primary_100" />
+          <h1 className="text-2xl font-bold text-primary_100">Boss Book</h1>
         </div>
         {/* Top Sidebar End */}
 
@@ -22,12 +22,7 @@ export const Sidebar = ({ sidebarOpen }) => {
         <ul className={`flex-1 px-3 pt-10`}>
           <span className="ml-3">Menu</span>
           {SidebarItem.map((item) => (
-            <SidebarMenus
-              key={item.key}
-              item={item}
-              // handleItemClick={handleItemClick}
-              // activeItem={activeItem}
-            />
+            <SidebarMenus key={item.key} item={item} />
           ))}
         </ul>
         {/* Sidebar Menus End */}
@@ -39,25 +34,21 @@ export const Sidebar = ({ sidebarOpen }) => {
 // Sidebar Menus Start
 export const SidebarMenus = ({ item }) => {
   const { pathname } = useLocation();
-  // console.log(pathname);
 
   return (
     <div>
       <Link to={item.path}>
         <li
-          // onClick={() => handleItemClick(!activeItem)}
-          className={`relative flex items-center py-2 px-3 my-1  rounded-md cursor-pointer transition-colors ${
+          className={`relative flex items-center py-2 px-3 my-1 rounded-md cursor-pointer transition-all ${
             pathname === item.path
-              ? "bg-[#e4e5ff] text-[#3c3dbf]"
-              : "hover:bg-[#e4e5ff] text-[#A6ABC8]"
+              ? "bg-primary_100 text-white ml-5"
+              : "text-night_50 hover:bg-primary_60 hover:text-white"
           }`}
         >
           {item.icon}
           <span className={`overflow-hidden transition-all flex-1 ml-3`}>
             {item.label}
           </span>
-
-          {item.sidebarSubItem && <IoIosArrowDown />}
         </li>
       </Link>
     </div>

@@ -2,7 +2,7 @@ import { BiSolidPlusCircle } from "react-icons/bi";
 import { Modal } from "../components/Modal";
 import { useState } from "react";
 import { SidebarItem } from "../components/Sidebar/SidebarItem";
-// import Select from "react-select";
+import { Link } from "react-router-dom";
 
 const Piutang = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -39,13 +39,19 @@ const Piutang = () => {
 
   return (
     <>
-      {/* <div className="border-b bg-white px-5 flex justify-between lg:justify-start gap-3 overflow-auto">
-        {SidebarItem.filter((item) => item.path === "/outcome").map((sub) => (
-          <p key={sub.key}>{sub.item}</p>
-        ))}
-      </div> */}
+      {/* Nav Link Start */}
+      <div className="border-b bg-white px-5 flex gap-3 overflow-auto">
+        {SidebarItem.filter((item) => item.path === "/piutang").map((sub) =>
+          sub.sidebarSubItem.map((s) => (
+            <Link key={s.key} to={s.path}>
+              <button>{s.label}</button>
+            </Link>
+          ))
+        )}
+      </div>
+      {/* Nav Link End */}
 
-      <div className="container mx-auto px-5 py-12">
+      <div className="p-5">
         <div className="grid grid-rows-1">
           <div className="grid grid-cols-1 gap-3 text-center">
             <h1 className="text-6xl font-bold">
