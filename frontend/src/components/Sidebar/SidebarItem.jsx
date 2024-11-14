@@ -5,8 +5,8 @@ import {
   HiTrendingUp,
   HiTrendingDown,
   HiUsers,
-  HiDocumentText,
-  HiScale,
+  HiCalculator,
+  HiShoppingBag,
 } from "react-icons/hi";
 
 export const SidebarItem = [
@@ -134,17 +134,23 @@ export const SidebarItem = [
       },
     ],
   },
+  // {
+  //   key: "invoice",
+  //   label: "Invoice",
+  //   path: "/invoice",
+  //   icon: <HiDocumentText size={20} />,
+  // },
   {
-    key: "invoice",
-    label: "Invoice",
-    path: "/invoice",
-    icon: <HiDocumentText size={20} />,
+    key: "order",
+    label: "Order",
+    path: "/order",
+    icon: <HiShoppingBag size={20} />,
   },
   {
     key: "calculator",
     label: "Calculator",
     path: "/calculator",
-    icon: <HiScale size={20} />,
+    icon: <HiCalculator size={20} />,
   },
   {
     key: "client",

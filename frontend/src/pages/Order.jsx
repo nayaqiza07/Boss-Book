@@ -1,111 +1,95 @@
 import { useState } from "react";
 import { Card } from "../components/Card/Card";
 import { Checkbox } from "../components/Checkbox/Checkbox";
-import { ModalAddClient } from "../components/Modal/ModalAddClient";
+import { ModalAddOrder } from "../components/Modal/ModalAddOrder";
 import {
   SelectMenuItems,
   SelectMenuMonth,
   SelectMenuPages,
+  SelectMenuActions,
 } from "../components/Select/SelectMenu";
 import {
-  HiOutlineUsers,
-  HiOutlineReceiptRefund,
+  HiOutlineShoppingBag,
+  HiOutlineExclamationCircle,
   HiChevronRight,
   HiChevronLeft,
   HiOutlineFilter,
   HiOutlineCalendar,
+  HiOutlinePlus,
 } from "react-icons/hi";
+import { ModalInvoice } from "../components/Modal/ModalInvoice";
 
-const Client = () => {
-  const [openModalClient, setOpenModalClient] = useState(false);
+const Order = () => {
+  const [openModalOrder, setOpenModalOrder] = useState(false);
+  const [openModalInvoice, setOpenModalInvoice] = useState(false);
 
-  const Datas = [
+  const dataOrder = [
     {
+      no: "#GGR00001",
       name: "Mr. 1",
       address: "Address 1",
-      email: "mr1@email.com",
-      phone: "+628928299412",
-      status: "Active",
+      date: "01/11/2024",
+      total: 100000,
+      action: "Completed",
+      status: "Completed",
     },
     {
+      no: "#GGR00002",
       name: "Mr. 2",
       address: "Address 2",
-      email: "mr2@email.com",
-      phone: "+628878367128",
-      status: "In-Active",
+      date: "02/11/2024",
+      total: 200000,
+      action: "In-Progress",
+      status: "In-Progress",
     },
     {
+      no: "#GGR00003",
       name: "Mr. 3",
       address: "Address 3",
-      email: "mr3@email.com",
-      phone: "+628092890173",
-      status: "Active",
+      date: "03/11/2024",
+      total: 300000,
+      action: "Pending",
+      status: "Pending",
     },
     {
+      no: "#GGR00004",
       name: "Mr. 4",
       address: "Address 4",
-      email: "mr4@email.com",
-      phone: "+628936459412",
-      status: "Active",
+      date: "04/11/2024",
+      total: 400000,
+      action: "Completed",
+      status: "Completed",
     },
     {
+      no: "#GGR00005",
       name: "Mr. 5",
       address: "Address 5",
-      email: "mr5@email.com",
-      phone: "+628809287128",
-      status: "In-Active",
-    },
-    {
-      name: "Mr. 6",
-      address: "Address 6",
-      email: "mr6@email.com",
-      phone: "+628092891273",
-      status: "Active",
-    },
-    {
-      name: "Mr. 7",
-      address: "Address 7",
-      email: "mr7@email.com",
-      phone: "+628128299472",
-      status: "Active",
-    },
-    {
-      name: "Mr. 8",
-      address: "Address 8",
-      email: "mr8@email.com",
-      phone: "+628832367188",
-      status: "In-Active",
-    },
-    {
-      name: "Mr. 9",
-      address: "Address 9",
-      email: "mr9@email.com",
-      phone: "+628142890179",
-      status: "In-Active",
-    },
-    {
-      name: "Mr. 10",
-      address: "Address 10",
-      email: "mr10@email.com",
-      phone: "+628090387173",
-      status: "In-Active",
+      date: "05/11/2024",
+      total: 500000,
+      action: "Pending",
+      status: "Pending",
     },
   ];
 
-  const filterActive = Datas.filter((data) => data.status === "Active");
-  const filterInActive = Datas.filter((data) => data.status === "In-Active");
+  const filterCompleted = dataOrder.filter(
+    (data) => data.status === "Completed"
+  );
+  const filterPending = dataOrder.filter((data) => data.status === "Pending");
+  const filterProgress = dataOrder.filter(
+    (data) => data.status === "In-Progress"
+  );
 
   return (
     <div className="p-5 grid gap-5">
       {/* Top Start */}
       <div className="grid grid-rows-1 grid-cols-1">
         <div className="flex justify-between items-center">
-          <h1 className="text-night_60 font-medium">Clients Summary</h1>
+          <h1 className="text-night_60 font-medium">Order Summary</h1>
           <button
-            onClick={() => setOpenModalClient(true)}
-            className="bg-primary_100 text-white text-sm rounded-xl py-3 px-5"
+            onClick={() => setOpenModalOrder(true)}
+            className="flex gap-3 items-center bg-primary_100 text-white text-sm rounded-xl py-3 px-5"
           >
-            + New CLient
+            <HiOutlinePlus size={20} /> New Order
           </button>
         </div>
       </div>
@@ -116,23 +100,32 @@ const Client = () => {
         <Card>
           <div className="flex justify-between">
             <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              <HiOutlineUsers size={20} color="#130F26" />
+              <HiOutlineShoppingBag size={20} color="#130F26" />
             </div>
             <SelectMenuMonth />
           </div>
-          <div className="flex flex-row justify-between mt-7">
+
+          <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <div>
-              <h5 className="text-night_30">All Clients</h5>
-              <p className="text-night_60 font-medium">{Datas.length}</p>
+              <h5 className="text-night_30">All Orders</h5>
+              <p className="text-night_60 font-medium">{dataOrder.length}</p>
             </div>
             <div>
-              <h5 className="text-night_30">Active</h5>
-              <p className="text-night_60 font-medium">{filterActive.length}</p>
-            </div>
-            <div>
-              <h5 className="text-night_30">In-Active</h5>
+              <h5 className="text-night_30">Pending</h5>
               <p className="text-night_60 font-medium">
-                {filterInActive.length}
+                {filterPending.length}
+              </p>
+            </div>
+            <div>
+              <h5 className="text-night_30">In-Progress</h5>
+              <p className="text-night_60 font-medium">
+                {filterProgress.length}
+              </p>
+            </div>
+            <div>
+              <h5 className="text-night_30">Completed</h5>
+              <p className="text-night_60 font-medium">
+                {filterCompleted.length}
               </p>
             </div>
           </div>
@@ -141,21 +134,21 @@ const Client = () => {
         <Card>
           <div className="flex justify-between">
             <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              <HiOutlineReceiptRefund size={20} color="#130F26" />
+              <HiOutlineExclamationCircle size={20} color="#130F26" />
             </div>
             <SelectMenuMonth />
           </div>
           <div className="flex flex-row justify-between mt-7">
             <div>
-              <h5 className="text-night_30">New Client</h5>
+              <h5 className="text-night_30">Canceled</h5>
               <p className="text-night_60 font-medium">30</p>
             </div>
             <div>
-              <h5 className="text-night_30">Purchasing</h5>
+              <h5 className="text-night_30">Returned</h5>
               <p className="text-night_60 font-medium">657</p>
             </div>
             <div>
-              <h5 className="text-night_30">Cancel</h5>
+              <h5 className="text-night_30">Damaged</h5>
               <p className="text-night_60 font-medium">5</p>
             </div>
           </div>
@@ -168,7 +161,7 @@ const Client = () => {
         <Card>
           {/* Third Head Start */}
           <div className="flex flex-row justify-between items-center">
-            <h2 className="text-night_60">Clients</h2>
+            <h2 className="text-night_60">Orders</h2>
             <div className="flex flex-row gap-3">
               <input
                 type="search"
@@ -195,21 +188,27 @@ const Client = () => {
                   <th className="py-3">
                     <Checkbox />
                   </th>
-                  <th className="font-normal px-6 py-3">Name</th>
+                  <th className="font-normal px-6 py-3">No</th>
+                  <th className="font-normal px-6 py-3 hidden xl:table-cell">
+                    Client Name
+                  </th>
                   <th className="font-normal px-6 py-3 hidden sm:table-cell">
                     Address
                   </th>
-                  <th className="font-normal px-6 py-3 hidden md:table-cell">
-                    Email
+                  <th className="font-normal px-6 py-3 hidden xl:table-cell">
+                    Date
                   </th>
-                  <th className="font-normal px-6 py-3 hidden lg:table-cell">
-                    Phone
+                  <th className="font-normal px-6 py-3 hidden md:table-cell">
+                    Total
+                  </th>
+                  <th className="font-normal px-6 py-3 hidden md:table-cell">
+                    Action
                   </th>
                   <th className="font-normal px-6 py-3">Status</th>
                 </tr>
               </thead>
               <tbody className="border-b border-[#E1E2E9]">
-                {Datas.map((data, index) => (
+                {dataOrder.map((data, index) => (
                   <tr
                     key={index + 1}
                     className="text-night_40 text-left text-sm"
@@ -217,32 +216,49 @@ const Client = () => {
                     <td className="py-3">
                       <Checkbox />
                     </td>
-                    <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                      {data.name}
 
+                    <td className="whitespace-nowrap text-primary_100 px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
+                      <span
+                        onClick={() => setOpenModalInvoice(true)}
+                        className="cursor-pointer "
+                      >
+                        {data.no}
+                      </span>
                       {/* Stack Table Start */}
-                      <dl className="lg:hidden">
-                        <dt className="sr-only">Phone</dt>
+                      <dl className="xl:hidden">
+                        <dt className="sr-only">Client Name</dt>
                         <dd className="text-night_20 text-xs mt-1 truncate">
-                          {data.phone}
+                          {data.name}
+                        </dd>
+                        <dt className="sr-only">Date</dt>
+                        <dd className="text-night_20 text-xs mt-1 truncate">
+                          {data.date}
                         </dd>
                       </dl>
                       {/* Stack Table End */}
                     </td>
-                    <td className="whitespace-nowrap  px-6 py-3 hidden sm:table-cell">
+                    <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
+                      {data.name}
+                    </td>
+                    <td className="whitespace-nowrap  px-6 py-3 hidden md:table-cell">
                       {data.address}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                      {data.email}
+                    <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
+                      {data.date}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-3 hidden lg:table-cell">
-                      {data.phone}
+                    <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
+                      {data.total}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
+                      <SelectMenuActions />
                     </td>
                     <td className="whitespace-nowrap px-6 py-3">
                       <p
                         className={`px-5 py-1 rounded w-fit ${
-                          data.status === "Active"
+                          data.status === "Completed"
                             ? "bg-[#519c66]/20 text-action_go"
+                            : data.status === "In-Progress"
+                            ? "bg-[#5570F1]/20 text-primary_100"
                             : "bg-[#cc5f5f]/20 text-action_stop"
                         }`}
                       >
@@ -258,27 +274,40 @@ const Client = () => {
 
           {/* Table view up to the `md:` breakpoint Start  */}
           <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-            {Datas.map((data, index) => (
+            {dataOrder.map((data, index) => (
               <div
                 key={index + 1}
                 className="p-3 border border-[#E1E2E9] rounded-lg"
               >
-                <div className="flex justify-between">
-                  <h1 className="font-medium text-night_40">{data.name}</h1>
-                  <span
-                    className={`px-3 text-xs py-1 rounded w-fit ${
-                      data.status === "Active"
-                        ? "bg-[#519c66]/20 text-action_go"
-                        : "bg-[#cc5f5f]/20 text-action_stop"
-                    }`}
-                  >
-                    {data.status}
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <h1 className="font-medium text-night_40">{data.name}</h1>
+                    <span
+                      className={`px-3 text-xs py-1 rounded w-fit ml-3 ${
+                        data.status === "Completed"
+                          ? "bg-[#519c66]/20 text-action_go"
+                          : data.status === "In-Progress"
+                          ? "bg-[#5570F1]/20 text-primary_100"
+                          : "bg-[#cc5f5f]/20 text-action_stop"
+                      }`}
+                    >
+                      {data.status}
+                    </span>
+                  </div>
+                  <span>
+                    <SelectMenuActions />
                   </span>
                 </div>
                 <div className="text-night_20 text-xs">
+                  <p
+                    onClick={() => setOpenModalInvoice(true)}
+                    className="text-primary_100 text-sm mt-1"
+                  >
+                    {data.no}
+                  </p>
                   <p className="text-night_30 text-sm mt-1">{data.address}</p>
-                  <p className="mt-1">{data.email}</p>
-                  <p className="mt-1">{data.phone}</p>
+                  <p className="mt-1">{data.date}</p>
+                  <p className="mt-1">{data.total}</p>
                 </div>
               </div>
             ))}
@@ -289,7 +318,9 @@ const Client = () => {
           <div className="flex justify-between gap-3 py-3">
             <div className="flex flex-row items-center gap-3">
               <SelectMenuItems />
-              <p className="text-[#666666] text-sm">of {Datas.length} items</p>
+              <p className="text-[#666666] text-sm">
+                of {dataOrder.length} items
+              </p>
             </div>
 
             <div className="flex flex-row items-center gap-3">
@@ -304,12 +335,21 @@ const Client = () => {
       </div>
       {/* Third End */}
 
-      <ModalAddClient
-        openModalClient={openModalClient}
-        setOpenModalClient={setOpenModalClient}
+      {/* Modal Add Order Start */}
+      <ModalAddOrder
+        openModalOrder={openModalOrder}
+        setOpenModalOrder={setOpenModalOrder}
       />
+      {/* Modal Add Order End */}
+
+      {/* Modal Invoice Start */}
+      <ModalInvoice
+        openModalInvoice={openModalInvoice}
+        setOpenModalInvoice={setOpenModalInvoice}
+      />
+      {/* Modal Invoice End */}
     </div>
   );
 };
 
-export default Client;
+export default Order;

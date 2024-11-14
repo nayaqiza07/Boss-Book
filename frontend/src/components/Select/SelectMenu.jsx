@@ -51,6 +51,21 @@ const optionMonths = [
   },
 ];
 
+const optionActions = [
+  {
+    value: "Complete",
+    label: "Complete",
+  },
+  {
+    value: "In-Progress",
+    label: "In-Progress",
+  },
+  {
+    value: "Pending",
+    label: "Pending",
+  },
+];
+
 export const SelectMenuItems = () => {
   return (
     <>
@@ -85,6 +100,38 @@ export const SelectMenuMonth = () => {
       <select className="rounded-lg text-night_10 px-[11px] py-1 focus:outline-none text-xs text-right">
         {optionMonths.map((item, index) => (
           <option key={index + 1} value={item.value}>
+            {item.label}
+          </option>
+        ))}
+      </select>
+    </>
+  );
+};
+
+export const SelectMenuActions = () => {
+  return (
+    <>
+      <select className="rounded-lg bg-[#5E6366]/10 text-xs text-night_30 px-[11px] py-1 focus:outline-none">
+        {optionActions.map((item, index) => (
+          <option key={index + 1} value={item.value}>
+            {item.label}
+          </option>
+        ))}
+      </select>
+    </>
+  );
+};
+
+export const SelectClientOrder = () => {
+  return (
+    <>
+      <select className="w-full px-4 py-[16.5px] rounded-lg bg-[#EFF1F9]/60 text-[#ABAFB1]  focus:outline-none focus:bg-[#E9ECF8]/90">
+        {optionItems.map((item, index) => (
+          <option
+            key={index + 1}
+            value={item.value}
+            className="hover:bg-primary_100"
+          >
             {item.label}
           </option>
         ))}

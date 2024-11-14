@@ -3,13 +3,13 @@ export const Modal = ({ openModal, onCloseModal, children }) => {
   return (
     <div
       onClick={onCloseModal}
-      className={`fixed z-10 inset-0 flex justify-center items-center transition-colors ${
-        openModal ? "visible bg-black/20" : "invisible"
+      className={`fixed z-10 inset-0 flex justify-center items-center transition-all ${
+        openModal ? "visible backdrop-blur-sm" : "invisible"
       }`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`w-fit px-4 py-3 bg-white border rounded-lg shadow transition-all ${
+        className={`w-fit px-6 py-7 bg-white border rounded-xl shadow transition-all ${
           openModal ? "opacity-100" : "opacity-0"
         }`}
       >

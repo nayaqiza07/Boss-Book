@@ -3,12 +3,13 @@ import Home from "./components/Layout/Home";
 import Dashboard from "./pages/Dashboard";
 import Transaksi from "./pages/Transaksi";
 import Outcome from "./pages/Outcome";
-import Invoice from "./pages/Invoice";
+// import Invoice from "./pages/Invoice";
 import Calculator from "./pages/Calculator";
 import Piutang from "./pages/Piutang";
 import Utang from "./pages/Utang";
 import Income from "./pages/Income";
 import Client from "./pages/Client";
+import Order from "./pages/Order";
 
 const App = () => {
   return (
@@ -21,7 +22,8 @@ const App = () => {
           <Route path="utang" element={<Utang />} />
           <Route path="outcome" element={<Outcome />} />
           <Route path="income" element={<Income />} />
-          <Route path="invoice" element={<Invoice />} />
+          {/* <Route path="invoice" element={<Invoice />} /> */}
+          <Route path="order" element={<Order />} />
           <Route path="calculator" element={<Calculator />} />
           <Route path="client" element={<Client />} />
         </Route>

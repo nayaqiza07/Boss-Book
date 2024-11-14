@@ -42,7 +42,7 @@ export const SidebarMenus = ({ item }) => {
           className={`relative flex items-center py-2 px-3 my-1 rounded-md cursor-pointer transition-all ${
             pathname === item.path
               ? "bg-primary_100 text-white ml-5"
-              : "text-night_50 hover:bg-primary_60 hover:text-white"
+              : "text-night_50 hover:bg-[#5570f1]/20 hover:text-primary_100"
           }`}
         >
           {item.icon}
