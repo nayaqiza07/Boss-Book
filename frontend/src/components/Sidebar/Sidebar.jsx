@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { SidebarItem } from "./SidebarItem";
-
-import { HiBookOpen } from "react-icons/hi";
+import { Logo } from "../../assets/Icon/Logo";
 
 export const Sidebar = ({ sidebarOpen }) => {
   return (
@@ -12,9 +11,9 @@ export const Sidebar = ({ sidebarOpen }) => {
     >
       <nav className="w-72">
         {/* Top Sidebar Start */}
-        <div className="ml-3 px-3 h-16 border-b flex flex-row items-center cursor-default gap-3">
-          <HiBookOpen className="text-4xl text-primary_100" />
-          <h1 className="text-2xl font-bold text-primary_100">Boss Book</h1>
+        <div className="px-6 h-16 border-b flex flex-row items-center cursor-default gap-2">
+          <Logo />
+          <h1 className="text-xl font-bold text-night_60">Boss Book</h1>
         </div>
         {/* Top Sidebar End */}
 

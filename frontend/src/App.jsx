@@ -8,8 +8,8 @@ import Calculator from "./pages/Calculator";
 import Piutang from "./pages/Piutang";
 import Utang from "./pages/Utang";
 import Income from "./pages/Income";
-import Client from "./pages/Client";
 import Order from "./pages/Order";
+import Client from "./pages/Client";
 
 const App = () => {
   return (
@@ -20,8 +20,8 @@ const App = () => {
           <Route path="transaksi" element={<Transaksi />} />
           <Route path="piutang" element={<Piutang />} />
           <Route path="utang" element={<Utang />} />
-          <Route path="outcome" element={<Outcome />} />
           <Route path="income" element={<Income />} />
+          <Route path="outcome" element={<Outcome />} />
           {/* <Route path="invoice" element={<Invoice />} /> */}
           <Route path="order" element={<Order />} />
           <Route path="calculator" element={<Calculator />} />

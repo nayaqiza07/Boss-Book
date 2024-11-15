@@ -87,7 +87,7 @@ const Order = () => {
           <h1 className="text-night_60 font-medium">Order Summary</h1>
           <button
             onClick={() => setOpenModalOrder(true)}
-            className="flex gap-3 items-center bg-primary_100 text-white text-sm rounded-xl py-3 px-5"
+            className="flex items-center bg-primary_100 text-white text-sm rounded-xl gap-3 py-3 px-5 transition-all hover:scale-105"
           >
             <HiOutlinePlus size={20} /> New Order
           </button>

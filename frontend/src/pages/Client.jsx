@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getClients } from "../api";
 import { Card } from "../components/Card/Card";
 import { Checkbox } from "../components/Checkbox/Checkbox";
 import { ModalAddClient } from "../components/Modal/ModalAddClient";
@@ -14,98 +15,33 @@ import {
   HiChevronLeft,
   HiOutlineFilter,
   HiOutlineCalendar,
+  HiOutlinePlus,
 } from "react-icons/hi";
 
 const Client = () => {
   const [openModalClient, setOpenModalClient] = useState(false);
+  const [clients, setClients] = useState([]);
 
-  const Datas = [
-    {
-      name: "Mr. 1",
-      address: "Address 1",
-      email: "mr1@email.com",
-      phone: "+628928299412",
-      status: "Active",
-    },
-    {
-      name: "Mr. 2",
-      address: "Address 2",
-      email: "mr2@email.com",
-      phone: "+628878367128",
-      status: "In-Active",
-    },
-    {
-      name: "Mr. 3",
-      address: "Address 3",
-      email: "mr3@email.com",
-      phone: "+628092890173",
-      status: "Active",
-    },
-    {
-      name: "Mr. 4",
-      address: "Address 4",
-      email: "mr4@email.com",
-      phone: "+628936459412",
-      status: "Active",
-    },
-    {
-      name: "Mr. 5",
-      address: "Address 5",
-      email: "mr5@email.com",
-      phone: "+628809287128",
-      status: "In-Active",
-    },
-    {
-      name: "Mr. 6",
-      address: "Address 6",
-      email: "mr6@email.com",
-      phone: "+628092891273",
-      status: "Active",
-    },
-    {
-      name: "Mr. 7",
-      address: "Address 7",
-      email: "mr7@email.com",
-      phone: "+628128299472",
-      status: "Active",
-    },
-    {
-      name: "Mr. 8",
-      address: "Address 8",
-      email: "mr8@email.com",
-      phone: "+628832367188",
-      status: "In-Active",
-    },
-    {
-      name: "Mr. 9",
-      address: "Address 9",
-      email: "mr9@email.com",
-      phone: "+628142890179",
-      status: "In-Active",
-    },
-    {
-      name: "Mr. 10",
-      address: "Address 10",
-      email: "mr10@email.com",
-      phone: "+628090387173",
-      status: "In-Active",
-    },
-  ];
+  useEffect(() => {
+    getClients().then((result) => {
+      setClients(result);
+    });
+  }, []);
 
-  const filterActive = Datas.filter((data) => data.status === "Active");
-  const filterInActive = Datas.filter((data) => data.status === "In-Active");
+  const filterActive = clients.filter((data) => data.status === "Active");
+  const filterInActive = clients.filter((data) => data.status === "In-Active");
 
   return (
     <div className="p-5 grid gap-5">
       {/* Top Start */}
       <div className="grid grid-rows-1 grid-cols-1">
         <div className="flex justify-between items-center">
-          <h1 className="text-night_60 font-medium">Clients Summary</h1>
+          <h1 className="text-night_60 font-medium">Client Summary</h1>
           <button
             onClick={() => setOpenModalClient(true)}
-            className="bg-primary_100 text-white text-sm rounded-xl py-3 px-5"
+            className="flex items-center bg-primary_100 text-white text-sm rounded-xl gap-3 py-3 px-5"
           >
-            + New CLient
+            <HiOutlinePlus size={20} /> New Client
           </button>
         </div>
       </div>
@@ -123,7 +59,7 @@ const Client = () => {
           <div className="flex flex-row justify-between mt-7">
             <div>
               <h5 className="text-night_30">All Clients</h5>
-              <p className="text-night_60 font-medium">{Datas.length}</p>
+              <p className="text-night_60 font-medium">{clients.length}</p>
             </div>
             <div>
               <h5 className="text-night_30">Active</h5>
@@ -202,14 +138,14 @@ const Client = () => {
                   <th className="font-normal px-6 py-3 hidden md:table-cell">
                     Email
                   </th>
-                  <th className="font-normal px-6 py-3 hidden lg:table-cell">
+                  <th className="font-normal px-6 py-3 hidden xl:table-cell">
                     Phone
                   </th>
                   <th className="font-normal px-6 py-3">Status</th>
                 </tr>
               </thead>
               <tbody className="border-b border-[#E1E2E9]">
-                {Datas.map((data, index) => (
+                {clients.map((client, index) => (
                   <tr
                     key={index + 1}
                     className="text-night_40 text-left text-sm"
@@ -218,35 +154,35 @@ const Client = () => {
                       <Checkbox />
                     </td>
                     <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                      {data.name}
+                      {client.name}
 
                       {/* Stack Table Start */}
-                      <dl className="lg:hidden">
+                      <dl className="xl:hidden">
                         <dt className="sr-only">Phone</dt>
                         <dd className="text-night_20 text-xs mt-1 truncate">
-                          {data.phone}
+                          {client.phone}
                         </dd>
                       </dl>
                       {/* Stack Table End */}
                     </td>
                     <td className="whitespace-nowrap  px-6 py-3 hidden sm:table-cell">
-                      {data.address}
+                      {client.address}
                     </td>
                     <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                      {data.email}
+                      {client.email}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-3 hidden lg:table-cell">
-                      {data.phone}
+                    <td className="whitespace-nowrap px-6 py-3 hidden xl:table-cell">
+                      {client.phone}
                     </td>
                     <td className="whitespace-nowrap px-6 py-3">
                       <p
                         className={`px-5 py-1 rounded w-fit ${
-                          data.status === "Active"
+                          client.status === "Active"
                             ? "bg-[#519c66]/20 text-action_go"
                             : "bg-[#cc5f5f]/20 text-action_stop"
                         }`}
                       >
-                        {data.status}
+                        {client.status}
                       </p>
                     </td>
                   </tr>
@@ -258,27 +194,27 @@ const Client = () => {
 
           {/* Table view up to the `md:` breakpoint Start  */}
           <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-            {Datas.map((data, index) => (
+            {clients.map((client, index) => (
               <div
                 key={index + 1}
                 className="p-3 border border-[#E1E2E9] rounded-lg"
               >
                 <div className="flex justify-between">
-                  <h1 className="font-medium text-night_40">{data.name}</h1>
+                  <h1 className="font-medium text-night_40">{client.name}</h1>
                   <span
                     className={`px-3 text-xs py-1 rounded w-fit ${
-                      data.status === "Active"
+                      client.status === "Active"
                         ? "bg-[#519c66]/20 text-action_go"
                         : "bg-[#cc5f5f]/20 text-action_stop"
                     }`}
                   >
-                    {data.status}
+                    {client.status}
                   </span>
                 </div>
                 <div className="text-night_20 text-xs">
-                  <p className="text-night_30 text-sm mt-1">{data.address}</p>
-                  <p className="mt-1">{data.email}</p>
-                  <p className="mt-1">{data.phone}</p>
+                  <p className="text-night_30 text-sm mt-1">{client.address}</p>
+                  <p className="mt-1">{client.email}</p>
+                  <p className="mt-1">{client.phone}</p>
                 </div>
               </div>
             ))}
@@ -289,7 +225,9 @@ const Client = () => {
           <div className="flex justify-between gap-3 py-3">
             <div className="flex flex-row items-center gap-3">
               <SelectMenuItems />
-              <p className="text-[#666666] text-sm">of {Datas.length} items</p>
+              <p className="text-[#666666] text-sm">
+                of {clients.length} items
+              </p>
             </div>
 
             <div className="flex flex-row items-center gap-3">

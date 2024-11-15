@@ -24,15 +24,15 @@ export const SelectStatus = () => {
   ];
 
   return (
-    <div className="mt-6">
+    <div className="relative mt-6">
       <h6 className="text-[#5E6366] text-xs">Order Status</h6>
       <div
         onClick={() => setOpenSelect(!openSelect)}
-        className={`flex justify-between items-center mt-2 px-4 py-[16.5px] rounded-lg bg-[#EFF1F9]/60 text-[#ABAFB1] cursor-pointer transition-colors ${
-          openSelect && "bg-[#E9ECF8]/90"
+        className={`flex justify-between items-center mt-2 px-4 py-[16.5px] rounded-lg  text-[#ABAFB1] cursor-pointer transition-colors ${
+          openSelect ? "bg-[#E9ECF8]/90" : "bg-[#EFF1F9]/60"
         }`}
       >
-        <span className="truncate">
+        <span className={`truncate ${selected && "text-[#5E6366]"}`}>
           {selected ? selected : "Select Status"}
         </span>
         <HiOutlineChevronDown
@@ -43,7 +43,7 @@ export const SelectStatus = () => {
 
       {/* Dropdown Select Start */}
       <ul
-        className={`mt-2 w-72 fixed overflow-y-auto rounded-b-lg border border-[#CFD3D4] bg-white text-[#2B2F32] cursor-pointer transition-all ${
+        className={`absolute z-10 mt-2 overflow-y-auto rounded-b-lg border border-[#CFD3D4] bg-white text-[#2B2F32] cursor-pointer transition-all ${
           openSelect ? "max-h-60" : "hidden"
         }`}
       >
@@ -70,7 +70,7 @@ export const SelectStatus = () => {
               <li
                 key={data?.name}
                 onClick={() => handleSelected(data.name)}
-                className="w-full px-4 py-3 hover:bg-[#E9ECF8]/90"
+                className="w-full px-4 py-3 hover:bg-[#E9ECF8]/90 transition-all hover:pl-7"
               >
                 {data.name}
               </li>

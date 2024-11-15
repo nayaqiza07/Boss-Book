@@ -3,13 +3,13 @@ import { HiOutlineChevronDown, HiOutlineSearch } from "react-icons/hi";
 
 export const SelectClient = () => {
   // const [datas, setDatas] = useState(null);
-  const [openSelect, setOpenSelect] = useState(false);
+  const [openSelectClient, setOpenSelectClient] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState("");
 
   const handleSelected = (value) => {
     setSelected(value);
-    setOpenSelect(false);
+    setOpenSelectClient(false);
   };
 
   const datas = [
@@ -39,26 +39,26 @@ export const SelectClient = () => {
   // });
 
   return (
-    <div>
+    <div className="relative">
       <div
-        onClick={() => setOpenSelect(!openSelect)}
-        className={`flex justify-between items-center px-4 py-[16.5px] rounded-lg bg-[#EFF1F9]/60 text-[#ABAFB1] cursor-pointer transition-colors ${
-          openSelect && "bg-[#E9ECF8]/90"
+        onClick={() => setOpenSelectClient(!openSelectClient)}
+        className={`flex justify-between items-center px-4 py-[16.5px] rounded-lg text-[#ABAFB1] cursor-pointer transition-colors ${
+          openSelectClient ? "bg-[#E9ECF8]/90" : "bg-[#EFF1F9]/60"
         }`}
       >
-        <span className="truncate">
+        <span className={`truncate ${selected && "text-[#5E6366]"}`}>
           {selected ? selected : "Select Client"}
         </span>
         <HiOutlineChevronDown
           size={20}
-          className={`transition-all ${openSelect && "rotate-180"}`}
+          className={`transition-all ${openSelectClient && "rotate-180"}`}
         />
       </div>
 
       {/* Dropdown Select Start */}
       <ul
-        className={`mt-2 w-72 fixed overflow-y-auto rounded-b-lg border border-[#CFD3D4] bg-white text-[#2B2F32] cursor-pointer transition-all ${
-          openSelect ? "max-h-60" : "hidden"
+        className={`absolute z-10 mt-2 overflow-y-auto rounded-b-lg border border-[#CFD3D4] bg-white text-[#2B2F32] cursor-pointer transition-all ${
+          openSelectClient ? "max-h-60" : "hidden"
         }`}
       >
         <div className="sticky top-0 py-3 bg-white">
@@ -84,7 +84,7 @@ export const SelectClient = () => {
               <li
                 key={data?.name}
                 onClick={() => handleSelected(data.name)}
-                className="w-full px-4 py-3 hover:bg-[#E9ECF8]/90"
+                className="w-full px-4 py-3 hover:bg-[#E9ECF8]/90 transition-all hover:pl-7"
               >
                 {data.name}
               </li>
