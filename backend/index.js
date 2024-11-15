@@ -4,6 +4,7 @@ import cors from "cors";
 // import UserRoute from "./routes/UserRoute.js";
 import InvoiceRoute from "./routes/InvoiceRoute.js";
 import TransactionRoute from "./routes/TransactionRoute.js";
+import ClientRoute from "./routes/ClientRoute.js";
 
 const app = express();
 mongoose.connect("mongodb://localhost:27017/bossbook_db", {
@@ -19,5 +20,6 @@ app.use(cors());
 app.use(express.json());
 app.use(InvoiceRoute);
 app.use(TransactionRoute);
+app.use(ClientRoute);
 
 app.listen(5000, () => console.log("Server up and running..."));
