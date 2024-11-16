@@ -10,14 +10,10 @@ const Client = mongoose.Schema({
     required: true,
   },
   phone: {
-    type: String,
+    type: Number,
     required: true,
   },
   address: {
-    type: String,
-    required: true,
-  },
-  status: {
     type: String,
     required: true,
   },

@@ -28,8 +28,8 @@ const Client = () => {
     });
   }, []);
 
-  const filterActive = clients.filter((data) => data.status === "Active");
-  const filterInActive = clients.filter((data) => data.status === "In-Active");
+  // const filterActive = clients.filter((data) => data.status === "Active");
+  // const filterInActive = clients.filter((data) => data.status === "In-Active");
 
   return (
     <div className="p-5 grid gap-5">
@@ -63,13 +63,11 @@ const Client = () => {
             </div>
             <div>
               <h5 className="text-night_30">Active</h5>
-              <p className="text-night_60 font-medium">{filterActive.length}</p>
+              <p className="text-night_60 font-medium">0</p>
             </div>
             <div>
               <h5 className="text-night_30">In-Active</h5>
-              <p className="text-night_60 font-medium">
-                {filterInActive.length}
-              </p>
+              <p className="text-night_60 font-medium">0</p>
             </div>
           </div>
         </Card>
@@ -141,7 +139,6 @@ const Client = () => {
                   <th className="font-normal px-6 py-3 hidden xl:table-cell">
                     Phone
                   </th>
-                  <th className="font-normal px-6 py-3">Status</th>
                 </tr>
               </thead>
               <tbody className="border-b border-[#E1E2E9]">
@@ -174,7 +171,7 @@ const Client = () => {
                     <td className="whitespace-nowrap px-6 py-3 hidden xl:table-cell">
                       {client.phone}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-3">
+                    {/* <td className="whitespace-nowrap px-6 py-3">
                       <p
                         className={`px-5 py-1 rounded w-fit ${
                           client.status === "Active"
@@ -184,7 +181,7 @@ const Client = () => {
                       >
                         {client.status}
                       </p>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>
@@ -199,9 +196,9 @@ const Client = () => {
                 key={index + 1}
                 className="p-3 border border-[#E1E2E9] rounded-lg"
               >
-                <div className="flex justify-between">
-                  <h1 className="font-medium text-night_40">{client.name}</h1>
-                  <span
+                {/* <div className="flex justify-between"> */}
+                <h1 className="font-medium text-night_40">{client.name}</h1>
+                {/* <span
                     className={`px-3 text-xs py-1 rounded w-fit ${
                       client.status === "Active"
                         ? "bg-[#519c66]/20 text-action_go"
@@ -209,8 +206,8 @@ const Client = () => {
                     }`}
                   >
                     {client.status}
-                  </span>
-                </div>
+                  </span> */}
+                {/* </div> */}
                 <div className="text-night_20 text-xs">
                   <p className="text-night_30 text-sm mt-1">{client.address}</p>
                   <p className="mt-1">{client.email}</p>
