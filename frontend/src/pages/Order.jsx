@@ -9,7 +9,6 @@ import {
   SelectMenuActions,
 } from "../components/Select/SelectMenu";
 import {
-  HiOutlineShoppingBag,
   HiOutlineExclamationCircle,
   HiChevronRight,
   HiChevronLeft,
@@ -18,6 +17,7 @@ import {
   HiOutlinePlus,
 } from "react-icons/hi";
 import { ModalInvoice } from "../components/Modal/ModalInvoice";
+import { Bag } from "../components/Icon/Icon";
 
 const Order = () => {
   const [openModalOrder, setOpenModalOrder] = useState(false);
@@ -100,7 +100,7 @@ const Order = () => {
         <Card>
           <div className="flex justify-between">
             <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              <HiOutlineShoppingBag size={20} color="#130F26" />
+              <Bag colorStroke={"#130F26"} />
             </div>
             <SelectMenuMonth />
           </div>

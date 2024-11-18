@@ -10,6 +10,9 @@ import Utang from "./pages/Utang";
 import Income from "./pages/Income";
 import Order from "./pages/Order";
 import Client from "./pages/Client";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import ClientView from "./pages/ClientView";
 
 const App = () => {
   return (
@@ -26,7 +29,10 @@ const App = () => {
           <Route path="order" element={<Order />} />
           <Route path="calculator" element={<Calculator />} />
           <Route path="client" element={<Client />} />
+          <Route path="client/view/:id" element={<ClientView />} />
         </Route>
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<SignUp />} />
       </Routes>
     </Router>
   );

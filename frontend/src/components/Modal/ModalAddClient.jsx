@@ -2,26 +2,42 @@ import { useState } from "react";
 import { Modal } from ".";
 import { ButtonModal } from "../Button/ButtonModal";
 import { HeaderModal } from "../Header/HeaderModal";
-import axios from "axios";
-// import { saveClient } from "../../api";
+// import axios from "axios";
+import { saveClient } from "../../api";
 
-export const ModalAddClient = ({ openModalClient, setOpenModalClient }) => {
+export const ModalAddClient = ({
+  openModalClient,
+  setOpenModalClient,
+  clients,
+  setClients,
+}) => {
   // Form
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
-  const apiUrl = import.meta.env.VITE_API_URL;
+  // const apiUrl = import.meta.env.VITE_API_URL;
 
-  const handleSubmit = async () => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await axios.post(`${apiUrl}/clients`, {
+  //       name,
+  //       email,
+  //       phone,
+  //       address,
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      await axios.post(`${apiUrl}/clients`, {
-        name,
-        email,
-        phone,
-        address,
-      });
+      await saveClient(name, email, phone, address);
+      // setClients(saveClient);
     } catch (error) {
       console.log(error);
     }

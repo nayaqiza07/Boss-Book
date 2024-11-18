@@ -1,8 +1,6 @@
-export const Card = ({ children, rowSpan, colSpan }) => {
+export const Card = ({ children, colSpan }) => {
   return (
-    <div
-      className={`bg-white rounded-xl px-[15px] py-[11px] ${rowSpan} ${colSpan}`}
-    >
+    <div className={`bg-white rounded-xl px-[15px] py-[11px] ${colSpan}`}>
       {children}
     </div>
   );

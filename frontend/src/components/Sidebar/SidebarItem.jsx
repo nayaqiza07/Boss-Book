@@ -1,32 +1,31 @@
 import {
-  HiViewGridAdd,
-  HiSwitchVertical,
-  HiSwitchHorizontal,
-  HiTrendingUp,
-  HiTrendingDown,
-  HiUsers,
-  HiCalculator,
-  HiShoppingBag,
-} from "react-icons/hi";
+  Bag,
+  Buy,
+  Category,
+  Document,
+  PaperPlus,
+  PaperNegative,
+  User2,
+} from "../Icon/Icon";
 
 export const SidebarItem = [
   {
     key: "dashboard",
     label: "Dashboard",
     path: "/",
-    icon: <HiViewGridAdd size={20} />,
+    icon: <Category colorStroke={"#53545c"} />,
   },
   {
     key: "transaksi",
     label: "Transaksi",
     path: "/transaksi",
-    icon: <HiSwitchVertical size={20} />,
+    icon: <Buy colorStroke={"#53545c"} />,
   },
   {
     key: "piutang",
     label: "Piutang",
     path: "/piutang",
-    icon: <HiSwitchHorizontal size={20} />,
+    icon: <Document colorStroke={"#53545c"} />,
     sidebarSubItem: [
       {
         key: "piutang",
@@ -44,7 +43,7 @@ export const SidebarItem = [
     key: "income",
     label: "Income",
     path: "/income",
-    icon: <HiTrendingUp size={20} />,
+    icon: <PaperPlus colorStroke={"#53545c"} />,
     sidebarSubItem: [
       {
         key: "sales",
@@ -70,7 +69,7 @@ export const SidebarItem = [
     key: "outcome",
     label: "Outcome",
     path: "/outcome",
-    icon: <HiTrendingDown size={20} />,
+    icon: <PaperNegative colorStroke={"#53545c"} />,
     sidebarSubItem: [
       {
         key: "accommodation",
@@ -144,18 +143,18 @@ export const SidebarItem = [
     key: "order",
     label: "Order",
     path: "/order",
-    icon: <HiShoppingBag size={20} />,
+    icon: <Bag colorStroke={"#53545c"} />,
   },
   {
     key: "calculator",
     label: "Calculator",
     path: "/calculator",
-    icon: <HiCalculator size={20} />,
+    icon: <Document colorStroke={"#53545c"} />,
   },
   {
     key: "client",
     label: "Client",
     path: "/client",
-    icon: <HiUsers size={20} />,
+    icon: <User2 colorStroke={"#53545c"} />,
   },
 ];

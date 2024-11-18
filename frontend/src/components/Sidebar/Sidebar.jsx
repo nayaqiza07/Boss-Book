@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { SidebarItem } from "./SidebarItem";
-import { Logo } from "../../assets/Icon/Logo";
+import { Logo } from "../Icon/Icon";
 
 export const Sidebar = ({ sidebarOpen }) => {
   return (

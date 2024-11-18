@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   HiOutlineCalendar,
   HiOutlineChevronLeft,
@@ -9,7 +10,7 @@ import { SelectStatus } from "../Select/SelectStatus";
 import { ButtonModal } from "../Button/ButtonModal";
 import { HeaderModal } from "../Header/HeaderModal";
 import { DataEmpty } from "../Alert/DataEmpty";
-import { useState } from "react";
+import { ShopBag } from "../../assets/Icon/ShopBag";
 
 export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
   const [addProduct, setAddProduct] = useState(false);
@@ -108,7 +109,12 @@ export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
                   </div>
                 </>
               ) : (
-                <DataEmpty setOpen={setAddProduct} />
+                <DataEmpty
+                  setOpen={setAddProduct}
+                  icon={<ShopBag />}
+                  title={"Add Products To Your Order"}
+                  subTitle={"Add product items to this order"}
+                />
               )}
             </div>
           </div>

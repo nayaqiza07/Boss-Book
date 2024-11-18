@@ -7,12 +7,14 @@ import TransactionRoute from "./routes/TransactionRoute.js";
 import ClientRoute from "./routes/ClientRoute.js";
 
 const app = express();
+const port = 5000;
+const db = mongoose.connection;
+
 mongoose.connect("mongodb://localhost:27017/bossbook_db", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-const db = mongoose.connection;
 db.on("error", (error) => console.log(error));
 db.once("open", () => console.log("Database Connected..."));
 
@@ -22,4 +24,5 @@ app.use(InvoiceRoute);
 app.use(TransactionRoute);
 app.use(ClientRoute);
 
-app.listen(5000, () => console.log("Server up and running..."));
+// Server
+app.listen(port, () => console.log(`Server up and running on port ${port}`));
