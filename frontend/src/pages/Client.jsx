@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getClients } from "../api";
+import { getClients } from "../api/clientApi";
 import { Card } from "../components/Card/Card";
 import { Checkbox } from "../components/Checkbox/Checkbox";
 import { ModalAddClient } from "../components/Modal/ModalAddClient";
@@ -26,9 +26,6 @@ const Client = () => {
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
-    // getClients().then((result) => {
-    //   setClients(result);
-    // });
     handleDataClient();
   }, []);
 
@@ -154,7 +151,7 @@ const Client = () => {
                       <th className="font-normal px-6 py-3 hidden xl:table-cell">
                         Phone
                       </th>
-                      <th className="font-normal px-6 py-3 hidden xl:table-cell">
+                      <th className="font-normal px-6 py-3 hidden sm:table-cell">
                         Action
                       </th>
                     </tr>
@@ -189,7 +186,7 @@ const Client = () => {
                         <td className="whitespace-nowrap px-6 py-3 hidden xl:table-cell">
                           {client.phone}
                         </td>
-                        <td className="whitespace-nowrap px-6 py-3 hidden xl:table-cell">
+                        <td className="whitespace-nowrap px-6 py-3 hidden sm:table-cell">
                           <Link to={`view/${client._id}`}>
                             <button className="rounded-lg p-1 bg-[#97a5eb]/20 transition-all hover:scale-110">
                               <EditSquare colorStroke={"#5570f1"} />
@@ -267,7 +264,6 @@ const Client = () => {
       <ModalAddClient
         openModalClient={openModalClient}
         setOpenModalClient={setOpenModalClient}
-        clients={clients}
         setClients={setClients}
       />
     </div>

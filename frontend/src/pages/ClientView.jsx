@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Card } from "../components/Card/Card";
 import { EditSquare, Delete } from "../components/Icon/Icon";
 import { Modal } from "../components/Modal";
 import { ModalEditClient } from "../components/Modal/ModalEditClient";
 import { HeaderModal } from "../components/Header/HeaderModal";
-import { deleteClient } from "../api";
+import { deleteClient } from "../api/clientApi";
+import Cards from "../components/Card/Cards";
 
 const ClientView = () => {
   const { id } = useParams();
@@ -48,12 +48,17 @@ const ClientView = () => {
     <div className="p-5 grid gap-5 lg:grid-cols-3">
       {/* Top Start */}
       <div className="lg:col-span-3">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center">
           <div className="lg:flex lg:gap-6">
-            <h1 className="text-night_60 font-medium">Order Number</h1>
-            <h1 className="text-night_60 font-medium">Client Since</h1>
+            <h1 className="flex gap-3 justify-between text-night_60 font-medium">
+              Client ID <span className="text-night_30">#{id}</span>
+            </h1>
+            <h1 className="flex gap-3 justify-between text-night_60 font-medium">
+              Client Since <span className="text-night_30">Nov 2024</span>
+            </h1>
           </div>
-          <div className="flex flex-col lg:flex-row gap-5">
+
+          <div className="flex gap-5 mt-5 justify-between lg:mt-0">
             <button
               onClick={() => setModalEdit(true)}
               className="flex items-center bg-primary_100 text-white text-sm rounded-xl gap-3 py-3 px-5"
@@ -70,17 +75,13 @@ const ClientView = () => {
         </div>
       </div>
       {/* Top Start */}
-      <Card>
-        <div>
-          <h1>{name}</h1>
-          <h1>{email}</h1>
-          <h1>{phone}</h1>
-          <h1>{address}</h1>
-        </div>
-      </Card>
-      <Card></Card>
-      <Card></Card>
-      <Card colSpan={"lg:col-span-3"}></Card>
+
+      {/* Content Start */}
+      <Cards type="client" name={name} email={email} phone={phone} />
+      <Cards type="address" address={address} />
+      <Cards type="order" />
+      <Cards type="table" name={name} />
+      {/* Content End */}
 
       <ModalEditClient
         openModalEdit={modalEdit}

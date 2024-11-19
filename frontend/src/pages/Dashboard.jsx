@@ -4,7 +4,7 @@ import { HiOutlineShoppingBag, HiOutlineUsers } from "react-icons/hi";
 import { SelectMenuMonth } from "../components/Select/SelectMenu";
 import { Card, CardPrimary, CardCol, CardRow } from "../components/Card/Card";
 import { useEffect, useState } from "react";
-import { getClients } from "../api";
+import { getClients } from "../api/clientApi";
 import { SummaryChart } from "../components/Chart/SummaryChart";
 import { OrderStatusChart } from "../components/Chart/OrderStatusChart";
 import { GoDotFill } from "react-icons/go";
@@ -19,7 +19,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="p-5 grid gap-5 lg:grid-cols-3 lg:grid-rows-3">
+    <div className="p-5 grid gap-5 lg:grid-cols-3">
       {/* 1st Start */}
       <Card>
         <div className="flex justify-between">

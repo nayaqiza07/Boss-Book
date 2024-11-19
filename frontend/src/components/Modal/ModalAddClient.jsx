@@ -2,13 +2,11 @@ import { useState } from "react";
 import { Modal } from ".";
 import { ButtonModal } from "../Button/ButtonModal";
 import { HeaderModal } from "../Header/HeaderModal";
-// import axios from "axios";
-import { saveClient } from "../../api";
+import { saveClient, getClients } from "../../api/clientApi";
 
 export const ModalAddClient = ({
   openModalClient,
   setOpenModalClient,
-  clients,
   setClients,
 }) => {
   // Form
@@ -17,27 +15,11 @@ export const ModalAddClient = ({
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
-  // const apiUrl = import.meta.env.VITE_API_URL;
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await axios.post(`${apiUrl}/clients`, {
-  //       name,
-  //       email,
-  //       phone,
-  //       address,
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await saveClient(name, email, phone, address);
-      // setClients(saveClient);
+      return getClients().then((result) => setClients(result));
     } catch (error) {
       console.log(error);
     }

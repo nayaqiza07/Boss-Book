@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal } from ".";
 import { ButtonModal } from "../Button/ButtonModal";
 import { HeaderModal } from "../Header/HeaderModal";
-import { updateClient } from "../../api";
+import { updateClient } from "../../api/clientApi";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -34,8 +34,7 @@ export const ModalEditClient = ({ openModalEdit, setOpenModalEdit }) => {
     e.preventDefault();
     try {
       await updateClient(id, name, email, phone, address);
-      navigate("/client");
-      // setClients(saveClient);
+      navigate(`/client`);
     } catch (error) {
       console.log(error);
     }

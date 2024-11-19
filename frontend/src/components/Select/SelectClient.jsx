@@ -1,42 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineChevronDown, HiOutlineSearch } from "react-icons/hi";
+import { getClients } from "../../api/clientApi";
 
 export const SelectClient = () => {
-  // const [datas, setDatas] = useState(null);
   const [openSelectClient, setOpenSelectClient] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState("");
+  const [clients, setClients] = useState([]);
+
+  useEffect(() => {
+    handleClient();
+  });
+
+  const handleClient = () => {
+    getClients().then((result) => setClients(result));
+  };
 
   const handleSelected = (value) => {
     setSelected(value);
     setOpenSelectClient(false);
   };
-
-  const datas = [
-    {
-      name: "Mr. 1",
-    },
-    {
-      name: "Mr. 2",
-    },
-    {
-      name: "Mr. 3",
-    },
-    {
-      name: "Mr. 4",
-    },
-    {
-      name: "Mr. 5",
-    },
-  ];
-
-  // useEffect(() => {
-  //   fetch("https://restcountries.com/v2/all?fields=name")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setDatas(data);
-  //     });
-  // });
 
   return (
     <div className="relative">
@@ -74,19 +57,19 @@ export const SelectClient = () => {
         </div>
 
         <div>
-          {datas
-            ?.filter((data) => {
+          {clients
+            ?.filter((client) => {
               return search.toLowerCase() === ""
-                ? data
-                : data.name.toLowerCase().includes(search);
+                ? client
+                : client.name.toLowerCase().includes(search);
             })
-            .map((data) => (
+            .map((client) => (
               <li
-                key={data?.name}
-                onClick={() => handleSelected(data.name)}
+                key={client?.name}
+                onClick={() => handleSelected(client.name)}
                 className="w-full px-4 py-3 hover:bg-[#E9ECF8]/90 transition-all hover:pl-7"
               >
-                {data.name}
+                {client.name}
               </li>
             ))}
         </div>

@@ -5,6 +5,7 @@ import { Category } from "../../assets/Icon/Category";
 import { Delete } from "../../assets/Icon/Delete";
 import { Document } from "../../assets/Icon/Document";
 import { EditSquare } from "../../assets/Icon/EditSquare";
+import { Location } from "../../assets/Icon/Location";
 import { Lock } from "../../assets/Icon/Lock";
 import { Logo } from "../../assets/Icon/Logo";
 import { Message } from "../../assets/Icon/Message";
@@ -21,6 +22,7 @@ export {
   Delete,
   Document,
   EditSquare,
+  Location,
   Lock,
   Logo,
   Message,
