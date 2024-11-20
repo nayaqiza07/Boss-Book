@@ -1,20 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HiOutlineChevronDown, HiOutlineSearch } from "react-icons/hi";
-import { getClients } from "../../api/clientApi";
 
 export const SelectClient = () => {
   const [openSelectClient, setOpenSelectClient] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState("");
   const [clients, setClients] = useState([]);
-
-  useEffect(() => {
-    handleClient();
-  });
-
-  const handleClient = () => {
-    getClients().then((result) => setClients(result));
-  };
 
   const handleSelected = (value) => {
     setSelected(value);

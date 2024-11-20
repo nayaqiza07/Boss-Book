@@ -8,24 +8,38 @@ import {
   User2,
 } from "../Icon/Icon";
 
+import {
+  BagBulk,
+  BuyBulk,
+  CategoryBulk,
+  DocumentBulk,
+  PaperNegativeBulk,
+  PaperPlusBulk,
+  SwapBulk,
+  User2Bulk,
+} from "../../assets/Icon/SidebarIcon";
+
 export const SidebarItem = [
   {
     key: "dashboard",
     label: "Dashboard",
     path: "/",
     icon: <Category colorStroke={"#53545c"} />,
+    icon2: <CategoryBulk />,
   },
   {
     key: "transaksi",
     label: "Transaksi",
     path: "/transaksi",
     icon: <Buy colorStroke={"#53545c"} />,
+    icon2: <BuyBulk />,
   },
   {
     key: "piutang",
     label: "Piutang",
     path: "/piutang",
     icon: <Document colorStroke={"#53545c"} />,
+    icon2: <DocumentBulk />,
     sidebarSubItem: [
       {
         key: "piutang",
@@ -44,6 +58,7 @@ export const SidebarItem = [
     label: "Income",
     path: "/income",
     icon: <PaperPlus colorStroke={"#53545c"} />,
+    icon2: <PaperPlusBulk />,
     sidebarSubItem: [
       {
         key: "sales",
@@ -70,6 +85,7 @@ export const SidebarItem = [
     label: "Outcome",
     path: "/outcome",
     icon: <PaperNegative colorStroke={"#53545c"} />,
+    icon2: <PaperNegativeBulk />,
     sidebarSubItem: [
       {
         key: "accommodation",
@@ -144,17 +160,20 @@ export const SidebarItem = [
     label: "Order",
     path: "/order",
     icon: <Bag colorStroke={"#53545c"} />,
+    icon2: <BagBulk />,
   },
   {
     key: "calculator",
     label: "Calculator",
     path: "/calculator",
     icon: <Document colorStroke={"#53545c"} />,
+    icon2: <DocumentBulk />,
   },
   {
     key: "client",
     label: "Client",
     path: "/client",
     icon: <User2 colorStroke={"#53545c"} />,
+    icon2: <User2Bulk />,
   },
 ];

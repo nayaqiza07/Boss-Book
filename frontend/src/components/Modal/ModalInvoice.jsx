@@ -1,7 +1,11 @@
 import { HiOutlineDownload } from "react-icons/hi";
 import { Modal } from ".";
 
-export const ModalInvoice = ({ openModalInvoice, setOpenModalInvoice }) => {
+export const ModalInvoice = ({
+  openModalInvoice,
+  setOpenModalInvoice,
+  orderNumber,
+}) => {
   return (
     <Modal
       openModal={openModalInvoice}
@@ -9,7 +13,7 @@ export const ModalInvoice = ({ openModalInvoice, setOpenModalInvoice }) => {
     >
       <div className="w-80 h-60">
         {/* Head Modal Invoice Start */}
-        <h2>#Invoice Number</h2>
+        <h2 className="text-primary_100">#{orderNumber}</h2>
         {/* Head Modal Invoice End */}
 
         {/* Content Modal Invoice Start */}

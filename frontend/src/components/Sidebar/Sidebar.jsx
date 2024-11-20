@@ -44,7 +44,7 @@ export const SidebarMenus = ({ item }) => {
               : "text-night_50 hover:bg-[#5570f1]/20 hover:text-primary_100"
           }`}
         >
-          {item.icon}
+          {pathname === item.path ? item.icon2 : item.icon}
           <span className={`overflow-hidden transition-all flex-1 ml-3`}>
             {item.label}
           </span>

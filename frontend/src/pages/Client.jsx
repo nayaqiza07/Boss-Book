@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { getClients } from "../api/clientApi";
 import { Card } from "../components/Card/Card";
 import { Checkbox } from "../components/Checkbox/Checkbox";
 import { ModalAddClient } from "../components/Modal/ModalAddClient";
@@ -24,16 +23,6 @@ import { BigUser2 } from "../assets/Icon/BigUser2";
 const Client = () => {
   const [openModalClient, setOpenModalClient] = useState(false);
   const [clients, setClients] = useState([]);
-
-  useEffect(() => {
-    handleDataClient();
-  }, []);
-
-  const handleDataClient = () => {
-    getClients().then((result) => {
-      setClients(result);
-    });
-  };
 
   return (
     <div className="p-5 grid gap-5">
@@ -264,7 +253,6 @@ const Client = () => {
       <ModalAddClient
         openModalClient={openModalClient}
         setOpenModalClient={setOpenModalClient}
-        setClients={setClients}
       />
     </div>
   );

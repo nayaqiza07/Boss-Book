@@ -23,61 +23,28 @@ const Order = () => {
   const [openModalOrder, setOpenModalOrder] = useState(false);
   const [openModalInvoice, setOpenModalInvoice] = useState(false);
 
-  const dataOrder = [
-    {
-      no: "#GGR00001",
-      name: "Mr. 1",
-      address: "Address 1",
-      date: "01/11/2024",
-      total: 100000,
-      action: "Completed",
-      status: "Completed",
-    },
-    {
-      no: "#GGR00002",
-      name: "Mr. 2",
-      address: "Address 2",
-      date: "02/11/2024",
-      total: 200000,
-      action: "In-Progress",
-      status: "In-Progress",
-    },
-    {
-      no: "#GGR00003",
-      name: "Mr. 3",
-      address: "Address 3",
-      date: "03/11/2024",
-      total: 300000,
-      action: "Pending",
-      status: "Pending",
-    },
-    {
-      no: "#GGR00004",
-      name: "Mr. 4",
-      address: "Address 4",
-      date: "04/11/2024",
-      total: 400000,
-      action: "Completed",
-      status: "Completed",
-    },
-    {
-      no: "#GGR00005",
-      name: "Mr. 5",
-      address: "Address 5",
-      date: "05/11/2024",
-      total: 500000,
-      action: "Pending",
-      status: "Pending",
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+  const [orderNumber, setOrderNumber] = useState("");
 
-  const filterCompleted = dataOrder.filter(
-    (data) => data.status === "Completed"
-  );
-  const filterPending = dataOrder.filter((data) => data.status === "Pending");
-  const filterProgress = dataOrder.filter(
-    (data) => data.status === "In-Progress"
-  );
+  // useEffect(() => {
+  //   handleDataOrder();
+  // });
+
+  // const handleDataOrder = () => {
+  //   getOrders().then((result) => {
+  //     setOrders(result);
+  //   });
+  // };
+
+  // const handleModalInvoice = (id) => {
+  //   setOpenModalInvoice(true);
+  //   // console.log(id);
+  //   setOrderNumber(id);
+  // };
+
+  const filterCompleted = orders.filter((data) => data.status === "Completed");
+  const filterPending = orders.filter((data) => data.status === "Pending");
+  const filterProgress = orders.filter((data) => data.status === "In-Progress");
 
   return (
     <div className="p-5 grid gap-5">
@@ -108,7 +75,7 @@ const Order = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <div>
               <h5 className="text-night_30">All Orders</h5>
-              <p className="text-night_60 font-medium">{dataOrder.length}</p>
+              <p className="text-night_60 font-medium">{orders.length}</p>
             </div>
             <div>
               <h5 className="text-night_30">Pending</h5>
@@ -188,7 +155,7 @@ const Order = () => {
                   <th className="py-3">
                     <Checkbox />
                   </th>
-                  <th className="font-normal px-6 py-3">No</th>
+                  <th className="font-normal px-6 py-3">Order Number</th>
                   <th className="font-normal px-6 py-3 hidden xl:table-cell">
                     Client Name
                   </th>
@@ -208,9 +175,9 @@ const Order = () => {
                 </tr>
               </thead>
               <tbody className="border-b border-[#E1E2E9]">
-                {dataOrder.map((data, index) => (
+                {orders.map((order) => (
                   <tr
-                    key={index + 1}
+                    key={order._id}
                     className="text-night_40 text-left text-sm"
                   >
                     <td className="py-3">
@@ -219,35 +186,35 @@ const Order = () => {
 
                     <td className="whitespace-nowrap text-primary_100 px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
                       <span
-                        onClick={() => setOpenModalInvoice(true)}
+                        onClick={() => handleModalInvoice(order.orderNumber)}
                         className="cursor-pointer "
                       >
-                        {data.no}
+                        {order.orderNumber}
                       </span>
                       {/* Stack Table Start */}
                       <dl className="xl:hidden">
                         <dt className="sr-only">Client Name</dt>
                         <dd className="text-night_20 text-xs mt-1 truncate">
-                          {data.name}
+                          {order.clientId}
                         </dd>
                         <dt className="sr-only">Date</dt>
                         <dd className="text-night_20 text-xs mt-1 truncate">
-                          {data.date}
+                          {order.date}
                         </dd>
                       </dl>
                       {/* Stack Table End */}
                     </td>
                     <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
-                      {data.name}
+                      {order.clientId}
                     </td>
                     <td className="whitespace-nowrap  px-6 py-3 hidden md:table-cell">
-                      {data.address}
+                      {order.address}
                     </td>
                     <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
-                      {data.date}
+                      {order.date}
                     </td>
                     <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                      {data.total}
+                      {order.total}
                     </td>
                     <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
                       <SelectMenuActions />
@@ -255,14 +222,14 @@ const Order = () => {
                     <td className="whitespace-nowrap px-6 py-3">
                       <p
                         className={`px-5 py-1 rounded w-fit ${
-                          data.status === "Completed"
+                          order.status === "Completed"
                             ? "bg-[#519c66]/20 text-action_go"
-                            : data.status === "In-Progress"
+                            : order.status === "In-Progress"
                             ? "bg-[#5570F1]/20 text-primary_100"
                             : "bg-[#cc5f5f]/20 text-action_stop"
                         }`}
                       >
-                        {data.status}
+                        {order.status}
                       </p>
                     </td>
                   </tr>
@@ -274,24 +241,26 @@ const Order = () => {
 
           {/* Table view up to the `md:` breakpoint Start  */}
           <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-            {dataOrder.map((data, index) => (
+            {orders.map((order, index) => (
               <div
                 key={index + 1}
                 className="p-3 border border-[#E1E2E9] rounded-lg"
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
-                    <h1 className="font-medium text-night_40">{data.name}</h1>
+                    <h1 className="font-medium text-night_40">
+                      {order.clientId}
+                    </h1>
                     <span
                       className={`px-3 text-xs py-1 rounded w-fit ml-3 ${
-                        data.status === "Completed"
+                        order.status === "Completed"
                           ? "bg-[#519c66]/20 text-action_go"
-                          : data.status === "In-Progress"
+                          : order.status === "In-Progress"
                           ? "bg-[#5570F1]/20 text-primary_100"
                           : "bg-[#cc5f5f]/20 text-action_stop"
                       }`}
                     >
-                      {data.status}
+                      {order.status}
                     </span>
                   </div>
                   <span>
@@ -303,11 +272,11 @@ const Order = () => {
                     onClick={() => setOpenModalInvoice(true)}
                     className="text-primary_100 text-sm mt-1"
                   >
-                    {data.no}
+                    {order.no}
                   </p>
-                  <p className="text-night_30 text-sm mt-1">{data.address}</p>
-                  <p className="mt-1">{data.date}</p>
-                  <p className="mt-1">{data.total}</p>
+                  <p className="text-night_30 text-sm mt-1">{order.address}</p>
+                  <p className="mt-1">{order.date}</p>
+                  <p className="mt-1">{order.total}</p>
                 </div>
               </div>
             ))}
@@ -318,9 +287,7 @@ const Order = () => {
           <div className="flex justify-between gap-3 py-3">
             <div className="flex flex-row items-center gap-3">
               <SelectMenuItems />
-              <p className="text-[#666666] text-sm">
-                of {dataOrder.length} items
-              </p>
+              <p className="text-[#666666] text-sm">of {orders.length} items</p>
             </div>
 
             <div className="flex flex-row items-center gap-3">

@@ -1,28 +1,9 @@
 import mongoose from "mongoose";
 
-const Client = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: Number,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-});
+const { Schema } = mongoose;
 
-// Client.method("toJSON", function () {
-//   const { __v, _id, ...object } = this.toObject();
-//   object.id = _id;
-//   return object;
-// });
+const clientSchema = new Schema({});
 
-export default mongoose.model("Clients", Client);
+const Client = mongoose.model("Client", clientSchema);
+
+export default Client;

@@ -1,28 +1,35 @@
 import express from "express";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import cors from "cors";
-// import UserRoute from "./routes/UserRoute.js";
-import InvoiceRoute from "./routes/InvoiceRoute.js";
-import TransactionRoute from "./routes/TransactionRoute.js";
-import ClientRoute from "./routes/ClientRoute.js";
+import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
+import cookieParser from "cookie-parser";
+
+import authRouter from "./routes/authRouter.js";
+import clientRouter from "./routes/clientRouter.js";
+
+dotenv.config();
 
 const app = express();
 const port = 5000;
-const db = mongoose.connection;
 
-mongoose.connect("mongodb://localhost:27017/bossbook_db", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-db.on("error", (error) => console.log(error));
-db.once("open", () => console.log("Database Connected..."));
-
+// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(InvoiceRoute);
-app.use(TransactionRoute);
-app.use(ClientRoute);
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
-// Server
+// Parent Router
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/client", clientRouter);
+
+app.use(notFound);
+app.use(errorHandler);
+
+// Connection Server
 app.listen(port, () => console.log(`Server up and running on port ${port}`));
+
+// Connection DB
+mongoose.connect(process.env.DATABASE, {}).then(() => {
+  console.log("Database Connected...");
+});

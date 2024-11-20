@@ -1,48 +1,21 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { EditSquare, Delete } from "../components/Icon/Icon";
 import { Modal } from "../components/Modal";
 import { ModalEditClient } from "../components/Modal/ModalEditClient";
 import { HeaderModal } from "../components/Header/HeaderModal";
-import { deleteClient } from "../api/clientApi";
 import Cards from "../components/Card/Cards";
 
 const ClientView = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
 
   const [modalDelete, setModalDelete] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-
-  const apiUrl = import.meta.env.VITE_API_URL;
-
-  useEffect(() => {
-    getClientById();
-  }, []);
-
-  const getClientById = async () => {
-    const response = await axios.get(`${apiUrl}/clients/${id}`);
-    setName(response.data.name);
-    setEmail(response.data.email);
-    setPhone(response.data.phone);
-    setAddress(response.data.address);
-  };
-
-  const handleDeleteClient = async (id) => {
-    try {
-      await deleteClient(id);
-      setModalDelete(false);
-      navigate("/client");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [address, setAddress] = useState("");
 
   return (
     <div className="p-5 grid gap-5 lg:grid-cols-3">
@@ -77,8 +50,8 @@ const ClientView = () => {
       {/* Top Start */}
 
       {/* Content Start */}
-      <Cards type="client" name={name} email={email} phone={phone} />
-      <Cards type="address" address={address} />
+      {/* <Cards type="client" name={name} email={email} phone={phone} />
+      <Cards type="address" address={address} /> */}
       <Cards type="order" />
       <Cards type="table" name={name} />
       {/* Content End */}
