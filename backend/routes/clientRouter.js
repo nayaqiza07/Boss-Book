@@ -1,5 +1,8 @@
 import express from "express";
-// import { protectedMiddleware } from "../middlewares/authMiddleware";
+import {
+  protectedMiddleware,
+  ownerMiddleware,
+} from "../middlewares/authMiddleware.js";
 import {
   createClient,
   allClient,
@@ -15,7 +18,7 @@ const router = express.Router();
 // Create Data Client
 // POST /api/v1/client
 // Middleware agar hanya bisa diakses oleh Owner yang telah melakukan autentikasi
-router.post("/", createClient);
+router.post("/", protectedMiddleware, ownerMiddleware, createClient);
 
 // Read Data Client
 // GET /api/v1/client
@@ -28,11 +31,11 @@ router.get("/:id", detailClient);
 // Update Data Client
 // PUT /api/v1/client/:id
 // Middleware agar hanya bisa diakses oleh Owner yang telah melakukan autentikasi
-router.put("/:id", updateClient);
+router.put("/:id", protectedMiddleware, ownerMiddleware, updateClient);
 
 // Delete Data Client
 // DELETE /api/v1/client/:id
 // Middleware agar hanya bisa diakses oleh Owner yang telah melakukan autentikasi
-router.delete("/:id", deleteClient);
+router.delete("/:id", protectedMiddleware, ownerMiddleware, deleteClient);
 
 export default router;

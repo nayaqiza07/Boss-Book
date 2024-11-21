@@ -1,41 +1,83 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Layout/Home";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+// Layout
+import PublicLayout from "./layouts/PublicLayout";
+
+// Auth
+import LoginView from "./pages/auth/LoginView";
+import SignUpView from "./pages/auth/SignUpView";
+
+// Page Component
 import Dashboard from "./pages/Dashboard";
 import Transaksi from "./pages/Transaksi";
 import Outcome from "./pages/Outcome";
-// import Invoice from "./pages/Invoice";
 import Calculator from "./pages/Calculator";
 import Piutang from "./pages/Piutang";
 import Utang from "./pages/Utang";
 import Income from "./pages/Income";
 import Order from "./pages/Order";
 import Client from "./pages/Client";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
 import ClientView from "./pages/ClientView";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <PublicLayout />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        path: "transaksi",
+        element: <Transaksi />,
+      },
+      {
+        path: "piutang",
+        element: <Piutang />,
+      },
+      {
+        path: "utang",
+        element: <Utang />,
+      },
+      {
+        path: "income",
+        element: <Income />,
+      },
+      {
+        path: "outcome",
+        element: <Outcome />,
+      },
+      {
+        path: "order",
+        element: <Order />,
+      },
+      {
+        path: "calculator",
+        element: <Calculator />,
+      },
+      {
+        path: "client",
+        element: <Client />,
+      },
+      {
+        path: "client/view/:id",
+        element: <ClientView />,
+      },
+    ],
+  },
+  {
+    path: "login",
+    element: <LoginView />,
+  },
+  {
+    path: "signup",
+    element: <SignUpView />,
+  },
+]);
+
 const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />}>
-          <Route index element={<Dashboard />} />
-          <Route path="transaksi" element={<Transaksi />} />
-          <Route path="piutang" element={<Piutang />} />
-          <Route path="utang" element={<Utang />} />
-          <Route path="income" element={<Income />} />
-          <Route path="outcome" element={<Outcome />} />
-          {/* <Route path="invoice" element={<Invoice />} /> */}
-          <Route path="order" element={<Order />} />
-          <Route path="calculator" element={<Calculator />} />
-          <Route path="client" element={<Client />} />
-          <Route path="client/view/:id" element={<ClientView />} />
-        </Route>
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<SignUp />} />
-      </Routes>
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

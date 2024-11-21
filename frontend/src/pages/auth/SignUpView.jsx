@@ -1,8 +1,8 @@
-import { Logo } from "../assets/Icon/Logo";
-import { Card } from "../components/Card/Card";
-import { Profile, Lock, Message } from "../components/Icon/Icon";
+import { Logo } from "../../assets/Icon/Logo";
+import { Card } from "../../components/Card/Card";
+import { Profile, Lock, Message } from "../../components/Icon/Icon";
 
-const SignUp = () => {
+const SignUpView = () => {
   return (
     <div className="bg-main_background h-screen flex justify-center items-center">
       <div className="w-full lg:w-1/4">
@@ -62,4 +62,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpView;

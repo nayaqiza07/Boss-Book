@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 
 import authRouter from "./routes/authRouter.js";
 import clientRouter from "./routes/clientRouter.js";
+import orderRouter from "./routes/orderRouter.js";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 // Parent Router
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/client", clientRouter);
+app.use("/api/v1/order", orderRouter);
 
 app.use(notFound);
 app.use(errorHandler);

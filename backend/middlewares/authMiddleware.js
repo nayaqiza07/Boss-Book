@@ -22,3 +22,12 @@ export const protectedMiddleware = asyncHandler(async (req, res, next) => {
     throw new Error("Not Authorized, No Token");
   }
 });
+
+export const ownerMiddleware = (req, res, next) => {
+  if (req.user && req.user.role === "owner") {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Not Authorized as Owner");
+  }
+};
