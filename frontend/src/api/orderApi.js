@@ -1,13 +1,17 @@
-import axios from "axios";
-
-const apiUrl = import.meta.env.VITE_API_URL;
+import customAPI from "./axios.js";
 
 // GET Data Order
 export const getOrders = async () => {
   try {
-    const response = await axios.get(`${apiUrl}/orders`);
-    return response.data;
+    const { data } = await customAPI.get("/order");
+    return data.data;
   } catch (error) {
     console.log(error);
   }
+};
+
+// GET Order By Id
+export const getOrderById = async (id) => {
+  const { data } = await customAPI.get(`/order/${id}`);
+  return data.data;
 };

@@ -1,21 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { EditSquare, Delete } from "../components/Icon/Icon";
 import { Modal } from "../components/Modal";
 import { ModalEditClient } from "../components/Modal/ModalEditClient";
 import { HeaderModal } from "../components/Header/HeaderModal";
 import Cards from "../components/Card/Cards";
+import { getClientById } from "../api/clientApi";
 
 const ClientView = () => {
   const { id } = useParams();
 
+  const [client, setClient] = useState("");
+
   const [modalDelete, setModalDelete] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
 
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [address, setAddress] = useState("");
+  useEffect(() => {
+    getClientById(id).then((result) => {
+      setClient(result);
+    });
+  }, [id]);
 
   return (
     <div className="p-5 grid gap-5 lg:grid-cols-3">
@@ -27,7 +31,7 @@ const ClientView = () => {
               Client ID <span className="text-night_30">#{id}</span>
             </h1>
             <h1 className="flex gap-3 justify-between text-night_60 font-medium">
-              Client Since <span className="text-night_30">Nov 2024</span>
+              Client Since <span className="text-night_30">{client.date}</span>
             </h1>
           </div>
 
@@ -50,10 +54,15 @@ const ClientView = () => {
       {/* Top Start */}
 
       {/* Content Start */}
-      {/* <Cards type="client" name={name} email={email} phone={phone} />
-      <Cards type="address" address={address} /> */}
+      <Cards
+        type="client"
+        name={client.name}
+        phone={client.phone}
+        email={client.email}
+      />
+      <Cards type="address" address={client.address} />
       <Cards type="order" />
-      <Cards type="table" name={name} />
+      <Cards type="table" name={client.name} />
       {/* Content End */}
 
       <ModalEditClient
@@ -84,7 +93,7 @@ const ClientView = () => {
               Cancel
             </button>
             <button
-              onClick={() => handleDeleteClient(id)}
+              // onClick={() => handleDeleteClient(id)}
               className="w-full px-3 py-2 text-lg rounded-xl border-2 border-action_stop bg-action_stop text-white transition-all hover:scale-105 lg:w-44"
             >
               Delete

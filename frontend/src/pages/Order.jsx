@@ -1,12 +1,11 @@
 import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
 import { Card } from "../components/Card/Card";
-import { Checkbox } from "../components/Checkbox/Checkbox";
 import { ModalAddOrder } from "../components/Modal/ModalAddOrder";
 import {
   SelectMenuItems,
   SelectMenuMonth,
   SelectMenuPages,
-  SelectMenuActions,
 } from "../components/Select/SelectMenu";
 import {
   HiOutlineExclamationCircle,
@@ -18,33 +17,13 @@ import {
 } from "react-icons/hi";
 import { ModalInvoice } from "../components/Modal/ModalInvoice";
 import { Bag } from "../components/Icon/Icon";
+import TableOrder from "../components/Table/TableOrder";
+import TableOrderMobile from "../components/Table/TableOrderMobile";
 
 const Order = () => {
   const [openModalOrder, setOpenModalOrder] = useState(false);
   const [openModalInvoice, setOpenModalInvoice] = useState(false);
-
-  const [orders, setOrders] = useState([]);
-  const [orderNumber, setOrderNumber] = useState("");
-
-  // useEffect(() => {
-  //   handleDataOrder();
-  // });
-
-  // const handleDataOrder = () => {
-  //   getOrders().then((result) => {
-  //     setOrders(result);
-  //   });
-  // };
-
-  // const handleModalInvoice = (id) => {
-  //   setOpenModalInvoice(true);
-  //   // console.log(id);
-  //   setOrderNumber(id);
-  // };
-
-  const filterCompleted = orders.filter((data) => data.status === "Completed");
-  const filterPending = orders.filter((data) => data.status === "Pending");
-  const filterProgress = orders.filter((data) => data.status === "In-Progress");
+  const orders = useLoaderData();
 
   return (
     <div className="p-5 grid gap-5">
@@ -75,25 +54,19 @@ const Order = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <div>
               <h5 className="text-night_30">All Orders</h5>
-              <p className="text-night_60 font-medium">{orders.length}</p>
+              <p className="text-night_60 font-medium">0</p>
             </div>
             <div>
               <h5 className="text-night_30">Pending</h5>
-              <p className="text-night_60 font-medium">
-                {filterPending.length}
-              </p>
+              <p className="text-night_60 font-medium">0</p>
             </div>
             <div>
               <h5 className="text-night_30">In-Progress</h5>
-              <p className="text-night_60 font-medium">
-                {filterProgress.length}
-              </p>
+              <p className="text-night_60 font-medium">0</p>
             </div>
             <div>
               <h5 className="text-night_30">Completed</h5>
-              <p className="text-night_60 font-medium">
-                {filterCompleted.length}
-              </p>
+              <p className="text-night_60 font-medium">0</p>
             </div>
           </div>
         </Card>
@@ -149,137 +122,13 @@ const Order = () => {
 
           {/* Third Table Start */}
           <div className="hidden overflow-x-auto mt-5 md:block">
-            <table className="w-full">
-              <thead className="border-b border-t border-[#E1E2E9]">
-                <tr className="text-left text-sm text-night_90">
-                  <th className="py-3">
-                    <Checkbox />
-                  </th>
-                  <th className="font-normal px-6 py-3">Order Number</th>
-                  <th className="font-normal px-6 py-3 hidden xl:table-cell">
-                    Client Name
-                  </th>
-                  <th className="font-normal px-6 py-3 hidden sm:table-cell">
-                    Address
-                  </th>
-                  <th className="font-normal px-6 py-3 hidden xl:table-cell">
-                    Date
-                  </th>
-                  <th className="font-normal px-6 py-3 hidden md:table-cell">
-                    Total
-                  </th>
-                  <th className="font-normal px-6 py-3 hidden md:table-cell">
-                    Action
-                  </th>
-                  <th className="font-normal px-6 py-3">Status</th>
-                </tr>
-              </thead>
-              <tbody className="border-b border-[#E1E2E9]">
-                {orders.map((order) => (
-                  <tr
-                    key={order._id}
-                    className="text-night_40 text-left text-sm"
-                  >
-                    <td className="py-3">
-                      <Checkbox />
-                    </td>
-
-                    <td className="whitespace-nowrap text-primary_100 px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                      <span
-                        onClick={() => handleModalInvoice(order.orderNumber)}
-                        className="cursor-pointer "
-                      >
-                        {order.orderNumber}
-                      </span>
-                      {/* Stack Table Start */}
-                      <dl className="xl:hidden">
-                        <dt className="sr-only">Client Name</dt>
-                        <dd className="text-night_20 text-xs mt-1 truncate">
-                          {order.clientId}
-                        </dd>
-                        <dt className="sr-only">Date</dt>
-                        <dd className="text-night_20 text-xs mt-1 truncate">
-                          {order.date}
-                        </dd>
-                      </dl>
-                      {/* Stack Table End */}
-                    </td>
-                    <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
-                      {order.clientId}
-                    </td>
-                    <td className="whitespace-nowrap  px-6 py-3 hidden md:table-cell">
-                      {order.address}
-                    </td>
-                    <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
-                      {order.date}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                      {order.total}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                      <SelectMenuActions />
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-3">
-                      <p
-                        className={`px-5 py-1 rounded w-fit ${
-                          order.status === "Completed"
-                            ? "bg-[#519c66]/20 text-action_go"
-                            : order.status === "In-Progress"
-                            ? "bg-[#5570F1]/20 text-primary_100"
-                            : "bg-[#cc5f5f]/20 text-action_stop"
-                        }`}
-                      >
-                        {order.status}
-                      </p>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <TableOrder orders={orders} />
           </div>
           {/* Third Table End */}
 
           {/* Table view up to the `md:` breakpoint Start  */}
           <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-            {orders.map((order, index) => (
-              <div
-                key={index + 1}
-                className="p-3 border border-[#E1E2E9] rounded-lg"
-              >
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center">
-                    <h1 className="font-medium text-night_40">
-                      {order.clientId}
-                    </h1>
-                    <span
-                      className={`px-3 text-xs py-1 rounded w-fit ml-3 ${
-                        order.status === "Completed"
-                          ? "bg-[#519c66]/20 text-action_go"
-                          : order.status === "In-Progress"
-                          ? "bg-[#5570F1]/20 text-primary_100"
-                          : "bg-[#cc5f5f]/20 text-action_stop"
-                      }`}
-                    >
-                      {order.status}
-                    </span>
-                  </div>
-                  <span>
-                    <SelectMenuActions />
-                  </span>
-                </div>
-                <div className="text-night_20 text-xs">
-                  <p
-                    onClick={() => setOpenModalInvoice(true)}
-                    className="text-primary_100 text-sm mt-1"
-                  >
-                    {order.no}
-                  </p>
-                  <p className="text-night_30 text-sm mt-1">{order.address}</p>
-                  <p className="mt-1">{order.date}</p>
-                  <p className="mt-1">{order.total}</p>
-                </div>
-              </div>
-            ))}
+            <TableOrderMobile orders={orders} />
           </div>
           {/* Table view up to the `md:` breakpoint End  */}
 
@@ -287,7 +136,7 @@ const Order = () => {
           <div className="flex justify-between gap-3 py-3">
             <div className="flex flex-row items-center gap-3">
               <SelectMenuItems />
-              <p className="text-[#666666] text-sm">of {orders.length} items</p>
+              <p className="text-[#666666] text-sm">of items</p>
             </div>
 
             <div className="flex flex-row items-center gap-3">

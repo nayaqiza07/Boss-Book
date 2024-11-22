@@ -1,6 +1,29 @@
+import { redirect } from "react-router-dom";
+import { toast } from "react-toastify";
+import customAPI from "../../api/axios";
 import { Logo } from "../../assets/Icon/Logo";
 import { Card } from "../../components/Card/Card";
-import { Profile, Lock, Message } from "../../components/Icon/Icon";
+import FormAuth from "../../components/Form/FormAuth";
+import { signUpUser } from "../../features/userSclice";
+
+export const action =
+  (store) =>
+  async ({ request }) => {
+    const formInputData = await request.formData();
+    const data = Object.fromEntries(formInputData);
+    console.log(data);
+
+    try {
+      const response = await customAPI.post("/auth/register", data);
+      store.dispatch(signUpUser(response.data));
+      toast.success("Sign Up Berhasil");
+      return redirect("/login");
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message;
+      toast.error(errorMessage);
+      return null;
+    }
+  };
 
 const SignUpView = () => {
   return (
@@ -17,44 +40,9 @@ const SignUpView = () => {
               <h2 className="text-night_30 text-sm">Create your account</h2>
             </div>
 
-            {/* <form> */}
-            <div className="mt-[60px]">
-              <div className="flex items-center px-4 gap-3 mt-7 rounded-lg bg-[#EFF1F9]/60">
-                <Profile colorStroke={"#6e7079"} />
-                <input
-                  type="text"
-                  placeholder="Your Username"
-                  className="w-full py-[16.5px] focus:outline-none bg-transparent text-[#ABAFB1] transition-colors"
-                />
-              </div>
-              <div className="flex items-center px-4 gap-3 mt-7 rounded-lg bg-[#EFF1F9]/60">
-                <Message colorStroke={"#6e7079"} />
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  className="w-full py-[16.5px] focus:outline-none bg-transparent text-[#ABAFB1] transition-colors"
-                />
-              </div>
-              <div className="flex items-center px-4 gap-3 mt-7 rounded-lg bg-[#EFF1F9]/60">
-                <Lock colorStroke={"#6e7079"} />
-                <input
-                  type="password"
-                  placeholder="Create a Strong Password"
-                  className="w-full py-[16.5px] focus:outline-none bg-transparent text-[#ABAFB1]  transition-colors"
-                />
-              </div>
+            <div>
+              <FormAuth isRegister={true} />
             </div>
-
-            <div className="text-center mt-12">
-              <p className="text-night_30 text-sm">
-                Already have account?
-                <span className="text-primary_100"> Login</span>
-              </p>
-              <button className="mt-12 bg-primary_100 text-white rounded-lg px-10 py-[17px]">
-                Sign Up
-              </button>
-            </div>
-            {/* </form> */}
           </div>
         </Card>
       </div>

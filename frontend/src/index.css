@@ -12,6 +12,11 @@
   /* border: 1px solid black; */
 }
 
+::selection {
+  color: #ffffff;
+  background: #5570f1;
+}
+
 /* Color Variable */
 @layer base {
   :root {

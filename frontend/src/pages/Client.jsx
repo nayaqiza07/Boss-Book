@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { Card } from "../components/Card/Card";
-import { Checkbox } from "../components/Checkbox/Checkbox";
 import { ModalAddClient } from "../components/Modal/ModalAddClient";
 import {
   SelectMenuItems,
@@ -16,13 +15,16 @@ import {
   HiOutlineCalendar,
 } from "react-icons/hi";
 
-import { AddUser, EditSquare, User2 } from "../components/Icon/Icon";
+import { AddUser, User2 } from "../components/Icon/Icon";
 import { DataEmpty } from "../components/Alert/DataEmpty";
 import { BigUser2 } from "../assets/Icon/BigUser2";
+import TableClient from "../components/Table/TableClient";
+import TableClientMobile from "../components/Table/TableClientMobile";
 
 const Client = () => {
   const [openModalClient, setOpenModalClient] = useState(false);
-  const [clients, setClients] = useState([]);
+  const [search, setSearch] = useState("");
+  const clients = useLoaderData();
 
   return (
     <div className="p-5 grid gap-5">
@@ -108,6 +110,7 @@ const Client = () => {
                   <input
                     type="search"
                     placeholder="Search"
+                    onChange={(e) => setSearch(e.target.value)}
                     className="border rounded focus:outline-none w-20 lg:w-fit px-2 py-1"
                   />
                   <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
@@ -124,106 +127,13 @@ const Client = () => {
 
               {/* Third Table Start */}
               <div className="hidden overflow-x-auto mt-5 md:block">
-                <table className="w-full">
-                  <thead className="border-b border-t border-[#E1E2E9]">
-                    <tr className="text-left text-sm text-night_90">
-                      <th className="py-3">
-                        <Checkbox />
-                      </th>
-                      <th className="font-normal px-6 py-3">Name</th>
-                      <th className="font-normal px-6 py-3 hidden sm:table-cell">
-                        Address
-                      </th>
-                      <th className="font-normal px-6 py-3 hidden md:table-cell">
-                        Email
-                      </th>
-                      <th className="font-normal px-6 py-3 hidden xl:table-cell">
-                        Phone
-                      </th>
-                      <th className="font-normal px-6 py-3 hidden sm:table-cell">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="border-b border-[#E1E2E9]">
-                    {clients.map((client) => (
-                      <tr
-                        key={client._id}
-                        className="text-night_40 text-left text-sm"
-                      >
-                        <td className="py-3">
-                          <Checkbox />
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                          {client.name}
-
-                          {/* Stack Table Start */}
-                          <dl className="xl:hidden">
-                            <dt className="sr-only">Phone</dt>
-                            <dd className="text-night_20 text-xs mt-1 truncate">
-                              {client.phone}
-                            </dd>
-                          </dl>
-                          {/* Stack Table End */}
-                        </td>
-                        <td className="whitespace-nowrap  px-6 py-3 hidden sm:table-cell">
-                          {client.address}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                          {client.email}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-3 hidden xl:table-cell">
-                          {client.phone}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-3 hidden sm:table-cell">
-                          <Link to={`view/${client._id}`}>
-                            <button className="rounded-lg p-1 bg-[#97a5eb]/20 transition-all hover:scale-110">
-                              <EditSquare colorStroke={"#5570f1"} />
-                            </button>
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <TableClient clients={clients} search={search} />
               </div>
               {/* Third Table End */}
 
               {/* Table view up to the `md:` breakpoint Start  */}
               <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-                {clients.map((client, index) => (
-                  <div
-                    key={index + 1}
-                    className="p-3 border border-[#E1E2E9] rounded-lg"
-                  >
-                    <div className="flex justify-between">
-                      <h1 className="font-medium text-night_40">
-                        {client.name}
-                      </h1>
-                      <Link to={`view/${client._id}`}>
-                        <button className="rounded-lg p-1 bg-[#97a5eb]/20 transition-all hover:scale-110">
-                          <EditSquare colorStroke={"#5570f1"} />
-                        </button>
-                      </Link>
-                      {/* <span
-                    className={`px-3 text-xs py-1 rounded w-fit ${
-                      client.status === "Active"
-                        ? "bg-[#519c66]/20 text-action_go"
-                        : "bg-[#cc5f5f]/20 text-action_stop"
-                    }`}
-                  >
-                    {client.status}
-                  </span> */}
-                    </div>
-                    <div className="text-night_20 text-xs">
-                      <p className="text-night_30 text-sm mt-1">
-                        {client.address}
-                      </p>
-                      <p className="mt-1">{client.email}</p>
-                      <p className="mt-1">{client.phone}</p>
-                    </div>
-                  </div>
-                ))}
+                <TableClientMobile clients={clients} />
               </div>
               {/* Table view up to the `md:` breakpoint End  */}
 

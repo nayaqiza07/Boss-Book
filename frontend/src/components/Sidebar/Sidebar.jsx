@@ -1,15 +1,26 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SidebarItem } from "./SidebarItem";
 import { Logo } from "../Icon/Icon";
+import { useDispatch } from "react-redux";
+import customAPI from "../../api/axios";
+import { logoutUser } from "../../features/userSclice";
 
 export const Sidebar = ({ sidebarOpen }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await customAPI.get("/auth/logout");
+    dispatch(logoutUser());
+    navigate("/login");
+  };
+
   return (
     <aside
       className={`border-r h-screen bg-white sticky top-0 ${
         sidebarOpen ? "block" : "hidden lg:block"
       }`}
     >
-      <nav className="w-72">
+      <nav className="w-72 h-full flex flex-col">
         {/* Top Sidebar Start */}
         <div className="px-6 h-16 border-b flex flex-row items-center cursor-default gap-2">
           <Logo />
@@ -25,6 +36,16 @@ export const Sidebar = ({ sidebarOpen }) => {
           ))}
         </ul>
         {/* Sidebar Menus End */}
+
+        {/* Logout */}
+        <div className={`px-3 py-7`}>
+          <button
+            onClick={handleLogout}
+            className="ml-3 p-3 rounded-lg bg-secondary_100"
+          >
+            Logout
+          </button>
+        </div>
       </nav>
     </aside>
   );

@@ -11,13 +11,24 @@ import SignUpView from "./pages/auth/SignUpView";
 import Dashboard from "./pages/Dashboard";
 import Transaksi from "./pages/Transaksi";
 import Outcome from "./pages/Outcome";
-import Calculator from "./pages/Calculator";
+import CalculatorView from "./pages/CalculatorView";
 import Piutang from "./pages/Piutang";
 import Utang from "./pages/Utang";
 import Income from "./pages/Income";
 import Order from "./pages/Order";
 import Client from "./pages/Client";
 import ClientView from "./pages/ClientView";
+
+// Loader API Data
+import { getClients } from "./api/clientApi";
+import { getOrders } from "./api/orderApi";
+
+// Action
+import { action as LoginAction } from "./pages/auth/LoginView";
+import { action as SignUpAction } from "./pages/auth/SignUpView";
+
+// Storage
+import { store } from "./store";
 
 const router = createBrowserRouter([
   {
@@ -51,14 +62,16 @@ const router = createBrowserRouter([
       {
         path: "order",
         element: <Order />,
+        loader: () => getOrders(),
       },
       {
         path: "calculator",
-        element: <Calculator />,
+        element: <CalculatorView />,
       },
       {
         path: "client",
         element: <Client />,
+        loader: () => getClients(),
       },
       {
         path: "client/view/:id",
@@ -69,10 +82,12 @@ const router = createBrowserRouter([
   {
     path: "login",
     element: <LoginView />,
+    action: LoginAction(store),
   },
   {
     path: "signup",
     element: <SignUpView />,
+    action: SignUpAction(store),
   },
 ]);
 

@@ -1,6 +1,28 @@
 import { Logo } from "../../assets/Icon/Logo";
 import { Card } from "../../components/Card/Card";
-import { Profile, Lock } from "../../components/Icon/Icon";
+import FormAuth from "../../components/Form/FormAuth";
+import { redirect } from "react-router-dom";
+import { loginUser } from "../../features/userSclice";
+import customAPI from "../../api/axios";
+import { toast } from "react-toastify";
+
+export const action =
+  (store) =>
+  async ({ request }) => {
+    const formInputData = await request.formData();
+    const data = Object.fromEntries(formInputData);
+
+    try {
+      const response = await customAPI.post("/auth/login", data);
+      store.dispatch(loginUser(response.data));
+      toast.success("Login Berhasil");
+      return redirect("/");
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message;
+      toast.error(errorMessage);
+      return null;
+    }
+  };
 
 const LoginView = () => {
   return (
@@ -14,39 +36,9 @@ const LoginView = () => {
               <h2 className="text-night_30 text-sm">Login to your account</h2>
             </div>
 
-            {/* <form> */}
-            <div className="mt-[60px]">
-              <div className="flex items-center px-4 gap-3 mt-7 rounded-lg bg-[#EFF1F9]/60">
-                <Profile colorStroke={"#6e7079"} />
-                <input
-                  type="text"
-                  placeholder="Username"
-                  className="w-full py-[16.5px] focus:outline-none bg-transparent text-[#ABAFB1] transition-colors"
-                />
-              </div>
-              <div className="flex items-center px-4 gap-3 mt-7 rounded-lg bg-[#EFF1F9]/60">
-                <Lock colorStroke={"#6e7079"} />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="w-full py-[16.5px] focus:outline-none bg-transparent text-[#ABAFB1]  transition-colors"
-                />
-              </div>
-              <p className="mt-3 text-right text-sm text-primary_100">
-                Forgot Password
-              </p>
+            <div>
+              <FormAuth />
             </div>
-
-            <div className="text-center mt-12">
-              <p className="text-night_30 text-sm">
-                Don&apos;t have an account?
-                <span className="text-primary_100"> Sign Up</span>
-              </p>
-              <button className="mt-12 bg-primary_100 text-white rounded-lg px-10 py-[17px]">
-                Login
-              </button>
-            </div>
-            {/* </form> */}
           </div>
         </Card>
       </div>
