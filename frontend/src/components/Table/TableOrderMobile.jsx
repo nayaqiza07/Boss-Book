@@ -1,5 +1,5 @@
 import { SelectMenuActions } from "../Select/SelectMenu";
-import { priceFormat } from "../utils";
+import { priceFormat } from "../utils/index.js";
 
 const TableOrderMobile = ({ orders }) => {
   return (

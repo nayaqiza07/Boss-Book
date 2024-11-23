@@ -1,34 +1,48 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Modal } from ".";
 import { ButtonModal } from "../Button/ButtonModal";
 import { HeaderModal } from "../Header/HeaderModal";
-// import { updateClient } from "../../api/clientApi";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { getClientById } from "../../api/clientApi";
+import FormInput from "../Form/FormInput";
+import FormTextarea from "../Form/FormTextarea";
+import { updateClient } from "../../api/clientApi";
 
-export const ModalEditClient = ({ openModalEdit, setOpenModalEdit }) => {
-  // Form
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-
+export const ModalEditClient = ({
+  openModalEdit,
+  setOpenModalEdit,
+  client,
+}) => {
   const { id } = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const apiUrl = import.meta.env.VITE_API_URL;
+  // const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    getClientById();
-  }, []);
+    getClientById(id);
+  }, [id]);
 
-  const getClientById = async () => {
-    const response = await axios.get(`${apiUrl}/clients/${id}`);
-    setName(response.data.name);
-    setEmail(response.data.email);
-    setPhone(response.data.phone);
-    setAddress(response.data.address);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Ambil semua Inputan
+    const form = e.target;
+    const dataForm = new FormData(form);
+    const data = Object.fromEntries(dataForm);
+    console.log(data);
+
+    updateClient(id, data.name, data.email, data.phone, data.address);
+
+    navigate("/client");
   };
+
+  // const getClientById = async () => {
+  //   const response = await axios.get(`${apiUrl}/clients/${id}`);
+  //   setName(response.data.name);
+  //   setEmail(response.data.email);
+  //   setPhone(response.data.phone);
+  //   setAddress(response.data.address);
+  // };
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -51,46 +65,46 @@ export const ModalEditClient = ({ openModalEdit, setOpenModalEdit }) => {
         {/* Header End */}
 
         {/* Content Start */}
-        {/* <form onSubmit={handleSubmit}> */}
         <div className="mt-7 max-h-96 overflow-y-auto lg:max-h-fit">
-          <h5 className="text-night_30 font-medium">Client Information {id}</h5>
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full mt-7 px-4 py-[16.5px] rounded-lg focus:outline-none focus:bg-[#E9ECF8]/90 bg-[#EFF1F9]/60 text-[#5E6366]  transition-colors"
-          />
+          <h5 className="text-night_30 font-medium">
+            Client Information #{id}
+          </h5>
+          <form onSubmit={handleSubmit} className="mt-7">
+            <FormInput
+              type="text"
+              icon={false}
+              name="name"
+              placeholder="Name"
+              defaultValue={client.name}
+            />
+            <FormInput
+              type="text"
+              icon={false}
+              name="email"
+              placeholder="Email"
+              defaultValue={client.email}
+            />
+            <FormInput
+              type="number"
+              icon={false}
+              name="phone"
+              placeholder="Phone"
+              defaultValue={client.phone}
+            />
+            <FormTextarea
+              type="text"
+              name="address"
+              placeholder="Address"
+              defaultValue={client.address}
+            />
 
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full mt-6 px-4 py-[16.5px] rounded-lg focus:outline-none focus:bg-[#E9ECF8]/90 bg-[#EFF1F9]/60 text-[#5E6366]  transition-colors"
-          />
-          <input
-            type="number"
-            placeholder="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full mt-6 px-4 py-[16.5px] rounded-lg focus:outline-none focus:bg-[#E9ECF8]/90 bg-[#EFF1F9]/60 text-[#5E6366]  transition-colors"
-          />
-          <textarea
-            type="textarea"
-            placeholder="Address"
-            rows={3}
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="w-full mt-6 px-4 py-[16.5px] rounded-lg focus:outline-none focus:bg-[#E9ECF8]/90 bg-[#EFF1F9]/60 text-[#5E6366]  transition-colors"
-          />
+            <ButtonModal
+              setOpenModal={setOpenModalEdit}
+              text={<span>Save</span>}
+            />
+          </form>
         </div>
         {/* Content End */}
-
-        {/* Footer Start */}
-        <ButtonModal setOpenModal={setOpenModalEdit} text={<span>Save</span>} />
-        {/* Footer End */}
-        {/* </form> */}
       </div>
     </Modal>
   );

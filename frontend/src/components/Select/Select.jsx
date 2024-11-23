@@ -1,50 +1,37 @@
 import { useState } from "react";
 import { HiOutlineChevronDown, HiOutlineSearch } from "react-icons/hi";
 
-export const SelectStatus = () => {
-  const [openSelect, setOpenSelect] = useState(false);
+const FormSelect = ({ name, placeholder, list }) => {
+  const [openSelectClient, setOpenSelectClient] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState("");
 
   const handleSelected = (value) => {
     setSelected(value);
-    setOpenSelect(false);
+    setOpenSelectClient(false);
   };
 
-  const datas = [
-    {
-      name: "Completed",
-    },
-    {
-      name: "In-Progress",
-    },
-    {
-      name: "Pending",
-    },
-  ];
-
   return (
-    <div className="relative mt-6">
-      <h6 className="text-[#5E6366] text-xs">Order Status</h6>
+    <div className="relative mt-7" name={name}>
       <div
-        onClick={() => setOpenSelect(!openSelect)}
-        className={`flex justify-between items-center mt-2 px-4 py-[16.5px] rounded-lg  text-[#ABAFB1] cursor-pointer transition-colors ${
-          openSelect ? "bg-[#E9ECF8]/90" : "bg-[#EFF1F9]/60"
+        onClick={() => setOpenSelectClient(!openSelectClient)}
+        className={`flex justify-between items-center px-4 py-[16.5px] rounded-lg text-[#ABAFB1] cursor-pointer transition-colors ${
+          openSelectClient ? "bg-[#E9ECF8]/90" : "bg-[#EFF1F9]/60"
         }`}
       >
         <span className={`truncate ${selected && "text-[#5E6366]"}`}>
-          {selected ? selected : "Select Status"}
+          {selected ? selected : placeholder}
         </span>
         <HiOutlineChevronDown
           size={20}
-          className={`transition-all ${openSelect && "rotate-180"}`}
+          className={`transition-all ${openSelectClient && "rotate-180"}`}
         />
       </div>
 
       {/* Dropdown Select Start */}
       <ul
         className={`absolute z-10 mt-2 overflow-y-auto rounded-b-lg border border-[#CFD3D4] bg-white text-[#2B2F32] cursor-pointer transition-all ${
-          openSelect ? "max-h-60" : "hidden"
+          openSelectClient ? "max-h-60" : "hidden"
         }`}
       >
         <div className="sticky top-0 py-3 bg-white">
@@ -60,19 +47,19 @@ export const SelectStatus = () => {
         </div>
 
         <div>
-          {datas
-            ?.filter((data) => {
+          {list
+            ?.filter((item) => {
               return search.toLowerCase() === ""
-                ? data
-                : data.name.toLowerCase().includes(search);
+                ? item
+                : item.name.toLowerCase().includes(search);
             })
-            .map((data) => (
+            .map((item) => (
               <li
-                key={data?.name}
-                onClick={() => handleSelected(data.name)}
+                key={item?.name}
+                onClick={() => handleSelected(item.name)}
                 className="w-full px-4 py-3 hover:bg-[#E9ECF8]/90 transition-all hover:pl-7"
               >
-                {data.name}
+                {item.name}
               </li>
             ))}
         </div>
@@ -81,3 +68,5 @@ export const SelectStatus = () => {
     </div>
   );
 };
+
+export default FormSelect;

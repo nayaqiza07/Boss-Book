@@ -2,7 +2,7 @@ import { Logo } from "../../assets/Icon/Logo";
 import { Card } from "../../components/Card/Card";
 import FormAuth from "../../components/Form/FormAuth";
 import { redirect } from "react-router-dom";
-import { loginUser } from "../../features/userSclice";
+import { loginUser } from "../../features/userSlice";
 import customAPI from "../../api/axios";
 import { toast } from "react-toastify";
 

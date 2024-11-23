@@ -1,8 +1,8 @@
 import { Checkbox } from "../Checkbox/Checkbox";
 import { SelectMenuActions } from "../Select/SelectMenu";
-import { priceFormat } from "../utils";
+import { priceFormat } from "../utils/index.js";
 
-const TableOrder = ({ orders }) => {
+const TableOrder = ({ orders, handleModalInvoice }) => {
   return (
     <table className="w-full">
       <thead className="border-b border-t border-[#E1E2E9]">
@@ -32,16 +32,17 @@ const TableOrder = ({ orders }) => {
 
             <td className="whitespace-nowrap text-primary_100 px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
               <span
-                // onClick={() => handleModalInvoice(order.orderNumber)}
+                onClick={() => handleModalInvoice(order.orderNumber)}
                 className="cursor-pointer "
               >
-                {/* {order.orderNumber} */}
+                {order.orderNumber}
               </span>
+
               {/* Stack Table Start */}
               <dl className="xl:hidden">
                 <dt className="sr-only">Client Name</dt>
                 <dd className="text-night_20 text-xs mt-1 truncate">
-                  {order.client}
+                  {/* {order.client} */}
                 </dd>
                 <dt className="sr-only">Date</dt>
                 <dd className="text-night_20 text-xs mt-1 truncate">
@@ -61,6 +62,11 @@ const TableOrder = ({ orders }) => {
             </td>
             <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
               {priceFormat(order.total)}
+            </td>
+            <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
+              {order.items.map((item) => (
+                <p key={item._id}>{item.name}</p>
+              ))}
             </td>
             <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
               <SelectMenuActions />

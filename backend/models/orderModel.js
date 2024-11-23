@@ -11,11 +11,17 @@ const singleItem = Schema({
 });
 
 const orderSchema = new Schema({
-  client: {
-    type: Schema.ObjectId,
-    ref: "Client",
+  orderNumber: {
+    type: String,
     required: true,
   },
+  client: [
+    {
+      type: Schema.ObjectId,
+      ref: "Client",
+      required: true,
+    },
+  ],
   date: {
     type: String,
     required: true,

@@ -25,6 +25,18 @@ const Order = () => {
   const [openModalInvoice, setOpenModalInvoice] = useState(false);
   const orders = useLoaderData();
 
+  const handleModalInvoice = () => {
+    setOpenModalInvoice(true);
+  };
+
+  const filterPending = orders.filter((order) => order.status === "Pending");
+  const filterInProgress = orders.filter(
+    (order) => order.status === "In-Progress"
+  );
+  const filterCompleted = orders.filter(
+    (order) => order.status === "Completed"
+  );
+
   return (
     <div className="p-5 grid gap-5">
       {/* Top Start */}
@@ -54,19 +66,25 @@ const Order = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <div>
               <h5 className="text-night_30">All Orders</h5>
-              <p className="text-night_60 font-medium">0</p>
+              <p className="text-night_60 font-medium">{orders.length}</p>
             </div>
             <div>
               <h5 className="text-night_30">Pending</h5>
-              <p className="text-night_60 font-medium">0</p>
+              <p className="text-night_60 font-medium">
+                {filterPending.length}
+              </p>
             </div>
             <div>
               <h5 className="text-night_30">In-Progress</h5>
-              <p className="text-night_60 font-medium">0</p>
+              <p className="text-night_60 font-medium">
+                {filterInProgress.length}
+              </p>
             </div>
             <div>
               <h5 className="text-night_30">Completed</h5>
-              <p className="text-night_60 font-medium">0</p>
+              <p className="text-night_60 font-medium">
+                {filterCompleted.length}
+              </p>
             </div>
           </div>
         </Card>
@@ -122,7 +140,10 @@ const Order = () => {
 
           {/* Third Table Start */}
           <div className="hidden overflow-x-auto mt-5 md:block">
-            <TableOrder orders={orders} />
+            <TableOrder
+              orders={orders}
+              handleModalInvoice={handleModalInvoice}
+            />
           </div>
           {/* Third Table End */}
 

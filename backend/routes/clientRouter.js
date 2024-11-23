@@ -18,7 +18,7 @@ const router = express.Router();
 // Create Data Client
 // POST /api/v1/client
 // Middleware agar hanya bisa diakses oleh Owner yang telah melakukan autentikasi
-router.post("/", protectedMiddleware, ownerMiddleware, createClient);
+router.post("/", protectedMiddleware, createClient);
 
 // Read Data Client
 // GET /api/v1/client

@@ -1,18 +1,22 @@
-import { useState } from "react";
 import { Modal } from ".";
 import { ButtonModal } from "../Button/ButtonModal";
 import { HeaderModal } from "../Header/HeaderModal";
+import FormInput from "../Form/FormInput";
+import FormTextarea from "../Form/FormTextarea";
+import { createClient } from "../../api/clientApi";
 
-export const ModalAddClient = ({
-  openModalClient,
-  setOpenModalClient,
-  setClients,
-}) => {
-  // Form
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+export const ModalAddClient = ({ openModalClient, setOpenModalClient }) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Ambil semua Inputan
+    const form = e.target;
+    const dataForm = new FormData(form);
+    const data = Object.fromEntries(dataForm);
+    console.log(data);
+
+    createClient(data.name, data.email, data.phone, data.address);
+  };
 
   return (
     <Modal
@@ -28,49 +32,37 @@ export const ModalAddClient = ({
         {/* Header End */}
 
         {/* Content Start */}
-        {/* <form> */}
         <div className="mt-7 max-h-96 overflow-y-auto lg:max-h-fit">
           <h5 className="text-night_30 font-medium">Client Information</h5>
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full mt-7 px-4 py-[16.5px] rounded-lg focus:outline-none focus:bg-[#E9ECF8]/90 bg-[#EFF1F9]/60 text-[#5E6366]  transition-colors"
-          />
 
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full mt-6 px-4 py-[16.5px] rounded-lg focus:outline-none focus:bg-[#E9ECF8]/90 bg-[#EFF1F9]/60 text-[#5E6366]  transition-colors"
-          />
-          <input
-            type="number"
-            placeholder="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full mt-6 px-4 py-[16.5px] rounded-lg focus:outline-none focus:bg-[#E9ECF8]/90 bg-[#EFF1F9]/60 text-[#5E6366]  transition-colors"
-          />
-          <textarea
-            type="textarea"
-            placeholder="Address"
-            rows={3}
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="w-full mt-6 px-4 py-[16.5px] rounded-lg focus:outline-none focus:bg-[#E9ECF8]/90 bg-[#EFF1F9]/60 text-[#5E6366]  transition-colors"
-          />
+          <form onSubmit={handleSubmit} className="mt-7">
+            <FormInput
+              type="text"
+              icon={false}
+              name="name"
+              placeholder="Name"
+            />
+            <FormInput
+              type="text"
+              icon={false}
+              name="email"
+              placeholder="Email"
+            />
+            <FormInput
+              type="number"
+              icon={false}
+              name="phone"
+              placeholder="Phone"
+            />
+            <FormTextarea type="text" name="address" placeholder="Address" />
+
+            <ButtonModal
+              setOpenModal={setOpenModalClient}
+              text={<span>Add</span>}
+            />
+          </form>
         </div>
         {/* Content End */}
-
-        {/* Footer Start */}
-        <ButtonModal
-          setOpenModal={setOpenModalClient}
-          text={<span>Add</span>}
-        />
-        {/* Footer End */}
-        {/* </form> */}
       </div>
     </Modal>
   );

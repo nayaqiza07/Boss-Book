@@ -3,7 +3,7 @@ import Order from "../models/orderModel.js";
 
 // Create Order
 export const createOrder = asyncHandler(async (req, res) => {
-  const { client, date, items } = req.body;
+  const { orderNumber, client, date, items } = req.body;
 
   // Jika item tidak dimasukkan, maka tampilkan error
   if (!items || items.length < 1) {
@@ -31,6 +31,7 @@ export const createOrder = asyncHandler(async (req, res) => {
   }
 
   const newOrder = await Order.create({
+    orderNumber,
     client,
     date,
     total: total,

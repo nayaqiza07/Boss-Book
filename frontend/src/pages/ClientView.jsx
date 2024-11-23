@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { EditSquare, Delete } from "../components/Icon/Icon";
 import { Modal } from "../components/Modal";
 import { ModalEditClient } from "../components/Modal/ModalEditClient";
 import { HeaderModal } from "../components/Header/HeaderModal";
 import Cards from "../components/Card/Cards";
-import { getClientById } from "../api/clientApi";
+import { getClientById, deleteClient } from "../api/clientApi";
 
 const ClientView = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [client, setClient] = useState("");
 
@@ -20,6 +21,11 @@ const ClientView = () => {
       setClient(result);
     });
   }, [id]);
+
+  const handleDeleteClient = () => {
+    deleteClient(id);
+    navigate("/client");
+  };
 
   return (
     <div className="p-5 grid gap-5 lg:grid-cols-3">
@@ -68,6 +74,7 @@ const ClientView = () => {
       <ModalEditClient
         openModalEdit={modalEdit}
         setOpenModalEdit={setModalEdit}
+        client={client}
       />
 
       {/* Modal Delete Start */}
@@ -93,7 +100,7 @@ const ClientView = () => {
               Cancel
             </button>
             <button
-              // onClick={() => handleDeleteClient(id)}
+              onClick={() => handleDeleteClient(id)}
               className="w-full px-3 py-2 text-lg rounded-xl border-2 border-action_stop bg-action_stop text-white transition-all hover:scale-105 lg:w-44"
             >
               Delete

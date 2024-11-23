@@ -3,7 +3,7 @@ import { SidebarItem } from "./SidebarItem";
 import { Logo } from "../Icon/Icon";
 import { useDispatch } from "react-redux";
 import customAPI from "../../api/axios";
-import { logoutUser } from "../../features/userSclice";
+import { logoutUser } from "../../features/userSlice";
 
 export const Sidebar = ({ sidebarOpen }) => {
   const dispatch = useDispatch();

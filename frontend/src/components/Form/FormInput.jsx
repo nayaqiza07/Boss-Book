@@ -1,12 +1,22 @@
-const FormInput = ({ icon, name, type, placeholder, defaultValue }) => {
+const FormInput = ({
+  icon,
+  name,
+  type,
+  placeholder,
+  defaultValue,
+  readonly,
+}) => {
   return (
-    <div className="flex items-center px-4 gap-3 mt-7 rounded-lg bg-[#EFF1F9]/60">
-      {icon}
+    <div className="flex items-center gap-3 mb-7 rounded-lg bg-[#EFF1F9]/60">
+      {icon ? <span className="ml-4">{icon}</span> : null}
+
       <input
         type={type}
         name={name}
         placeholder={placeholder}
-        className="w-full py-[16.5px] focus:outline-none bg-transparent text-[#ABAFB1] transition-colors"
+        defaultValue={defaultValue}
+        readOnly={readonly}
+        className="w-full px-4 py-[16.5px] rounded-lg focus:outline-none bg-transparent text-[#ABAFB1] focus:bg-[#E9ECF8]/90 transition-colors"
       />
     </div>
   );
