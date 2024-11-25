@@ -1,11 +1,6 @@
-import { HiOutlineDownload } from "react-icons/hi";
 import { Modal } from ".";
 
-export const ModalInvoice = ({
-  openModalInvoice,
-  setOpenModalInvoice,
-  orderNumber,
-}) => {
+export const ModalInvoice = ({ openModalInvoice, setOpenModalInvoice }) => {
   return (
     <Modal
       openModal={openModalInvoice}
@@ -13,7 +8,7 @@ export const ModalInvoice = ({
     >
       <div className="w-80 h-60">
         {/* Head Modal Invoice Start */}
-        <h2 className="text-primary_100">#{orderNumber}</h2>
+        <h2 className="text-primary_100">#0</h2>
         {/* Head Modal Invoice End */}
 
         {/* Content Modal Invoice Start */}
@@ -25,7 +20,7 @@ export const ModalInvoice = ({
         {/* Footer Modal Invoice Start */}
         <div className="flex justify-between content-end mt-5 border">
           <button className="flex items-center text-primary_100 gap-3">
-            <HiOutlineDownload size={20} />
+            {/* <HiOutlineDownload size={20} /> */}
             Download Invoice
           </button>
 

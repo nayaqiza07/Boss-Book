@@ -18,7 +18,6 @@ export const getOrderById = async (id) => {
 };
 
 // POST Order
-
 export const createOrder = async (orderNumber, client, date, status, items) => {
   try {
     const { data } = await customAPI.post("/order", {
@@ -33,5 +32,16 @@ export const createOrder = async (orderNumber, client, date, status, items) => {
   } catch (error) {
     const errorMessage = error?.response?.data?.message;
     toast.error(errorMessage);
+  }
+};
+
+// GET Client Order
+export const getClientOrder = async (id) => {
+  try {
+    const { data } = await customAPI.get(`/order/current/client/${id}`);
+    // console.log(data.data);
+    return data.data;
+  } catch (error) {
+    console.log(error);
   }
 };

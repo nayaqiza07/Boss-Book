@@ -7,6 +7,9 @@ import PublicLayout from "./layouts/PublicLayout";
 import LoginView from "./pages/auth/LoginView";
 import SignUpView from "./pages/auth/SignUpView";
 
+// Protect Route
+import ProtectedRoute from "./components/utils/ProtectedRoute";
+
 // Page Component
 import Dashboard from "./pages/Dashboard";
 import Transaksi from "./pages/Transaksi";
@@ -33,7 +36,7 @@ import { store } from "./store";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PublicLayout />,
+    element: <ProtectedRoute element={<PublicLayout />} />,
     children: [
       {
         index: true,
@@ -74,7 +77,7 @@ const router = createBrowserRouter([
         loader: () => getClients(),
       },
       {
-        path: "client/view/:id",
+        path: "client/order/current/client/:id",
         element: <ClientView />,
       },
     ],

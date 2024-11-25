@@ -1,9 +1,7 @@
-import { useEffect } from "react";
 import { Modal } from ".";
 import { ButtonModal } from "../Button/ButtonModal";
 import { HeaderModal } from "../Header/HeaderModal";
-import { useParams, useNavigate } from "react-router-dom";
-import { getClientById } from "../../api/clientApi";
+import { useParams } from "react-router-dom";
 import FormInput from "../Form/FormInput";
 import FormTextarea from "../Form/FormTextarea";
 import { updateClient } from "../../api/clientApi";
@@ -12,15 +10,9 @@ export const ModalEditClient = ({
   openModalEdit,
   setOpenModalEdit,
   client,
+  setClient,
 }) => {
   const { id } = useParams();
-  const navigate = useNavigate();
-
-  // const apiUrl = import.meta.env.VITE_API_URL;
-
-  useEffect(() => {
-    getClientById(id);
-  }, [id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,30 +21,11 @@ export const ModalEditClient = ({
     const form = e.target;
     const dataForm = new FormData(form);
     const data = Object.fromEntries(dataForm);
-    console.log(data);
+    // console.log(data);
 
     updateClient(id, data.name, data.email, data.phone, data.address);
-
-    navigate("/client");
+    setClient(data);
   };
-
-  // const getClientById = async () => {
-  //   const response = await axios.get(`${apiUrl}/clients/${id}`);
-  //   setName(response.data.name);
-  //   setEmail(response.data.email);
-  //   setPhone(response.data.phone);
-  //   setAddress(response.data.address);
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await updateClient(id, name, email, phone, address);
-  //     navigate(`/client`);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   return (
     <Modal

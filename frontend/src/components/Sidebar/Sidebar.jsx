@@ -1,11 +1,13 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SidebarItem } from "./SidebarItem";
 import { Logo } from "../Icon/Icon";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import customAPI from "../../api/axios";
 import { logoutUser } from "../../features/userSlice";
 
 export const Sidebar = ({ sidebarOpen }) => {
+  const user = useSelector((state) => state.userState.user);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = async () => {
@@ -38,14 +40,16 @@ export const Sidebar = ({ sidebarOpen }) => {
         {/* Sidebar Menus End */}
 
         {/* Logout */}
-        <div className={`px-3 py-7`}>
-          <button
-            onClick={handleLogout}
-            className="ml-3 p-3 rounded-lg bg-secondary_100"
-          >
-            Logout
-          </button>
-        </div>
+        {user && (
+          <div className={`px-3 py-7`}>
+            <button
+              onClick={handleLogout}
+              className="ml-3 p-3 rounded-lg bg-secondary_100"
+            >
+              Logout
+            </button>
+          </div>
+        )}
       </nav>
     </aside>
   );
@@ -65,7 +69,7 @@ export const SidebarMenus = ({ item }) => {
               : "text-night_50 hover:bg-[#5570f1]/20 hover:text-primary_100"
           }`}
         >
-          {pathname === item.path ? item.icon2 : item.icon}
+          {item.icon}
           <span className={`overflow-hidden transition-all flex-1 ml-3`}>
             {item.label}
           </span>

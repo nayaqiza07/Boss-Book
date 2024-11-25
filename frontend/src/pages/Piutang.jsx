@@ -1,4 +1,3 @@
-import { BiSolidPlusCircle } from "react-icons/bi";
 import { Modal } from "../components/Modal";
 import { useState } from "react";
 import { SidebarItem } from "../components/Sidebar/SidebarItem";
@@ -84,7 +83,7 @@ const Piutang = () => {
                 className="text-sm lg:text-md rounded-lg px-3 py-2 flex items-center text-white bg-[#3c3dbf] transition all hover:scale-110"
               >
                 Tambah
-                <BiSolidPlusCircle className="ml-1" />
+                {/* <BiSolidPlusCircle className="ml-1" /> */}
               </button>
             </div>
           </div>

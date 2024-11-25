@@ -7,13 +7,6 @@ import {
   SelectMenuMonth,
   SelectMenuPages,
 } from "../components/Select/SelectMenu";
-import {
-  HiOutlineReceiptRefund,
-  HiChevronRight,
-  HiChevronLeft,
-  HiOutlineFilter,
-  HiOutlineCalendar,
-} from "react-icons/hi";
 
 import { AddUser, User2 } from "../components/Icon/Icon";
 import { DataEmpty } from "../components/Alert/DataEmpty";
@@ -70,7 +63,7 @@ const Client = () => {
         <Card>
           <div className="flex justify-between">
             <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              <HiOutlineReceiptRefund size={20} color="#130F26" />
+              {/* <HiOutlineReceiptRefund size={20} color="#130F26" /> */}
             </div>
             <SelectMenuMonth />
           </div>
@@ -114,11 +107,11 @@ const Client = () => {
                     className="border rounded focus:outline-none w-20 lg:w-fit px-2 py-1"
                   />
                   <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
-                    <HiOutlineFilter />
+                    {/* <HiOutlineFilter /> */}
                     Filter
                   </button>
                   <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
-                    <HiOutlineCalendar />
+                    {/* <HiOutlineCalendar /> */}
                     Filter
                   </button>
                 </div>
@@ -147,10 +140,10 @@ const Client = () => {
                 </div>
 
                 <div className="flex flex-row items-center gap-3">
-                  <HiChevronLeft size={25} color="#666666" />
+                  {/* <HiChevronLeft size={25} color="#666666" /> */}
                   <SelectMenuPages />
                   <p className="text-[#666666] text-sm">of 10 pages</p>
-                  <HiChevronRight size={25} color="#666666" />
+                  {/* <HiChevronRight size={25} color="#666666" /> */}
                 </div>
               </div>
               {/* Third Pagination End */}

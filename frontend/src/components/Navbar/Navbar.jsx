@@ -1,5 +1,5 @@
-import { HiMenuAlt1 } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { Menu03Icon } from "hugeicons-react";
 
 export const Navbar = ({ setSidebarOpen, sidebarOpen }) => {
   const user = useSelector((state) => state.userState.user);
@@ -12,7 +12,7 @@ export const Navbar = ({ setSidebarOpen, sidebarOpen }) => {
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="lg:hidden"
           >
-            <HiMenuAlt1 size={20} />
+            <Menu03Icon />
           </button>
           <input
             type="search"

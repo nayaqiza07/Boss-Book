@@ -1,7 +1,17 @@
 import { Bag, Location, User2 } from "../Icon/Icon";
 import { SelectMenuMonth } from "../Select/SelectMenu";
 
-const Cards = ({ type, name, email, phone, address }) => {
+const Cards = ({
+  type,
+  name,
+  email,
+  phone,
+  address,
+  totalOrder,
+  filterPending,
+  filterInProgress,
+  filterCompleted,
+}) => {
   let data;
 
   switch (type) {
@@ -49,13 +59,29 @@ const Cards = ({ type, name, email, phone, address }) => {
           </div>
         ),
         text2: <h6 className="text-night_30 text-xs">All Order</h6>,
-        val2: <span className="text-night_60 text-sm font-medium">0</span>,
+        val2: (
+          <span className="text-night_60 text-sm font-medium">
+            {totalOrder}
+          </span>
+        ),
         text3: <h6 className="text-night_30 text-xs">Pending</h6>,
-        val3: <span className="text-night_60 text-sm font-medium">0</span>,
+        val3: (
+          <span className="text-night_60 text-sm font-medium">
+            {filterPending}
+          </span>
+        ),
         text4: <h6 className="text-night_30 text-xs">In-Progress</h6>,
-        val4: <span className="text-night_60 text-sm font-medium">0</span>,
+        val4: (
+          <span className="text-night_60 text-sm font-medium">
+            {filterInProgress}
+          </span>
+        ),
         text5: <h6 className="text-night_30 text-xs">Completed</h6>,
-        val5: <span className="text-night_60 text-sm font-medium">0</span>,
+        val5: (
+          <span className="text-night_60 text-sm font-medium">
+            {filterCompleted}
+          </span>
+        ),
         filter: <SelectMenuMonth />,
         colSpan: false,
       };

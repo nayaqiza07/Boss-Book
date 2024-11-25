@@ -11,7 +11,7 @@ export const action =
   async ({ request }) => {
     const formInputData = await request.formData();
     const data = Object.fromEntries(formInputData);
-    console.log(data);
+    // console.log(data);
 
     try {
       const response = await customAPI.post("/auth/register", data);

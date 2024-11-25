@@ -5,6 +5,7 @@ const FormInput = ({
   placeholder,
   defaultValue,
   readonly,
+  onChange,
 }) => {
   return (
     <div className="flex items-center gap-3 mb-7 rounded-lg bg-[#EFF1F9]/60">
@@ -16,6 +17,7 @@ const FormInput = ({
         placeholder={placeholder}
         defaultValue={defaultValue}
         readOnly={readonly}
+        onChange={onChange}
         className="w-full px-4 py-[16.5px] rounded-lg focus:outline-none bg-transparent text-[#ABAFB1] focus:bg-[#E9ECF8]/90 transition-colors"
       />
     </div>

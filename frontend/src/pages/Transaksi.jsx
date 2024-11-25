@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Select from "react-select";
-import { GoArrowDownLeft, GoArrowUpRight } from "react-icons/go";
-import { BiSolidPlusCircle, BiSolidMinusCircle } from "react-icons/bi";
+
 import { Modal } from "../components/Modal";
 
 const Transaksi = () => {
@@ -194,7 +193,7 @@ const Transaksi = () => {
           {/* Pemasukan Start */}
           <div className="p-4 border border-[#f4f4f4] bg-white rounded-xl shadow-md">
             <div className="rounded-md w-fit p-2 text-[#3c3dbf] bg-[#e4e5ff] mb-1">
-              <GoArrowDownLeft size={20} />
+              {/* <GoArrowDownLeft size={20} /> */}
             </div>
             <span className="text-[#a1a1a1] text-xs">Pemasukan</span>
             <h4 className="text-md lg:text-2xl font-bold text-[#454545]">
@@ -208,7 +207,7 @@ const Transaksi = () => {
           {/* Pengeluaran Start */}
           <div className="p-4 border border-[#f4f4f4] bg-white rounded-xl shadow-md">
             <div className="rounded-md w-fit p-2 text-[#ff3666] bg-[#ffecf0] mb-1">
-              <GoArrowUpRight size={20} />
+              {/* <GoArrowUpRight size={20} /> */}
             </div>
             <span className="text-[#a1a1a1] text-xs">Pengeluaran</span>
             <h4 className="text-md lg:text-2xl font-bold text-[#454545]">
@@ -235,14 +234,14 @@ const Transaksi = () => {
                 className="text-sm lg:text-md rounded-lg px-3 py-2 flex items-center text-white bg-[#3c3dbf] transition all hover:scale-110"
               >
                 Pemasukan
-                <BiSolidPlusCircle className="ml-1" />
+                {/* <BiSolidPlusCircle className="ml-1" /> */}
               </button>
               <button
                 onClick={handleModalPengeluaran}
                 className="text-sm lg:text-md rounded-lg px-3 py-2 flex items-center text-white bg-[#FF3666] transition all hover:scale-110"
               >
                 Pengeluaran
-                <BiSolidMinusCircle className="ml-1" />
+                {/* <BiSolidMinusCircle className="ml-1" /> */}
               </button>
             </div>
           </div>
@@ -331,11 +330,11 @@ const Transaksi = () => {
                               : "text-[#FF3666] bg-[#FFECF0]"
                           }`}
                         >
-                          {transaction.status === "In" ? (
+                          {/* {transaction.status === "In" ? (
                             <GoArrowDownLeft size={20} />
                           ) : (
                             <GoArrowUpRight size={20} />
-                          )}
+                          )} */}
                         </div>
                         <div className="leading-3">
                           <h6 className="text-[#454545] text-sm">

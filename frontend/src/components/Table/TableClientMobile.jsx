@@ -8,7 +8,7 @@ const TableClientMobile = ({ clients }) => {
         <div key={index + 1} className="p-3 border border-[#E1E2E9] rounded-lg">
           <div className="flex justify-between">
             <h1 className="font-medium text-night_40">{client.name}</h1>
-            <Link to={`view/${client._id}`}>
+            <Link to={`order/current/client/${client._id}`}>
               <button className="rounded-lg p-1 bg-[#97a5eb]/20 transition-all hover:scale-110">
                 <EditSquare colorStroke={"#5570f1"} />
               </button>

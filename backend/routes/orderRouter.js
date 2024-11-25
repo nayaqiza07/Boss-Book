@@ -23,7 +23,7 @@ router.post("/", protectedMiddleware, createOrder);
 // Read All Data Order
 // GET /api/v1/order
 // Middleware agar hanya bisa diakses oleh Owner
-router.get("/", allOrder);
+router.get("/", protectedMiddleware, allOrder);
 
 // Read Detail Data Order
 // GET /api/v1/order/id

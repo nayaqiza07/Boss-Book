@@ -2,8 +2,7 @@ import { Checkbox } from "../Checkbox/Checkbox";
 import { SelectMenuActions } from "../Select/SelectMenu";
 import { priceFormat } from "../utils";
 
-const TableOrder = ({ orders, handleModalInvoice }) => {
-  // console.log(orders);
+const TableClientOrder = ({ clientOrder }) => {
   return (
     <table className="w-full">
       <thead className="border-b border-t border-[#E1E2E9]">
@@ -12,20 +11,15 @@ const TableOrder = ({ orders, handleModalInvoice }) => {
             <Checkbox />
           </th>
           <th className="font-normal px-6 py-3">Order Number</th>
-          <th className="font-normal px-6 py-3 hidden xl:table-cell">
-            Client Name
-          </th>
-          <th className="font-normal px-6 py-3 hidden sm:table-cell">
-            Address
-          </th>
           <th className="font-normal px-6 py-3 hidden xl:table-cell">Date</th>
           <th className="font-normal px-6 py-3 hidden md:table-cell">Total</th>
+          <th className="font-normal px-6 py-3 hidden md:table-cell">Items</th>
           <th className="font-normal px-6 py-3 hidden md:table-cell">Action</th>
           <th className="font-normal px-6 py-3">Status</th>
         </tr>
       </thead>
       <tbody className="border-b border-[#E1E2E9]">
-        {orders.map((order) => (
+        {clientOrder.map((order) => (
           <tr key={order._id} className="text-night_40 text-left text-sm">
             <td className="py-3">
               <Checkbox />
@@ -33,7 +27,7 @@ const TableOrder = ({ orders, handleModalInvoice }) => {
 
             <td className="whitespace-nowrap text-primary_100 px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
               <span
-                onClick={() => handleModalInvoice(order._id)}
+                // onClick={() => handleModalInvoice(order.orderNumber)}
                 className="cursor-pointer "
               >
                 {order.orderNumber}
@@ -53,22 +47,16 @@ const TableOrder = ({ orders, handleModalInvoice }) => {
               {/* Stack Table End */}
             </td>
             <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
-              {order.client}
-            </td>
-            <td className="whitespace-nowrap  px-6 py-3 hidden md:table-cell">
-              {order.address}
-            </td>
-            <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
               {order.date}
             </td>
             <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
               {priceFormat(order.total)}
             </td>
-            {/* <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
+            <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
               {order.items.map((item) => (
                 <p key={item._id}>{item.name}</p>
               ))}
-            </td> */}
+            </td>
             <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
               <SelectMenuActions />
             </td>
@@ -92,4 +80,4 @@ const TableOrder = ({ orders, handleModalInvoice }) => {
   );
 };
 
-export default TableOrder;
+export default TableClientOrder;

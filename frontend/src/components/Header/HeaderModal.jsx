@@ -1,5 +1,3 @@
-import { HiOutlineX } from "react-icons/hi";
-
 export const HeaderModal = ({ setOpenModal, title }) => {
   return (
     <div className="flex justify-between items-center">
@@ -8,7 +6,7 @@ export const HeaderModal = ({ setOpenModal, title }) => {
         onClick={() => setOpenModal(false)}
         className="bg-secondary_30 rounded-lg w-8 h-8"
       >
-        <HiOutlineX size={20} className="mx-auto" />
+        {/* <HiOutlineX size={20} className="mx-auto" /> */}
       </button>
     </div>
   );

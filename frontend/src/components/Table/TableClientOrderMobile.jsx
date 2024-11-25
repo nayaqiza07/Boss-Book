@@ -1,14 +1,14 @@
 import { SelectMenuActions } from "../Select/SelectMenu";
 import { priceFormat } from "../utils";
 
-const TableOrderMobile = ({ orders }) => {
+const TableClientOrderMobile = ({ clientOrder }) => {
   return (
     <>
-      {orders.map((order) => (
+      {clientOrder.map((order) => (
         <div key={order._id} className="p-3 border border-[#E1E2E9] rounded-lg">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
-              <h1 className="font-medium text-night_40">{order.client}</h1>
+              <h1 className="font-medium text-night_40">{order.orderNumber}</h1>
               <span
                 className={`px-3 text-xs py-1 rounded w-fit ml-3 ${
                   order.status === "Completed"
@@ -42,4 +42,4 @@ const TableOrderMobile = ({ orders }) => {
   );
 };
 
-export default TableOrderMobile;
+export default TableClientOrderMobile;

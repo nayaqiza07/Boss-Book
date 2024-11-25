@@ -60,7 +60,7 @@ const TableClient = ({ clients, search }) => {
                   {client.phone}
                 </td>
                 <td className="whitespace-nowrap px-6 py-3 hidden sm:table-cell">
-                  <Link to={`view/${client._id}`}>
+                  <Link to={`order/current/client/${client._id}`}>
                     <button className="rounded-lg p-1 bg-[#97a5eb]/20 transition-all hover:scale-110">
                       <EditSquare colorStroke={"#5570f1"} />
                     </button>

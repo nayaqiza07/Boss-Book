@@ -1,13 +1,9 @@
-// import { Content } from "../components/Content";
-
-import { HiOutlineShoppingBag, HiOutlineUsers } from "react-icons/hi";
 import { SelectMenuMonth } from "../components/Select/SelectMenu";
 import { Card, CardPrimary, CardCol, CardRow } from "../components/Card/Card";
 import { useEffect, useState } from "react";
 import { getClients } from "../api/clientApi";
 import { SummaryChart } from "../components/Chart/SummaryChart";
 import { OrderStatusChart } from "../components/Chart/OrderStatusChart";
-import { GoDotFill } from "react-icons/go";
 
 const Dashboard = () => {
   const [clients, setClients] = useState([]);
@@ -24,7 +20,7 @@ const Dashboard = () => {
       <Card>
         <div className="flex justify-between">
           <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-            <HiOutlineUsers size={20} color="#130F26" />
+            {/* <HiOutlineUsers size={20} color="#130F26" /> */}
           </div>
           <SelectMenuMonth />
         </div>
@@ -47,7 +43,7 @@ const Dashboard = () => {
       <Card>
         <div className="flex justify-between">
           <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-            <HiOutlineUsers size={20} color="#130F26" />
+            {/* <HiOutlineUsers size={20} color="#130F26" /> */}
           </div>
           <SelectMenuMonth />
         </div>
@@ -70,7 +66,7 @@ const Dashboard = () => {
       <Card>
         <div className="flex justify-between">
           <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-            <HiOutlineShoppingBag size={20} color="#130F26" />
+            {/* <HiOutlineShoppingBag size={20} color="#130F26" /> */}
           </div>
           <SelectMenuMonth />
         </div>
@@ -105,15 +101,15 @@ const Dashboard = () => {
           </div>
           <div className="mt-3 flex flex-row justify-between items-center">
             <div className="flex gap-2">
-              <GoDotFill color="#5570f1" />
+              {/* <GoDotFill color="#5570f1" /> */}
               <span className="text-night_10 text-xs">Completed</span>
             </div>
             <div className="flex gap-2">
-              <GoDotFill color="#97a5eb" />
+              {/* <GoDotFill color="#97a5eb" /> */}
               <span className="text-night_10 text-xs">In-Progress</span>
             </div>
             <div className="flex gap-2">
-              <GoDotFill color="#ffcc91" />
+              {/* <GoDotFill color="#ffcc91" /> */}
               <span className="text-night_10 text-xs">Pending</span>
             </div>
           </div>
@@ -127,7 +123,7 @@ const Dashboard = () => {
         <CardPrimary>
           <div className="flex justify-between">
             <div className="bg-white/15 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              <HiOutlineUsers size={20} color="white" />
+              {/* <HiOutlineUsers size={20} color="white" /> */}
             </div>
           </div>
           <div className="grid grid-cols-2 mt-7">
@@ -145,7 +141,7 @@ const Dashboard = () => {
         <Card>
           <div className="flex justify-between">
             <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              <HiOutlineUsers size={20} color="#130F26" />
+              {/* <HiOutlineUsers size={20} color="#130F26" /> */}
             </div>
             <SelectMenuMonth />
           </div>

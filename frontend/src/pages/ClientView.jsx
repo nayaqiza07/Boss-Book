@@ -6,26 +6,52 @@ import { ModalEditClient } from "../components/Modal/ModalEditClient";
 import { HeaderModal } from "../components/Header/HeaderModal";
 import Cards from "../components/Card/Cards";
 import { getClientById, deleteClient } from "../api/clientApi";
+import { getClientOrder } from "../api/orderApi";
+import TableClientOrder from "../components/Table/TableClientOrder";
+import { Card } from "../components/Card/Card";
+import TableClientOrderMobile from "../components/Table/TableClientOrderMobile";
+import { DataEmpty } from "../components/Alert/DataEmpty";
+import { ShopBag } from "../assets/Icon/ShopBag";
 
 const ClientView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [client, setClient] = useState("");
+  const [clientOrder, setClientOrder] = useState([]);
 
   const [modalDelete, setModalDelete] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
 
   useEffect(() => {
+    handleClientById();
+    handleClientOrder();
+  }, []);
+
+  const handleClientById = () => {
     getClientById(id).then((result) => {
       setClient(result);
     });
-  }, [id]);
+  };
+
+  const handleClientOrder = () => {
+    getClientOrder(id).then((result) => {
+      setClientOrder(result);
+    });
+  };
 
   const handleDeleteClient = () => {
     deleteClient(id);
     navigate("/client");
   };
+
+  const filterPending = clientOrder.filter((item) => item.status === "Pending");
+  const filterInProgress = clientOrder.filter(
+    (item) => item.status === "In-Progress"
+  );
+  const filterCompleted = clientOrder.filter(
+    (item) => item.status === "Completed"
+  );
 
   return (
     <div className="p-5 grid gap-5 lg:grid-cols-3">
@@ -67,14 +93,43 @@ const ClientView = () => {
         email={client.email}
       />
       <Cards type="address" address={client.address} />
-      <Cards type="order" />
-      <Cards type="table" name={client.name} />
+      <Cards
+        type="order"
+        totalOrder={clientOrder.length}
+        filterPending={filterPending.length}
+        filterInProgress={filterInProgress.length}
+        filterCompleted={filterCompleted.length}
+      />
+
+      <Card colSpan="lg:col-span-3">
+        {clientOrder.length === 0 ? (
+          <DataEmpty
+            icon={<ShopBag />}
+            title={"Add Your Order"}
+            subTitle={"Add Order to this section"}
+          />
+        ) : (
+          <>
+            <h1>{client.name} Orders</h1>
+            <div className="hidden overflow-x-auto mt-5 md:block">
+              <TableClientOrder clientOrder={clientOrder} />
+            </div>
+
+            {/* Table view up to the `md:` breakpoint Start  */}
+            <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
+              <TableClientOrderMobile clientOrder={clientOrder} />
+            </div>
+            {/* Table view up to the `md:` breakpoint End  */}
+          </>
+        )}
+      </Card>
       {/* Content End */}
 
       <ModalEditClient
         openModalEdit={modalEdit}
         setOpenModalEdit={setModalEdit}
         client={client}
+        setClient={setClient}
       />
 
       {/* Modal Delete Start */}

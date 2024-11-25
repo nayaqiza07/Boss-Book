@@ -1,45 +1,31 @@
 import {
-  Bag,
-  Buy,
-  Category,
-  Document,
-  PaperPlus,
-  PaperNegative,
-  User2,
-} from "../Icon/Icon";
-
-import {
-  BagBulk,
-  BuyBulk,
-  CategoryBulk,
-  DocumentBulk,
-  PaperNegativeBulk,
-  PaperPlusBulk,
-  SwapBulk,
-  User2Bulk,
-} from "../../assets/Icon/SidebarIcon";
+  DashboardSquare01Icon,
+  TransactionIcon,
+  AutoConversationsIcon,
+  AlignBoxTopLeftIcon,
+  ShoppingBag02Icon,
+  Calculator01Icon,
+  UserMultipleIcon,
+} from "hugeicons-react";
 
 export const SidebarItem = [
   {
     key: "dashboard",
     label: "Dashboard",
     path: "/",
-    icon: <Category colorStroke={"#53545c"} />,
-    icon2: <CategoryBulk />,
+    icon: <DashboardSquare01Icon size={20} />,
   },
   {
     key: "transaksi",
     label: "Transaksi",
     path: "/transaksi",
-    icon: <Buy colorStroke={"#53545c"} />,
-    icon2: <BuyBulk />,
+    icon: <TransactionIcon size={20} />,
   },
   {
     key: "piutang",
     label: "Piutang",
     path: "/piutang",
-    icon: <Document colorStroke={"#53545c"} />,
-    icon2: <DocumentBulk />,
+    icon: <AlignBoxTopLeftIcon size={20} />,
     sidebarSubItem: [
       {
         key: "piutang",
@@ -57,8 +43,7 @@ export const SidebarItem = [
     key: "income",
     label: "Income",
     path: "/income",
-    icon: <PaperPlus colorStroke={"#53545c"} />,
-    icon2: <PaperPlusBulk />,
+    icon: <AutoConversationsIcon size={20} />,
     sidebarSubItem: [
       {
         key: "sales",
@@ -84,8 +69,7 @@ export const SidebarItem = [
     key: "outcome",
     label: "Outcome",
     path: "/outcome",
-    icon: <PaperNegative colorStroke={"#53545c"} />,
-    icon2: <PaperNegativeBulk />,
+    icon: <AutoConversationsIcon size={20} />,
     sidebarSubItem: [
       {
         key: "accommodation",
@@ -159,21 +143,18 @@ export const SidebarItem = [
     key: "order",
     label: "Order",
     path: "/order",
-    icon: <Bag colorStroke={"#53545c"} />,
-    icon2: <BagBulk />,
+    icon: <ShoppingBag02Icon size={20} />,
   },
   {
     key: "calculator",
     label: "Calculator",
     path: "/calculator",
-    icon: <Document colorStroke={"#53545c"} />,
-    icon2: <DocumentBulk />,
+    icon: <Calculator01Icon size={20} />,
   },
   {
     key: "client",
     label: "Client",
     path: "/client",
-    icon: <User2 colorStroke={"#53545c"} />,
-    icon2: <User2Bulk />,
+    icon: <UserMultipleIcon size={20} />,
   },
 ];

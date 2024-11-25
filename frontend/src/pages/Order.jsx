@@ -7,26 +7,24 @@ import {
   SelectMenuMonth,
   SelectMenuPages,
 } from "../components/Select/SelectMenu";
-import {
-  HiOutlineExclamationCircle,
-  HiChevronRight,
-  HiChevronLeft,
-  HiOutlineFilter,
-  HiOutlineCalendar,
-  HiOutlinePlus,
-} from "react-icons/hi";
 import { ModalInvoice } from "../components/Modal/ModalInvoice";
 import { Bag } from "../components/Icon/Icon";
 import TableOrder from "../components/Table/TableOrder";
 import TableOrderMobile from "../components/Table/TableOrderMobile";
+// import { getOrderById } from "../api/orderApi";
+
+// Icon
+import { Add01Icon } from "hugeicons-react";
 
 const Order = () => {
   const [openModalOrder, setOpenModalOrder] = useState(false);
   const [openModalInvoice, setOpenModalInvoice] = useState(false);
   const orders = useLoaderData();
 
-  const handleModalInvoice = () => {
+  const handleModalInvoice = (id) => {
     setOpenModalInvoice(true);
+    // getOrderById(id);
+    console.log(id);
   };
 
   const filterPending = orders.filter((order) => order.status === "Pending");
@@ -47,7 +45,7 @@ const Order = () => {
             onClick={() => setOpenModalOrder(true)}
             className="flex items-center bg-primary_100 text-white text-sm rounded-xl gap-3 py-3 px-5 transition-all hover:scale-105"
           >
-            <HiOutlinePlus size={20} /> New Order
+            <Add01Icon /> New Order
           </button>
         </div>
       </div>
@@ -92,7 +90,7 @@ const Order = () => {
         <Card>
           <div className="flex justify-between">
             <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              <HiOutlineExclamationCircle size={20} color="#130F26" />
+              {/* <HiOutlineExclamationCircle size={20} color="#130F26" /> */}
             </div>
             <SelectMenuMonth />
           </div>
@@ -127,11 +125,11 @@ const Order = () => {
                 className="border rounded focus:outline-none w-20 lg:w-fit px-2 py-1"
               />
               <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
-                <HiOutlineFilter />
+                {/* <HiOutlineFilter /> */}
                 Filter
               </button>
               <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
-                <HiOutlineCalendar />
+                {/* <HiOutlineCalendar /> */}
                 Filter
               </button>
             </div>
@@ -161,10 +159,10 @@ const Order = () => {
             </div>
 
             <div className="flex flex-row items-center gap-3">
-              <HiChevronLeft size={25} color="#666666" />
+              {/* <HiChevronLeft size={25} color="#666666" /> */}
               <SelectMenuPages />
               <p className="text-[#666666] text-sm">of 10 pages</p>
-              <HiChevronRight size={25} color="#666666" />
+              {/* <HiChevronRight size={25} color="#666666" /> */}
             </div>
           </div>
           {/* Third Pagination End */}

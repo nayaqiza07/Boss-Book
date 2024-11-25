@@ -1,4 +1,3 @@
-import { BiSolidPlusCircle } from "react-icons/bi";
 import { Modal } from "../components/Modal";
 import { useState } from "react";
 import { SidebarItem } from "../components/Sidebar/SidebarItem";
@@ -6,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 // import Select from "react-select";
 
 const Utang = () => {
-  const pathname = useLocation();
+  // const pathname = useLocation();
   const [openModal, setOpenModal] = useState(false);
   const [openModalBayar, setOpenModalBayar] = useState(false);
 
@@ -86,7 +85,7 @@ const Utang = () => {
                 className="text-sm lg:text-md rounded-lg px-3 py-2 flex items-center text-white bg-[#FF3666] transition all hover:scale-110"
               >
                 Tambah
-                <BiSolidPlusCircle className="ml-1" />
+                {/* <BiSolidPlusCircle className="ml-1" /> */}
               </button>
             </div>
           </div>

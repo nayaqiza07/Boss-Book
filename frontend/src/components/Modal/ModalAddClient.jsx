@@ -13,7 +13,7 @@ export const ModalAddClient = ({ openModalClient, setOpenModalClient }) => {
     const form = e.target;
     const dataForm = new FormData(form);
     const data = Object.fromEntries(dataForm);
-    console.log(data);
+    // console.log(data);
 
     createClient(data.name, data.email, data.phone, data.address);
   };

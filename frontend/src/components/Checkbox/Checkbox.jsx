@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { HiCheck } from "react-icons/hi";
+import { Tick02Icon } from "hugeicons-react";
 
 export const Checkbox = () => {
   const [checked, setChecked] = useState(false);
@@ -15,7 +15,7 @@ export const Checkbox = () => {
         onChange={handleChecked}
       />
       {/* <span onClick={handleChecked} className="cursor-pointer"> */}
-      <HiCheck
+      <Tick02Icon
         color="#B0CAD9"
         onClick={handleChecked}
         className={`absolute w-5 h-5 cursor-pointer transition-all ${
