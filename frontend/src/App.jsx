@@ -23,8 +23,8 @@ import Client from "./pages/Client";
 import ClientView from "./pages/ClientView";
 
 // Loader API Data
-import { getClients } from "./api/clientApi";
-import { getOrders } from "./api/orderApi";
+// import { getClients } from "./api/clientApi";
+// import { getOrders } from "./api/orderApi";
 
 // Action
 import { action as LoginAction } from "./pages/auth/LoginView";
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
       {
         path: "order",
         element: <Order />,
-        loader: () => getOrders(),
+        // loader: () => getOrders(),
       },
       {
         path: "calculator",
@@ -74,10 +74,10 @@ const router = createBrowserRouter([
       {
         path: "client",
         element: <Client />,
-        loader: () => getClients(),
+        // loader: () => getClients(),
       },
       {
-        path: "client/order/current/client/:id",
+        path: "client/view/:id",
         element: <ClientView />,
       },
     ],

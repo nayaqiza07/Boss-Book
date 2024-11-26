@@ -1,11 +1,11 @@
-import { toast } from "react-toastify";
 import customAPI from "./axios.js";
+import { toast } from "react-toastify";
 
 // GET Data Order
 export const getOrders = async () => {
   try {
-    const { data } = await customAPI.get("/order");
-    return data.data;
+    const response = await customAPI.get("/order");
+    return response.data.data;
   } catch (error) {
     console.log(error);
   }
@@ -13,14 +13,14 @@ export const getOrders = async () => {
 
 // GET Order By Id
 export const getOrderById = async (id) => {
-  const { data } = await customAPI.get(`/order/${id}`);
-  return data.data;
+  const response = await customAPI.get(`/order/${id}`);
+  return response.data.data;
 };
 
 // POST Order
 export const createOrder = async (orderNumber, client, date, status, items) => {
   try {
-    const { data } = await customAPI.post("/order", {
+    const data = await customAPI.post("/order", {
       orderNumber,
       client,
       date,
@@ -38,9 +38,9 @@ export const createOrder = async (orderNumber, client, date, status, items) => {
 // GET Client Order
 export const getClientOrder = async (id) => {
   try {
-    const { data } = await customAPI.get(`/order/current/client/${id}`);
+    const response = await customAPI.get(`/order/view/${id}`);
     // console.log(data.data);
-    return data.data;
+    return response.data.data;
   } catch (error) {
     console.log(error);
   }

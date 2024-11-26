@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Card } from "../components/Card/Card";
 import { ModalAddOrder } from "../components/Modal/ModalAddOrder";
 import {
@@ -11,27 +10,39 @@ import { ModalInvoice } from "../components/Modal/ModalInvoice";
 import { Bag } from "../components/Icon/Icon";
 import TableOrder from "../components/Table/TableOrder";
 import TableOrderMobile from "../components/Table/TableOrderMobile";
-// import { getOrderById } from "../api/orderApi";
+import { getOrders } from "../api/orderApi";
 
 // Icon
 import { Add01Icon } from "hugeicons-react";
+import { DataEmpty } from "../components/Alert/DataEmpty";
+import { ShopBag } from "../assets/Icon/ShopBag";
 
 const Order = () => {
   const [openModalOrder, setOpenModalOrder] = useState(false);
   const [openModalInvoice, setOpenModalInvoice] = useState(false);
-  const orders = useLoaderData();
+  const [search, setSearch] = useState("");
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    fetchDataOrder();
+  }, [orders]);
+
+  const fetchDataOrder = async () => {
+    await getOrders().then((result) => {
+      setOrders(result);
+    });
+  };
 
   const handleModalInvoice = (id) => {
     setOpenModalInvoice(true);
-    // getOrderById(id);
     console.log(id);
   };
 
-  const filterPending = orders.filter((order) => order.status === "Pending");
-  const filterInProgress = orders.filter(
+  const filterPending = orders?.filter((order) => order.status === "Pending");
+  const filterInProgress = orders?.filter(
     (order) => order.status === "In-Progress"
   );
-  const filterCompleted = orders.filter(
+  const filterCompleted = orders?.filter(
     (order) => order.status === "Completed"
   );
 
@@ -64,24 +75,24 @@ const Order = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <div>
               <h5 className="text-night_30">All Orders</h5>
-              <p className="text-night_60 font-medium">{orders.length}</p>
+              <p className="text-night_60 font-medium">{orders?.length}</p>
             </div>
             <div>
               <h5 className="text-night_30">Pending</h5>
               <p className="text-night_60 font-medium">
-                {filterPending.length}
+                {filterPending?.length}
               </p>
             </div>
             <div>
               <h5 className="text-night_30">In-Progress</h5>
               <p className="text-night_60 font-medium">
-                {filterInProgress.length}
+                {filterInProgress?.length}
               </p>
             </div>
             <div>
               <h5 className="text-night_30">Completed</h5>
               <p className="text-night_60 font-medium">
-                {filterCompleted.length}
+                {filterCompleted?.length}
               </p>
             </div>
           </div>
@@ -115,57 +126,69 @@ const Order = () => {
       {/* Third Start */}
       <div className="grid grid-rows-1 grid-cols-1">
         <Card>
-          {/* Third Head Start */}
-          <div className="flex flex-row justify-between items-center">
-            <h2 className="text-night_60">Orders</h2>
-            <div className="flex flex-row gap-3">
-              <input
-                type="search"
-                placeholder="Search"
-                className="border rounded focus:outline-none w-20 lg:w-fit px-2 py-1"
-              />
-              <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
-                {/* <HiOutlineFilter /> */}
-                Filter
-              </button>
-              <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
-                {/* <HiOutlineCalendar /> */}
-                Filter
-              </button>
-            </div>
-          </div>
-          {/* Third Head End */}
-
-          {/* Third Table Start */}
-          <div className="hidden overflow-x-auto mt-5 md:block">
-            <TableOrder
-              orders={orders}
-              handleModalInvoice={handleModalInvoice}
+          {orders?.length === 0 ? (
+            <DataEmpty
+              icon={<ShopBag />}
+              title={"Add Your Client"}
+              subTitle={"Add client to this section"}
             />
-          </div>
-          {/* Third Table End */}
+          ) : (
+            <>
+              {/* Third Head Start */}
+              <div className="flex flex-row justify-between items-center">
+                <h2 className="text-night_60">Orders</h2>
+                <div className="flex flex-row gap-3">
+                  <input
+                    type="search"
+                    placeholder="Search"
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="border rounded focus:outline-none w-20 lg:w-fit px-2 py-1"
+                  />
+                  <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
+                    {/* <HiOutlineFilter /> */}
+                    Filter
+                  </button>
+                  <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
+                    {/* <HiOutlineCalendar /> */}
+                    Filter
+                  </button>
+                </div>
+              </div>
+              {/* Third Head End */}
 
-          {/* Table view up to the `md:` breakpoint Start  */}
-          <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-            <TableOrderMobile orders={orders} />
-          </div>
-          {/* Table view up to the `md:` breakpoint End  */}
+              {/* Third Table Start */}
+              <div className="hidden overflow-x-auto mt-5 md:block">
+                <TableOrder
+                  orders={orders}
+                  search={search}
+                  handleModalInvoice={handleModalInvoice}
+                />
+              </div>
+              {/* Third Table End */}
 
-          {/* Third Pagination Start */}
-          <div className="flex justify-between gap-3 py-3">
-            <div className="flex flex-row items-center gap-3">
-              <SelectMenuItems />
-              <p className="text-[#666666] text-sm">of items</p>
-            </div>
+              {/* Table view up to the `md:` breakpoint Start  */}
+              <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
+                <TableOrderMobile orders={orders} />
+              </div>
+              {/* Table view up to the `md:` breakpoint End  */}
 
-            <div className="flex flex-row items-center gap-3">
-              {/* <HiChevronLeft size={25} color="#666666" /> */}
-              <SelectMenuPages />
-              <p className="text-[#666666] text-sm">of 10 pages</p>
-              {/* <HiChevronRight size={25} color="#666666" /> */}
-            </div>
-          </div>
-          {/* Third Pagination End */}
+              {/* Third Pagination Start */}
+              <div className="flex justify-between gap-3 py-3">
+                <div className="flex flex-row items-center gap-3">
+                  <SelectMenuItems />
+                  <p className="text-[#666666] text-sm">of items</p>
+                </div>
+
+                <div className="flex flex-row items-center gap-3">
+                  {/* <HiChevronLeft size={25} color="#666666" /> */}
+                  <SelectMenuPages />
+                  <p className="text-[#666666] text-sm">of 10 pages</p>
+                  {/* <HiChevronRight size={25} color="#666666" /> */}
+                </div>
+              </div>
+              {/* Third Pagination End */}
+            </>
+          )}
         </Card>
       </div>
       {/* Third End */}

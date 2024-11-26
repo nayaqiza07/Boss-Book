@@ -8,6 +8,7 @@ const singleItem = Schema({
   quantity: { type: Number, required: true },
   price: { type: Number, required: true },
   totalPrice: { type: Number, required: true },
+  image: { type: String, default: null },
 });
 
 const orderSchema = new Schema({

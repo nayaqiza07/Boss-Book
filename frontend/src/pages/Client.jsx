@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Card } from "../components/Card/Card";
 import { ModalAddClient } from "../components/Modal/ModalAddClient";
 import {
@@ -13,11 +12,22 @@ import { DataEmpty } from "../components/Alert/DataEmpty";
 import { BigUser2 } from "../assets/Icon/BigUser2";
 import TableClient from "../components/Table/TableClient";
 import TableClientMobile from "../components/Table/TableClientMobile";
+import { getClients } from "../api/clientApi";
 
 const Client = () => {
   const [openModalClient, setOpenModalClient] = useState(false);
   const [search, setSearch] = useState("");
-  const clients = useLoaderData();
+  const [dataClients, setDataClients] = useState([]);
+
+  useEffect(() => {
+    fetchDataClient();
+  }, [dataClients]);
+
+  const fetchDataClient = async () => {
+    await getClients().then((result) => {
+      setDataClients(result);
+    });
+  };
 
   return (
     <div className="p-5 grid gap-5">
@@ -47,7 +57,7 @@ const Client = () => {
           <div className="flex flex-row justify-between mt-7">
             <div>
               <h5 className="text-night_30">All Clients</h5>
-              <p className="text-night_60 font-medium">{clients.length}</p>
+              <p className="text-night_60 font-medium">{dataClients?.length}</p>
             </div>
             <div>
               <h5 className="text-night_30">Active</h5>
@@ -88,7 +98,7 @@ const Client = () => {
       {/* Third Start */}
       <div className="grid grid-rows-1 grid-cols-1">
         <Card>
-          {clients.length === 0 ? (
+          {dataClients?.length === 0 ? (
             <DataEmpty
               icon={<BigUser2 />}
               title={"Add Your Client"}
@@ -120,13 +130,13 @@ const Client = () => {
 
               {/* Third Table Start */}
               <div className="hidden overflow-x-auto mt-5 md:block">
-                <TableClient clients={clients} search={search} />
+                <TableClient dataClients={dataClients} search={search} />
               </div>
               {/* Third Table End */}
 
               {/* Table view up to the `md:` breakpoint Start  */}
               <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-                <TableClientMobile clients={clients} />
+                <TableClientMobile dataClients={dataClients} />
               </div>
               {/* Table view up to the `md:` breakpoint End  */}
 
@@ -135,7 +145,7 @@ const Client = () => {
                 <div className="flex flex-row items-center gap-3">
                   <SelectMenuItems />
                   <p className="text-[#666666] text-sm">
-                    of {clients.length} items
+                    of {dataClients?.length} items
                   </p>
                 </div>
 

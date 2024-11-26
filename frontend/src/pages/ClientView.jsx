@@ -24,17 +24,17 @@ const ClientView = () => {
   const [modalEdit, setModalEdit] = useState(false);
 
   useEffect(() => {
-    handleClientById();
-    handleClientOrder();
-  }, []);
+    handleClientById(id);
+    handleClientOrder(id);
+  }, [id]);
 
-  const handleClientById = () => {
+  const handleClientById = (id) => {
     getClientById(id).then((result) => {
       setClient(result);
     });
   };
 
-  const handleClientOrder = () => {
+  const handleClientOrder = (id) => {
     getClientOrder(id).then((result) => {
       setClientOrder(result);
     });

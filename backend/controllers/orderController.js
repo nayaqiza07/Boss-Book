@@ -21,6 +21,7 @@ export const createOrder = asyncHandler(async (req, res) => {
       quantity: item.quantity,
       price: item.price,
       totalPrice: item.quantity * item.price,
+      image: item.image,
     };
 
     // Memberi nilai pada variabel yang sudah dibuat diatas untuk menampung setiap item
@@ -82,5 +83,22 @@ export const currentClientOrder = asyncHandler(async (req, res) => {
   return res.status(200).json({
     message: "Current Client Order berhasil ditampilkan",
     data: clientOrder,
+  });
+});
+
+// File Upload Order
+export const fileUpload = asyncHandler(async (req, res) => {
+  const file = req.file;
+  if (!file) {
+    res.status(400);
+    throw new Error("Tidak file yang diupload");
+  }
+
+  const imageFileName = file.filename;
+  const pathImageFile = `/uploads/${imageFileName}`;
+
+  res.status(200).json({
+    message: "Image berhasil diupload",
+    image: pathImageFile,
   });
 });

@@ -9,6 +9,7 @@ import FormSelect from "../Form/FormSelect";
 
 import { getClients } from "../../api/clientApi";
 import { createOrder } from "../../api/orderApi";
+import { priceFormat } from "../utils";
 
 import { Add01Icon, ArrowLeft01Icon } from "hugeicons-react";
 import { toast } from "react-toastify";
@@ -19,13 +20,13 @@ export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
   const [lastOrderNumber, setLastOrderNumber] = useState(0);
 
   // Input Item
-  const [inputItem, setInputItem] = useState([]);
+  const [inputItem, setInputItem] = useState({});
 
   useEffect(() => {
     getClients().then((result) => {
       setClients(result);
     });
-  });
+  }, []);
 
   // Generate Order Number
   const generateOrderNumber = () => {
@@ -68,10 +69,11 @@ export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
       name: inputItem.name,
       quantity: parseInt(inputItem.quantity),
       price: parseInt(inputItem.price),
+      image: inputItem.image,
     });
     toast.success("Item berhasil ditambahkan");
-    setInputItem([]);
-    console.log(items);
+    setAddProduct(false);
+    // console.log(items);
   };
 
   // Kirim Data Order ke dalam Database
@@ -82,7 +84,7 @@ export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
     const form = e.target;
     const dataForm = new FormData(form);
     const data = Object.fromEntries(dataForm);
-    console.log(data);
+    // console.log(data);
 
     const newOrderNumber = generateOrderNumber();
 
@@ -138,8 +140,15 @@ export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
 
             {/* Right Content Start */}
             <div>
-              <div>
+              <div className="flex justify-between">
                 <h5 className="font-medium text-night_30">Items Order</h5>
+                <button
+                  type="button"
+                  onClick={() => setAddProduct(true)}
+                  className="font-medium text-primary_100"
+                >
+                  +Add Products
+                </button>
               </div>
 
               <div className="mt-7 flex flex-col">
@@ -170,6 +179,13 @@ export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
                       />
                     </div>
 
+                    <FormInput
+                      icon={false}
+                      type="file"
+                      name="image"
+                      onChange={handleChangeItem}
+                    />
+
                     <div className="flex justify-between mt-7">
                       <button
                         onClick={() => setAddProduct(false)}
@@ -188,13 +204,29 @@ export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
                       </button>
                     </div>
                   </>
-                ) : (
+                ) : items.length === 0 ? (
                   <DataEmpty
                     setOpen={setAddProduct}
                     icon={<ShopBag />}
                     title={"Add Products To Your Order"}
                     subTitle={"Add product items to this order"}
                   />
+                ) : (
+                  <div className="max-h-60 overflow-y-auto flex flex-col gap-3">
+                    {items?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="py-1 px-2 text-left text-sm text-primary_100 border rounded-lg"
+                      >
+                        <p>Nama : {item.name}</p>
+                        <p>Qty : {item.quantity}</p>
+                        <p>Price: {priceFormat(item.price)}</p>
+                        <p>
+                          Total Price: {priceFormat(item.quantity * item.price)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
             </div>

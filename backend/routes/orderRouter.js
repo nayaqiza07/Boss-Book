@@ -1,7 +1,7 @@
 import express from "express";
 import {
   protectedMiddleware,
-  ownerMiddleware,
+  // ownerMiddleware,
 } from "../middlewares/authMiddleware.js";
 import {
   createOrder,
@@ -9,7 +9,9 @@ import {
   detailOrder,
   updateOrder,
   currentClientOrder,
+  fileUpload,
 } from "../controllers/orderController.js";
+import { upload } from "../utils/uploadFIleHandler.js";
 
 const router = express.Router();
 
@@ -28,16 +30,26 @@ router.get("/", protectedMiddleware, allOrder);
 // Read Detail Data Order
 // GET /api/v1/order/id
 // Middleware agar hanya bisa diakses oleh Owner
-router.get("/:id", protectedMiddleware, ownerMiddleware, detailOrder);
+router.get("/:id", protectedMiddleware, detailOrder);
 
 // Update Data Order
 // PUT /api/v1/order/id
 // Middleware agar hanya bisa diakses oleh Owner
-router.put("/:id", protectedMiddleware, ownerMiddleware, updateOrder);
+router.put("/:id", protectedMiddleware, updateOrder);
 
 // Read All Data Order from Client
 // GET /api/v1/order/current/client
 // Middleware agar hanya bisa diakses oleh User yang telah melakukan autentikasi
-router.get("/current/client/:id", protectedMiddleware, currentClientOrder);
+router.get("/view/:id", protectedMiddleware, currentClientOrder);
+
+// File Upload Data Order
+// POST /api/v1/order/file-upload
+// Middleware agar hanya bisa diakses oleh User yang telah melakukan autentikasi
+router.post(
+  "/file-upload",
+  protectedMiddleware,
+  upload.single("image"),
+  fileUpload
+);
 
 export default router;

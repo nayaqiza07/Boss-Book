@@ -11,9 +11,14 @@ export const Sidebar = ({ sidebarOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = async () => {
-    await customAPI.get("/auth/logout");
-    dispatch(logoutUser());
-    navigate("/login");
+    try {
+      await customAPI.get("/auth/logout");
+      dispatch(logoutUser());
+      navigate("/login");
+    } catch {
+      dispatch(logoutUser());
+      navigate("/login");
+    }
   };
 
   return (
