@@ -1,6 +1,6 @@
 export const DataEmpty = ({ icon, title, subTitle }) => {
   return (
-    <div className="flex flex-col justify-center items-center py-10 border-2 border-[#E1E2E9] rounded-lg">
+    <div className="flex flex-col justify-center items-center px-5 py-10 border-2 border-[#E1E2E9] rounded-lg">
       <div className="w-fit border border-[#E1E2E9] bg-main_background rounded-full p-10">
         {icon}
       </div>

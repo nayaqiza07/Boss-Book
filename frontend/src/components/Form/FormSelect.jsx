@@ -9,7 +9,7 @@ const FormSelect = ({ list, name, defaultValue, placeholder }) => {
       {list?.map((item) => {
         return (
           <option key={item._id} value={item._id}>
-            {item._id}
+            {item.name}
           </option>
         );
       })}

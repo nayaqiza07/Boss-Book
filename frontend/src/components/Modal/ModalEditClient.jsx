@@ -4,28 +4,14 @@ import { HeaderModal } from "../Header/HeaderModal";
 import { useParams } from "react-router-dom";
 import FormInput from "../Form/FormInput";
 import FormTextarea from "../Form/FormTextarea";
-import { updateClient } from "../../api/clientApi";
 
 export const ModalEditClient = ({
   openModalEdit,
   setOpenModalEdit,
   client,
-  setClient,
+  handleSubmit,
 }) => {
   const { id } = useParams();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Ambil semua Inputan
-    const form = e.target;
-    const dataForm = new FormData(form);
-    const data = Object.fromEntries(dataForm);
-    // console.log(data);
-
-    updateClient(id, data.name, data.email, data.phone, data.address);
-    setClient(data);
-  };
 
   return (
     <Modal

@@ -8,36 +8,51 @@ import FormInput from "../Form/FormInput";
 import FormSelect from "../Form/FormSelect";
 
 import { getClients } from "../../api/clientApi";
-import { createOrder } from "../../api/orderApi";
 import { priceFormat } from "../utils";
 
 import { Add01Icon, ArrowLeft01Icon } from "hugeicons-react";
-import { toast } from "react-toastify";
 
-export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
-  const [addProduct, setAddProduct] = useState(false);
+export const ModalAddOrder = ({
+  openModalOrder,
+  setOpenModalOrder,
+  orders,
+  addProduct,
+  setAddProduct,
+  handleChangeItem,
+  items,
+  addItem,
+  handleSubmit,
+}) => {
   const [clients, setClients] = useState([]);
-  const [lastOrderNumber, setLastOrderNumber] = useState(0);
-
-  // Input Item
-  const [inputItem, setInputItem] = useState({});
 
   useEffect(() => {
+    fetchDataClient();
+  }, []);
+
+  // Fetch data client untuk form select
+  const fetchDataClient = () => {
     getClients().then((result) => {
       setClients(result);
     });
-  }, []);
-
-  // Generate Order Number
-  const generateOrderNumber = () => {
-    // Increment dan buat Nomor Order baru
-    const prefix = "GRG";
-    const newNumber = lastOrderNumber + 1;
-    const paddedNumber = newNumber.toString().padStart(5, "0");
-    const orderNumber = prefix + paddedNumber;
-    setLastOrderNumber(newNumber);
-    return orderNumber;
   };
+
+  // Ambil Data Order terakhir
+  const lastOrder = orders[orders.length - 1];
+  // Ambil orderNumber dari data order terakhir
+  let lastOrderNumber = lastOrder ? lastOrder.orderNumber : "GRG00000";
+
+  // Memisahkan String dan Number
+  const regex = /(\D+)(\d+)/;
+  const matches = lastOrderNumber?.match(regex);
+  const prefix = matches?.[1];
+  const numberPart = parseInt(matches?.[2]);
+
+  // Menambahkan +1 pada bagian angka
+  const newNumber = numberPart + 1;
+
+  // // Menggabungkan kembali String dan Number
+  const newString = prefix + newNumber.toString().padStart(5, "0");
+  lastOrderNumber = newString;
 
   // Date
   const showDate = new Date();
@@ -50,53 +65,17 @@ export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
 
   // List Status
   const list = [
-    { _id: "Pending" },
-    { _id: "In-Progress" },
-    { _id: "Completed" },
+    { _id: "Pending", name: "Pending" },
+    { _id: "In-Progress", name: "In-Progress" },
+    { _id: "Completed", name: "Completed" },
   ];
-
-  // Handle Inputan Item Produk
-  const handleChangeItem = (e) => {
-    setInputItem({
-      ...inputItem,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const [items] = useState([]);
-  const addItem = () => {
-    items.push({
-      name: inputItem.name,
-      quantity: parseInt(inputItem.quantity),
-      price: parseInt(inputItem.price),
-      image: inputItem.image,
-    });
-    toast.success("Item berhasil ditambahkan");
-    setAddProduct(false);
-    // console.log(items);
-  };
-
-  // Kirim Data Order ke dalam Database
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Ambil semua Inputan
-    const form = e.target;
-    const dataForm = new FormData(form);
-    const data = Object.fromEntries(dataForm);
-    // console.log(data);
-
-    const newOrderNumber = generateOrderNumber();
-
-    createOrder(newOrderNumber, data.client, data.date, data.status, items);
-  };
 
   return (
     <Modal
       openModal={openModalOrder}
       onCloseModal={() => setOpenModalOrder(false)}
     >
-      <div className="max-w-72 lg:max-w-[850px]">
+      <div className="max-w-72 lg:max-w-[576px]">
         {/* Header Start */}
         <HeaderModal
           setOpenModal={setOpenModalOrder}
@@ -111,7 +90,9 @@ export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
             <div>
               <div className="flex justify-between">
                 <h5 className="font-medium text-night_30">Order Detail</h5>
-                <h5 className="font-medium text-primary_100">#Order Num</h5>
+                <h5 className="font-medium text-primary_100">
+                  #{lastOrderNumber}
+                </h5>
               </div>
 
               <div className="mt-7">
@@ -142,13 +123,12 @@ export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
             <div>
               <div className="flex justify-between">
                 <h5 className="font-medium text-night_30">Items Order</h5>
-                <button
-                  type="button"
-                  onClick={() => setAddProduct(true)}
-                  className="font-medium text-primary_100"
+                <span
+                  onClick={() => setAddProduct(!addProduct)}
+                  className="font-medium text-primary_100 hover:cursor-pointer"
                 >
                   +Add Products
-                </button>
+                </span>
               </div>
 
               <div className="mt-7 flex flex-col">
@@ -186,22 +166,21 @@ export const ModalAddOrder = ({ openModalOrder, setOpenModalOrder }) => {
                       onChange={handleChangeItem}
                     />
 
-                    <div className="flex justify-between mt-7">
-                      <button
+                    <div className="flex justify-between">
+                      <span
                         onClick={() => setAddProduct(false)}
-                        className="flex items-center gap-1 text-lg text-primary_100 transition-all hover:ml-3"
+                        className="flex items-center gap-1 text-lg text-primary_100 transition-all hover:ml-3 hover:cursor-pointer"
                       >
                         <ArrowLeft01Icon />
                         Back
-                      </button>
-                      <button
+                      </span>
+                      <span
                         onClick={addItem}
-                        type="button"
-                        className="flex items-center gap-1 text-lg text-primary_100 transition-all hover:mr-3"
+                        className="flex items-center gap-1 text-lg text-primary_100 transition-all hover:mr-3 hover:cursor-pointer"
                       >
                         <Add01Icon />
                         Add
-                      </button>
+                      </span>
                     </div>
                   </>
                 ) : items.length === 0 ? (

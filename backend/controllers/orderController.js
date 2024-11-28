@@ -3,7 +3,7 @@ import Order from "../models/orderModel.js";
 
 // Create Order
 export const createOrder = asyncHandler(async (req, res) => {
-  const { orderNumber, client, date, status, items } = req.body;
+  const { client, date, status, items } = req.body;
 
   // Jika item tidak dimasukkan, maka tampilkan error
   if (!items || items.length < 1) {
@@ -13,6 +13,7 @@ export const createOrder = asyncHandler(async (req, res) => {
 
   let orderItem = [];
   let total = 0;
+  let newOrderNumber = "";
 
   // Looping untuk setiap item yang dimasukkan
   for (const item of items) {
@@ -31,8 +32,18 @@ export const createOrder = asyncHandler(async (req, res) => {
     total += item.quantity * item.price;
   }
 
+  // Generate orderNumber otomatis, jika data order kosong, maka nilai default GRG00001, jika data ada, maka + 1
+  const lastOrder = await Order.findOne().sort({ orderNumber: -1 }).exec();
+  if (!lastOrder) {
+    newOrderNumber = "GRG00001";
+  } else {
+    const lastNumber = parseInt(lastOrder.orderNumber.slice(3));
+    const newNumber = lastNumber + 1;
+    newOrderNumber = `GRG${newNumber.toString().padStart(5, "0")}`;
+  }
+
   const newOrder = await Order.create({
-    orderNumber,
+    orderNumber: newOrderNumber,
     client,
     date,
     total: total,
@@ -49,7 +60,17 @@ export const createOrder = asyncHandler(async (req, res) => {
 
 // Read All Order
 export const allOrder = asyncHandler(async (req, res) => {
-  const allOrder = await Order.find();
+  // const allOrder = await Order.find();
+  const allOrder = await Order.aggregate([
+    {
+      $lookup: {
+        from: "clients",
+        localField: "client",
+        foreignField: "_id",
+        as: "clientData",
+      },
+    },
+  ]);
 
   return res.status(200).json({
     message: "Seluruh Order berhasil ditampilkan",
@@ -68,7 +89,7 @@ export const detailOrder = asyncHandler(async (req, res) => {
   });
 });
 
-// Detail Order
+// Update Order
 export const updateOrder = asyncHandler(async (req, res) => {
   return res.status(200).json({
     message: "Order berhasil diupdate",

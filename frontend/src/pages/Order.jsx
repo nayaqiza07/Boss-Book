@@ -10,27 +10,68 @@ import { ModalInvoice } from "../components/Modal/ModalInvoice";
 import { Bag } from "../components/Icon/Icon";
 import TableOrder from "../components/Table/TableOrder";
 import TableOrderMobile from "../components/Table/TableOrderMobile";
-import { getOrders } from "../api/orderApi";
+import { getOrders, createOrder } from "../api/orderApi";
 
 // Icon
 import { Add01Icon } from "hugeicons-react";
 import { DataEmpty } from "../components/Alert/DataEmpty";
 import { ShopBag } from "../assets/Icon/ShopBag";
+import { toast } from "react-toastify";
 
 const Order = () => {
   const [openModalOrder, setOpenModalOrder] = useState(false);
   const [openModalInvoice, setOpenModalInvoice] = useState(false);
+
   const [search, setSearch] = useState("");
   const [orders, setOrders] = useState([]);
 
+  // Input Item Product
+  const [addProduct, setAddProduct] = useState(false);
+  const [inputItem, setInputItem] = useState({});
+
   useEffect(() => {
     fetchDataOrder();
-  }, [orders]);
+  }, []);
 
-  const fetchDataOrder = async () => {
-    await getOrders().then((result) => {
+  const fetchDataOrder = () => {
+    getOrders().then((result) => {
       setOrders(result);
     });
+  };
+
+  // Handle Input Item Product on Modal
+  const handleChangeItem = (e) => {
+    setInputItem({
+      ...inputItem,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Menyimpan input item product kedalam array saat addItem di klik on Modal
+  const [items] = useState([]);
+  const addItem = () => {
+    items.push({
+      name: inputItem.name,
+      quantity: parseInt(inputItem.quantity),
+      price: parseInt(inputItem.price),
+      image: inputItem.image,
+    });
+    toast.success("Item berhasil ditambahkan");
+    setAddProduct(false);
+  };
+
+  // Kirim Data Order ke dalam Database
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Ambil semua Inputan
+    const form = e.target;
+    const dataForm = new FormData(form);
+    const data = Object.fromEntries(dataForm);
+    // console.log(data);
+
+    createOrder(data.client, data.date, data.status, items);
+    fetchDataOrder();
   };
 
   const handleModalInvoice = (id) => {
@@ -38,11 +79,11 @@ const Order = () => {
     console.log(id);
   };
 
-  const filterPending = orders?.filter((order) => order.status === "Pending");
-  const filterInProgress = orders?.filter(
+  const filterPending = orders.filter((order) => order.status === "Pending");
+  const filterInProgress = orders.filter(
     (order) => order.status === "In-Progress"
   );
-  const filterCompleted = orders?.filter(
+  const filterCompleted = orders.filter(
     (order) => order.status === "Completed"
   );
 
@@ -75,24 +116,24 @@ const Order = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <div>
               <h5 className="text-night_30">All Orders</h5>
-              <p className="text-night_60 font-medium">{orders?.length}</p>
+              <p className="text-night_60 font-medium">{orders.length}</p>
             </div>
             <div>
               <h5 className="text-night_30">Pending</h5>
               <p className="text-night_60 font-medium">
-                {filterPending?.length}
+                {filterPending.length}
               </p>
             </div>
             <div>
               <h5 className="text-night_30">In-Progress</h5>
               <p className="text-night_60 font-medium">
-                {filterInProgress?.length}
+                {filterInProgress.length}
               </p>
             </div>
             <div>
               <h5 className="text-night_30">Completed</h5>
               <p className="text-night_60 font-medium">
-                {filterCompleted?.length}
+                {filterCompleted.length}
               </p>
             </div>
           </div>
@@ -129,8 +170,8 @@ const Order = () => {
           {orders?.length === 0 ? (
             <DataEmpty
               icon={<ShopBag />}
-              title={"Add Your Client"}
-              subTitle={"Add client to this section"}
+              title={"Add Your Order"}
+              subTitle={"Add Order to this section"}
             />
           ) : (
             <>
@@ -176,7 +217,9 @@ const Order = () => {
               <div className="flex justify-between gap-3 py-3">
                 <div className="flex flex-row items-center gap-3">
                   <SelectMenuItems />
-                  <p className="text-[#666666] text-sm">of items</p>
+                  <p className="text-[#666666] text-sm">
+                    of {orders.length} items
+                  </p>
                 </div>
 
                 <div className="flex flex-row items-center gap-3">
@@ -197,6 +240,13 @@ const Order = () => {
       <ModalAddOrder
         openModalOrder={openModalOrder}
         setOpenModalOrder={setOpenModalOrder}
+        orders={orders}
+        addProduct={addProduct}
+        setAddProduct={setAddProduct}
+        handleChangeItem={handleChangeItem}
+        items={items}
+        addItem={addItem}
+        handleSubmit={handleSubmit}
       />
       {/* Modal Add Order End */}
 

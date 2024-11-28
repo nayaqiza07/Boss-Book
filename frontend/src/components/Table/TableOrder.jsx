@@ -14,7 +14,7 @@ const TableOrder = ({ search, orders, handleModalInvoice }) => {
           <th className="font-normal px-6 py-3 hidden xl:table-cell">
             Client Name
           </th>
-          <th className="font-normal px-6 py-3 hidden sm:table-cell">
+          <th className="font-normal px-6 py-3 hidden xl:table-cell">
             Address
           </th>
           <th className="font-normal px-6 py-3 hidden xl:table-cell">Date</th>
@@ -24,75 +24,75 @@ const TableOrder = ({ search, orders, handleModalInvoice }) => {
         </tr>
       </thead>
       <tbody className="border-b border-[#E1E2E9]">
-        {Array.isArray(orders) &&
-          orders
-            .filter((order) => {
-              return search.toLowerCase() === ""
-                ? order
-                : order.orderNumber.toLowerCase().includes(search);
-            })
-            .map((order) => (
-              <tr key={order._id} className="text-night_40 text-left text-sm">
-                <td className="py-3">
-                  <Checkbox />
-                </td>
+        {orders
+          .filter((order) => {
+            return search.toLowerCase() === ""
+              ? order
+              : order.orderNumber.toLowerCase().includes(search);
+          })
+          .map((order) => (
+            <tr key={order._id} className="text-night_40 text-left text-sm">
+              <td className="py-3">
+                <Checkbox />
+              </td>
 
-                <td className="whitespace-nowrap text-primary_100 px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                  <span
-                    onClick={() => handleModalInvoice(order._id)}
-                    className="cursor-pointer "
-                  >
-                    {order.orderNumber}
-                  </span>
+              <td className="whitespace-nowrap text-primary_100 px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
+                <span
+                  onClick={() => handleModalInvoice(order._id)}
+                  className="cursor-pointer "
+                >
+                  {order.orderNumber}
+                </span>
 
-                  {/* Stack Table Start */}
-                  <dl className="xl:hidden">
-                    <dt className="sr-only">Client Name</dt>
-                    <dd className="text-night_20 text-xs mt-1 truncate">
-                      {/* {order.client} */}
-                    </dd>
-                    <dt className="sr-only">Date</dt>
-                    <dd className="text-night_20 text-xs mt-1 truncate">
-                      {order.date}
-                    </dd>
-                  </dl>
-                  {/* Stack Table End */}
-                </td>
-                <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
-                  {order.client}
-                </td>
-                <td className="whitespace-nowrap  px-6 py-3 hidden md:table-cell">
-                  {order.address}
-                </td>
-                <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
-                  {order.date}
-                </td>
-                <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                  {priceFormat(order.total)}
-                </td>
-                {/* <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-              {order.items.map((item) => (
-                <p key={item._id}>{item.name}</p>
-              ))}
-            </td> */}
-                <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                  <SelectMenuActions />
-                </td>
-                <td className="whitespace-nowrap px-6 py-3">
-                  <p
-                    className={`px-5 py-1 rounded w-fit ${
-                      order.status === "Completed"
-                        ? "bg-[#519c66]/20 text-action_go"
-                        : order.status === "In-Progress"
-                        ? "bg-[#5570F1]/20 text-primary_100"
-                        : "bg-[#cc5f5f]/20 text-action_stop"
-                    }`}
-                  >
-                    {order.status}
-                  </p>
-                </td>
-              </tr>
-            ))}
+                {/* Stack Table Start */}
+                <dl className="xl:hidden">
+                  <dt className="sr-only">Client Address</dt>
+                  <dd className="text-night_20 text-xs mt-1 truncate">
+                    {order.clientData.map((client) => (
+                      <span key={client._id}>{client.address}</span>
+                    ))}
+                  </dd>
+                  <dt className="sr-only">Date</dt>
+                  <dd className="text-night_20 text-xs mt-1 truncate">
+                    {order.date}
+                  </dd>
+                </dl>
+                {/* Stack Table End */}
+              </td>
+              <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
+                {order.clientData.map((client) => (
+                  <span key={client._id}>{client.name}</span>
+                ))}
+              </td>
+              <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
+                {order.clientData.map((client) => (
+                  <span key={client._id}>{client.address}</span>
+                ))}
+              </td>
+              <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
+                {order.date}
+              </td>
+              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
+                {priceFormat(order.total)}
+              </td>
+              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
+                <SelectMenuActions />
+              </td>
+              <td className="whitespace-nowrap px-6 py-3">
+                <p
+                  className={`px-5 py-1 rounded w-fit ${
+                    order.status === "Completed"
+                      ? "bg-[#519c66]/20 text-action_go"
+                      : order.status === "In-Progress"
+                      ? "bg-[#5570F1]/20 text-primary_100"
+                      : "bg-[#cc5f5f]/20 text-action_stop"
+                  }`}
+                >
+                  {order.status}
+                </p>
+              </td>
+            </tr>
+          ))}
       </tbody>
     </table>
   );

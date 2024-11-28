@@ -18,10 +18,9 @@ export const getOrderById = async (id) => {
 };
 
 // POST Order
-export const createOrder = async (orderNumber, client, date, status, items) => {
+export const createOrder = async (client, date, status, items) => {
   try {
     const data = await customAPI.post("/order", {
-      orderNumber,
       client,
       date,
       status,

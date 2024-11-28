@@ -15,14 +15,13 @@ const orderSchema = new Schema({
   orderNumber: {
     type: String,
     required: true,
+    // unique: true,
   },
-  client: [
-    {
-      type: Schema.ObjectId,
-      ref: "Client",
-      required: true,
-    },
-  ],
+  client: {
+    type: Schema.ObjectId,
+    ref: "Client",
+    required: true,
+  },
   date: {
     type: String,
     required: true,

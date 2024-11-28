@@ -12,21 +12,35 @@ import { DataEmpty } from "../components/Alert/DataEmpty";
 import { BigUser2 } from "../assets/Icon/BigUser2";
 import TableClient from "../components/Table/TableClient";
 import TableClientMobile from "../components/Table/TableClientMobile";
-import { getClients } from "../api/clientApi";
+import { getClients, createClient } from "../api/clientApi";
 
 const Client = () => {
   const [openModalClient, setOpenModalClient] = useState(false);
+
   const [search, setSearch] = useState("");
   const [dataClients, setDataClients] = useState([]);
 
   useEffect(() => {
     fetchDataClient();
-  }, [dataClients]);
+  }, []);
 
-  const fetchDataClient = async () => {
-    await getClients().then((result) => {
+  const fetchDataClient = () => {
+    getClients().then((result) => {
       setDataClients(result);
     });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Ambil semua Inputan
+    const form = e.target;
+    const dataForm = new FormData(form);
+    const data = Object.fromEntries(dataForm);
+    // console.log(data);
+
+    createClient(data.name, data.email, data.phone, data.address);
+    fetchDataClient();
   };
 
   return (
@@ -166,6 +180,7 @@ const Client = () => {
       <ModalAddClient
         openModalClient={openModalClient}
         setOpenModalClient={setOpenModalClient}
+        handleSubmit={handleSubmit}
       />
     </div>
   );

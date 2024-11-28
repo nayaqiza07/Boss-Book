@@ -3,21 +3,12 @@ import { ButtonModal } from "../Button/ButtonModal";
 import { HeaderModal } from "../Header/HeaderModal";
 import FormInput from "../Form/FormInput";
 import FormTextarea from "../Form/FormTextarea";
-import { createClient } from "../../api/clientApi";
 
-export const ModalAddClient = ({ openModalClient, setOpenModalClient }) => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Ambil semua Inputan
-    const form = e.target;
-    const dataForm = new FormData(form);
-    const data = Object.fromEntries(dataForm);
-    // console.log(data);
-
-    createClient(data.name, data.email, data.phone, data.address);
-  };
-
+export const ModalAddClient = ({
+  openModalClient,
+  setOpenModalClient,
+  handleSubmit,
+}) => {
   return (
     <Modal
       openModal={openModalClient}

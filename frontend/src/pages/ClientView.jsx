@@ -5,7 +5,7 @@ import { Modal } from "../components/Modal";
 import { ModalEditClient } from "../components/Modal/ModalEditClient";
 import { HeaderModal } from "../components/Header/HeaderModal";
 import Cards from "../components/Card/Cards";
-import { getClientById, deleteClient } from "../api/clientApi";
+import { getClientById, deleteClient, updateClient } from "../api/clientApi";
 import { getClientOrder } from "../api/orderApi";
 import TableClientOrder from "../components/Table/TableClientOrder";
 import { Card } from "../components/Card/Card";
@@ -38,6 +38,19 @@ const ClientView = () => {
     getClientOrder(id).then((result) => {
       setClientOrder(result);
     });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Ambil semua Inputan
+    const form = e.target;
+    const dataForm = new FormData(form);
+    const data = Object.fromEntries(dataForm);
+    // console.log(data);
+
+    updateClient(id, data.name, data.email, data.phone, data.address);
+    setClient(data);
   };
 
   const handleDeleteClient = () => {
@@ -129,7 +142,7 @@ const ClientView = () => {
         openModalEdit={modalEdit}
         setOpenModalEdit={setModalEdit}
         client={client}
-        setClient={setClient}
+        handleSubmit={handleSubmit}
       />
 
       {/* Modal Delete Start */}
