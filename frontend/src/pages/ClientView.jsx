@@ -3,15 +3,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { EditSquare, Delete } from "../components/Icon/Icon";
 import { Modal } from "../components/Modal";
 import { ModalEditClient } from "../components/Modal/ModalEditClient";
-import { HeaderModal } from "../components/Header/HeaderModal";
 import Cards from "../components/Card/Cards";
 import { getClientById, deleteClient, updateClient } from "../api/clientApi";
-import { getClientOrder } from "../api/orderApi";
+import { getClientOrder, getOrderById } from "../api/orderApi";
 import TableClientOrder from "../components/Table/TableClientOrder";
 import { Card } from "../components/Card/Card";
 import TableClientOrderMobile from "../components/Table/TableClientOrderMobile";
 import { DataEmpty } from "../components/Alert/DataEmpty";
 import { ShopBag } from "../assets/Icon/ShopBag";
+import { ModalInvoice } from "../components/Modal/ModalInvoice";
 
 const ClientView = () => {
   const { id } = useParams();
@@ -19,9 +19,11 @@ const ClientView = () => {
 
   const [client, setClient] = useState("");
   const [clientOrder, setClientOrder] = useState([]);
+  const [dataOrderById, setDataOrderById] = useState("");
 
-  const [modalDelete, setModalDelete] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [openModalInvoice, setOpenModalInvoice] = useState(false);
 
   useEffect(() => {
     handleClientById(id);
@@ -38,6 +40,18 @@ const ClientView = () => {
     getClientOrder(id).then((result) => {
       setClientOrder(result);
     });
+  };
+
+  const fetchDataOrderById = (id) => {
+    getOrderById(id).then((result) => {
+      setDataOrderById(result);
+    });
+  };
+
+  const handleModalInvoice = (id) => {
+    setOpenModalInvoice(true);
+    console.log(id);
+    fetchDataOrderById(id);
   };
 
   const handleSubmit = (e) => {
@@ -73,19 +87,20 @@ const ClientView = () => {
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center">
           <div className="lg:flex lg:gap-6">
             <h1 className="flex gap-3 justify-between text-night_60 font-medium">
-              Client ID <span className="text-night_30">#{id}</span>
+              Client ID <span className="text-night_30 text-right">#{id}</span>
             </h1>
             <h1 className="flex gap-3 justify-between text-night_60 font-medium">
-              Client Since <span className="text-night_30">{client.date}</span>
+              Client Since
+              <span className="text-night_30 text-right">{client.date}</span>
             </h1>
           </div>
 
           <div className="flex gap-5 mt-5 justify-between lg:mt-0">
             <button
               onClick={() => setModalEdit(true)}
-              className="flex items-center bg-primary_100 text-white text-sm rounded-xl gap-3 py-3 px-5"
+              className="flex items-center bg-[#5570F1]/20 text-primary_100 text-sm rounded-xl gap-3 py-3 px-5"
             >
-              <EditSquare colorStroke={"#FFFFFF"} /> Edit Client
+              <EditSquare colorStroke={"#5570F1"} /> Edit Client
             </button>
             <button
               onClick={() => setModalDelete(true)}
@@ -125,12 +140,18 @@ const ClientView = () => {
           <>
             <h1>{client.name} Orders</h1>
             <div className="hidden overflow-x-auto mt-5 md:block">
-              <TableClientOrder clientOrder={clientOrder} />
+              <TableClientOrder
+                clientOrder={clientOrder}
+                handleModalInvoice={handleModalInvoice}
+              />
             </div>
 
             {/* Table view up to the `md:` breakpoint Start  */}
             <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-              <TableClientOrderMobile clientOrder={clientOrder} />
+              <TableClientOrderMobile
+                clientOrder={clientOrder}
+                handleModalInvoice={handleModalInvoice}
+              />
             </div>
             {/* Table view up to the `md:` breakpoint End  */}
           </>
@@ -149,7 +170,7 @@ const ClientView = () => {
       <Modal openModal={modalDelete} onCloseModal={() => setModalDelete(false)}>
         <div className="w-72">
           {/* Header Modal Start */}
-          <HeaderModal setOpenModal={setModalDelete} />
+          {/* <HeaderModal setOpenModal={setModalDelete} /> */}
           {/* Header Modal End */}
 
           {/* Content Start */}
@@ -178,6 +199,14 @@ const ClientView = () => {
         </div>
       </Modal>
       {/* Modal Delete End */}
+
+      {/* Modal Invoice Start */}
+      <ModalInvoice
+        openModalInvoice={openModalInvoice}
+        setOpenModalInvoice={setOpenModalInvoice}
+        dataOrderById={dataOrderById}
+      />
+      {/* Modal Invoice End */}
     </div>
   );
 };

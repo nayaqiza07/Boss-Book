@@ -1,8 +1,12 @@
 import { Checkbox } from "../Checkbox/Checkbox";
-import { SelectMenuActions } from "../Select/SelectMenu";
 import { priceFormat } from "../utils";
 
-const TableOrder = ({ search, orders, handleModalInvoice }) => {
+const TableOrder = ({
+  search,
+  orders,
+  handleModalInvoice,
+  handleModalUpdateOrder,
+}) => {
   return (
     <table className="w-full">
       <thead className="border-b border-t border-[#E1E2E9]">
@@ -17,8 +21,12 @@ const TableOrder = ({ search, orders, handleModalInvoice }) => {
           <th className="font-normal px-6 py-3 hidden xl:table-cell">
             Address
           </th>
-          <th className="font-normal px-6 py-3 hidden xl:table-cell">Date</th>
-          <th className="font-normal px-6 py-3 hidden md:table-cell">Total</th>
+          <th className="font-normal px-6 py-3 hidden xl:table-cell text-right">
+            Date
+          </th>
+          <th className="font-normal px-6 py-3 hidden md:table-cell text-right">
+            Total
+          </th>
           <th className="font-normal px-6 py-3 hidden md:table-cell">Action</th>
           <th className="font-normal px-6 py-3">Status</th>
         </tr>
@@ -69,14 +77,19 @@ const TableOrder = ({ search, orders, handleModalInvoice }) => {
                   <span key={client._id}>{client.address}</span>
                 ))}
               </td>
-              <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
+              <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell text-right">
                 {order.date}
               </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
+              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell text-right">
                 {priceFormat(order.total)}
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <SelectMenuActions />
+                <button
+                  onClick={() => handleModalUpdateOrder(order._id)}
+                  className="px-3 py-1 rounded bg-primary_100 text-white transition-all hover:scale-105"
+                >
+                  Update
+                </button>
               </td>
               <td className="whitespace-nowrap px-6 py-3">
                 <p

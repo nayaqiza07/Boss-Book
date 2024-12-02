@@ -14,6 +14,7 @@ export const getOrders = async () => {
 // GET Order By Id
 export const getOrderById = async (id) => {
   const response = await customAPI.get(`/order/${id}`);
+  // console.log(response.data.data);
   return response.data.data;
 };
 
@@ -27,6 +28,20 @@ export const createOrder = async (client, date, status, items) => {
       items,
     });
     toast.success("Berhasil menambahkan order");
+    return data.data;
+  } catch (error) {
+    const errorMessage = error?.response?.data?.message;
+    toast.error(errorMessage);
+  }
+};
+
+// UPDATE Order
+export const updateOrder = async (id, status) => {
+  try {
+    const data = await customAPI.put(`/order/${id}`, {
+      status,
+    });
+    toast.info("Status order berhasil di update");
     return data.data;
   } catch (error) {
     const errorMessage = error?.response?.data?.message;

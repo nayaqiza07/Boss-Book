@@ -14,11 +14,6 @@ export const Navbar = ({ setSidebarOpen, sidebarOpen }) => {
           >
             <Menu03Icon />
           </button>
-          <input
-            type="search"
-            placeholder="Search"
-            className="rounded border p-1 focus:outline-none ml-3"
-          />
         </div>
         {user && <p className="text-xs">Hello, {user.username}</p>}
       </div>

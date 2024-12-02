@@ -81,7 +81,9 @@ export const allOrder = asyncHandler(async (req, res) => {
 // Detail Order
 export const detailOrder = asyncHandler(async (req, res) => {
   const paramsId = req.params.id;
-  const detailOrder = await Order.findById(paramsId);
+  const detailOrder = await Order.findById(paramsId).populate({
+    path: "client",
+  });
 
   return res.status(200).json({
     message: "Detail Order berhasil ditampilkan",
@@ -91,8 +93,15 @@ export const detailOrder = asyncHandler(async (req, res) => {
 
 // Update Order
 export const updateOrder = asyncHandler(async (req, res) => {
+  const paramsId = req.params.id;
+  const updateOrder = await Order.findByIdAndUpdate(paramsId, req.body, {
+    runValidators: false,
+    new: true,
+  });
+
   return res.status(200).json({
     message: "Order berhasil diupdate",
+    data: updateOrder,
   });
 });
 

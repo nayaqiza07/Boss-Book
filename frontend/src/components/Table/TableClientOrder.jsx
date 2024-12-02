@@ -1,8 +1,7 @@
 import { Checkbox } from "../Checkbox/Checkbox";
-import { SelectMenuActions } from "../Select/SelectMenu";
 import { priceFormat } from "../utils";
 
-const TableClientOrder = ({ clientOrder }) => {
+const TableClientOrder = ({ clientOrder, handleModalInvoice }) => {
   return (
     <table className="w-full">
       <thead className="border-b border-t border-[#E1E2E9]">
@@ -13,8 +12,6 @@ const TableClientOrder = ({ clientOrder }) => {
           <th className="font-normal px-6 py-3">Order Number</th>
           <th className="font-normal px-6 py-3 hidden xl:table-cell">Date</th>
           <th className="font-normal px-6 py-3 hidden md:table-cell">Total</th>
-          <th className="font-normal px-6 py-3 hidden md:table-cell">Items</th>
-          <th className="font-normal px-6 py-3 hidden md:table-cell">Action</th>
           <th className="font-normal px-6 py-3">Status</th>
         </tr>
       </thead>
@@ -27,7 +24,7 @@ const TableClientOrder = ({ clientOrder }) => {
 
             <td className="whitespace-nowrap text-primary_100 px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
               <span
-                // onClick={() => handleModalInvoice(order.orderNumber)}
+                onClick={() => handleModalInvoice(order._id)}
                 className="cursor-pointer "
               >
                 {order.orderNumber}
@@ -35,10 +32,6 @@ const TableClientOrder = ({ clientOrder }) => {
 
               {/* Stack Table Start */}
               <dl className="xl:hidden">
-                <dt className="sr-only">Client Name</dt>
-                <dd className="text-night_20 text-xs mt-1 truncate">
-                  {/* {order.client} */}
-                </dd>
                 <dt className="sr-only">Date</dt>
                 <dd className="text-night_20 text-xs mt-1 truncate">
                   {order.date}
@@ -51,14 +44,6 @@ const TableClientOrder = ({ clientOrder }) => {
             </td>
             <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
               {priceFormat(order.total)}
-            </td>
-            <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-              {order.items.map((item) => (
-                <p key={item._id}>{item.name}</p>
-              ))}
-            </td>
-            <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-              <SelectMenuActions />
             </td>
             <td className="whitespace-nowrap px-6 py-3">
               <p

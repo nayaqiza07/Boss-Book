@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { EditSquare } from "../Icon/Icon";
 import { Checkbox } from "../Checkbox/Checkbox";
 
 const TableClient = ({ dataClients, search }) => {
@@ -35,10 +34,10 @@ const TableClient = ({ dataClients, search }) => {
             })
             .map((client) => (
               <tr key={client._id} className="text-night_40 text-left text-sm">
-                <td className="py-3">
+                <td className="py-2.5">
                   <Checkbox />
                 </td>
-                <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
+                <td className="whitespace-nowrap px-6 py-2.5 w-full max-w-0 sm:w-auto sm:max-w-none">
                   {client.name}
 
                   {/* Stack Table Start */}
@@ -50,19 +49,19 @@ const TableClient = ({ dataClients, search }) => {
                   </dl>
                   {/* Stack Table End */}
                 </td>
-                <td className="whitespace-nowrap  px-6 py-3 hidden sm:table-cell">
+                <td className="whitespace-nowrap  px-6 py-2.5 hidden sm:table-cell">
                   {client.address}
                 </td>
-                <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
+                <td className="whitespace-nowrap px-6 py-2.5 hidden md:table-cell">
                   {client.email}
                 </td>
-                <td className="whitespace-nowrap px-6 py-3 hidden xl:table-cell">
+                <td className="whitespace-nowrap px-6 py-2.5 hidden xl:table-cell">
                   {client.phone}
                 </td>
-                <td className="whitespace-nowrap px-6 py-3 hidden sm:table-cell">
+                <td className="whitespace-nowrap px-6 py-2.5 hidden sm:table-cell">
                   <Link to={`view/${client._id}`}>
-                    <button className="rounded-lg p-1 bg-[#97a5eb]/20 transition-all hover:scale-110">
-                      <EditSquare colorStroke={"#5570f1"} />
+                    <button className="rounded px-3 py-1 bg-[#97a5eb]/20 text-primary_100 transition-all hover:scale-110">
+                      View
                     </button>
                   </Link>
                 </td>

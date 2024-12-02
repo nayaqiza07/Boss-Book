@@ -1,29 +1,35 @@
 import { useEffect, useState } from "react";
 import { Card } from "../components/Card/Card";
 import { ModalAddOrder } from "../components/Modal/ModalAddOrder";
-import {
-  SelectMenuItems,
-  SelectMenuMonth,
-  SelectMenuPages,
-} from "../components/Select/SelectMenu";
+import { SelectMenuMonth } from "../components/Select/SelectMenu";
 import { ModalInvoice } from "../components/Modal/ModalInvoice";
+import ModalUpdateOrder from "../components/Modal/ModalUpdateOrder";
 import { Bag } from "../components/Icon/Icon";
 import TableOrder from "../components/Table/TableOrder";
 import TableOrderMobile from "../components/Table/TableOrderMobile";
-import { getOrders, createOrder } from "../api/orderApi";
+import {
+  getOrders,
+  createOrder,
+  getOrderById,
+  updateOrder,
+} from "../api/orderApi";
 
 // Icon
 import { Add01Icon } from "hugeicons-react";
 import { DataEmpty } from "../components/Alert/DataEmpty";
 import { ShopBag } from "../assets/Icon/ShopBag";
 import { toast } from "react-toastify";
+import SearchTable from "../components/Search/SearchTable";
+import Pagination from "../components/Pagination/Pagination";
 
 const Order = () => {
   const [openModalOrder, setOpenModalOrder] = useState(false);
   const [openModalInvoice, setOpenModalInvoice] = useState(false);
+  const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
   const [search, setSearch] = useState("");
   const [orders, setOrders] = useState([]);
+  const [dataOrderById, setDataOrderById] = useState("");
 
   // Input Item Product
   const [addProduct, setAddProduct] = useState(false);
@@ -33,9 +39,23 @@ const Order = () => {
     fetchDataOrder();
   }, []);
 
+  const filterPending = orders.filter((order) => order.status === "Pending");
+  const filterInProgress = orders.filter(
+    (order) => order.status === "In-Progress"
+  );
+  const filterCompleted = orders.filter(
+    (order) => order.status === "Completed"
+  );
+
   const fetchDataOrder = () => {
     getOrders().then((result) => {
       setOrders(result);
+    });
+  };
+
+  const fetchDataOrderById = (id) => {
+    getOrderById(id).then((result) => {
+      setDataOrderById(result);
     });
   };
 
@@ -60,8 +80,8 @@ const Order = () => {
     setAddProduct(false);
   };
 
-  // Kirim Data Order ke dalam Database
-  const handleSubmit = (e) => {
+  // Create Data Order ke dalam Database
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Ambil semua Inputan
@@ -70,22 +90,37 @@ const Order = () => {
     const data = Object.fromEntries(dataForm);
     // console.log(data);
 
-    createOrder(data.client, data.date, data.status, items);
+    await createOrder(data.client, data.date, data.status, items);
     fetchDataOrder();
   };
 
   const handleModalInvoice = (id) => {
     setOpenModalInvoice(true);
-    console.log(id);
+    // console.log(id);
+    fetchDataOrderById(id);
   };
 
-  const filterPending = orders.filter((order) => order.status === "Pending");
-  const filterInProgress = orders.filter(
-    (order) => order.status === "In-Progress"
-  );
-  const filterCompleted = orders.filter(
-    (order) => order.status === "Completed"
-  );
+  const handleModalUpdateOrder = (id) => {
+    setOpenModalUpdate(true);
+    // console.log(id);
+    fetchDataOrderById(id);
+  };
+
+  // Update Data Order
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    // Ambil semua Inputan
+    const form = e.target;
+    const dataForm = new FormData(form);
+    const data = Object.fromEntries(dataForm);
+    // console.log(data);
+
+    await updateOrder(dataOrderById._id, data.status);
+    // console.log(dataOrderById._id, data.status);
+    setOpenModalUpdate(false);
+    fetchDataOrder();
+  };
 
   return (
     <div className="p-5 grid gap-5">
@@ -176,25 +211,11 @@ const Order = () => {
           ) : (
             <>
               {/* Third Head Start */}
-              <div className="flex flex-row justify-between items-center">
-                <h2 className="text-night_60">Orders</h2>
-                <div className="flex flex-row gap-3">
-                  <input
-                    type="search"
-                    placeholder="Search"
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="border rounded focus:outline-none w-20 lg:w-fit px-2 py-1"
-                  />
-                  <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
-                    {/* <HiOutlineFilter /> */}
-                    Filter
-                  </button>
-                  <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
-                    {/* <HiOutlineCalendar /> */}
-                    Filter
-                  </button>
-                </div>
-              </div>
+              <SearchTable
+                title="Orders"
+                search={search}
+                setSearch={setSearch}
+              />
               {/* Third Head End */}
 
               {/* Third Table Start */}
@@ -203,32 +224,24 @@ const Order = () => {
                   orders={orders}
                   search={search}
                   handleModalInvoice={handleModalInvoice}
+                  handleModalUpdateOrder={handleModalUpdateOrder}
                 />
               </div>
               {/* Third Table End */}
 
               {/* Table view up to the `md:` breakpoint Start  */}
               <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-                <TableOrderMobile orders={orders} />
+                <TableOrderMobile
+                  orders={orders}
+                  search={search}
+                  handleModalInvoice={handleModalInvoice}
+                  handleModalUpdateOrder={handleModalUpdateOrder}
+                />
               </div>
               {/* Table view up to the `md:` breakpoint End  */}
 
               {/* Third Pagination Start */}
-              <div className="flex justify-between gap-3 py-3">
-                <div className="flex flex-row items-center gap-3">
-                  <SelectMenuItems />
-                  <p className="text-[#666666] text-sm">
-                    of {orders.length} items
-                  </p>
-                </div>
-
-                <div className="flex flex-row items-center gap-3">
-                  {/* <HiChevronLeft size={25} color="#666666" /> */}
-                  <SelectMenuPages />
-                  <p className="text-[#666666] text-sm">of 10 pages</p>
-                  {/* <HiChevronRight size={25} color="#666666" /> */}
-                </div>
-              </div>
+              <Pagination />
               {/* Third Pagination End */}
             </>
           )}
@@ -254,8 +267,18 @@ const Order = () => {
       <ModalInvoice
         openModalInvoice={openModalInvoice}
         setOpenModalInvoice={setOpenModalInvoice}
+        dataOrderById={dataOrderById}
       />
       {/* Modal Invoice End */}
+
+      {/* Modal Update Order Start */}
+      <ModalUpdateOrder
+        openModalUpdate={openModalUpdate}
+        setOpenModalUpdate={setOpenModalUpdate}
+        dataOrderById={dataOrderById}
+        handleUpdate={handleUpdate}
+      />
+      {/* Modal Update Order End */}
     </div>
   );
 };

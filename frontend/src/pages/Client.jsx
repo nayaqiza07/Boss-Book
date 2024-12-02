@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "../components/Card/Card";
 import { ModalAddClient } from "../components/Modal/ModalAddClient";
-import {
-  SelectMenuItems,
-  SelectMenuMonth,
-  SelectMenuPages,
-} from "../components/Select/SelectMenu";
+import { SelectMenuMonth } from "../components/Select/SelectMenu";
 
 import { AddUser, User2 } from "../components/Icon/Icon";
 import { DataEmpty } from "../components/Alert/DataEmpty";
@@ -13,6 +9,8 @@ import { BigUser2 } from "../assets/Icon/BigUser2";
 import TableClient from "../components/Table/TableClient";
 import TableClientMobile from "../components/Table/TableClientMobile";
 import { getClients, createClient } from "../api/clientApi";
+import Pagination from "../components/Pagination/Pagination";
+import SearchTable from "../components/Search/SearchTable";
 
 const Client = () => {
   const [openModalClient, setOpenModalClient] = useState(false);
@@ -20,17 +18,31 @@ const Client = () => {
   const [search, setSearch] = useState("");
   const [dataClients, setDataClients] = useState([]);
 
-  useEffect(() => {
-    fetchDataClient();
-  }, []);
+  // Pagination
+  const [limitClient, setLimitClient] = useState(10);
+  const [totalClient, setTotalClient] = useState(0);
+  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
 
-  const fetchDataClient = () => {
-    getClients().then((result) => {
-      setDataClients(result);
-    });
+  // console.log(limitClient, totalClient, page, totalPages);
+
+  useEffect(() => {
+    fetchDataClient(page, limitClient);
+  }, [page, limitClient]);
+
+  const fetchDataClient = (page, limitClient) => {
+    getClients(page, limitClient).then(
+      ({ client, limitClient, totalClient, currentPage, totalPage }) => {
+        setDataClients(client);
+        setLimitClient(limitClient);
+        setTotalClient(totalClient);
+        setPage(currentPage);
+        setTotalPage(totalPage);
+      }
+    );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Ambil semua Inputan
@@ -39,28 +51,28 @@ const Client = () => {
     const data = Object.fromEntries(dataForm);
     // console.log(data);
 
-    createClient(data.name, data.email, data.phone, data.address);
+    await createClient(data.name, data.email, data.phone, data.address);
     fetchDataClient();
   };
 
   return (
     <div className="p-5 grid gap-5">
       {/* Top Start */}
-      <div className="grid grid-rows-1 grid-cols-1">
+      <section className="grid grid-rows-1 grid-cols-1">
         <div className="flex justify-between items-center">
           <h1 className="text-night_60 font-medium">Client Summary</h1>
           <button
             onClick={() => setOpenModalClient(true)}
-            className="flex items-center bg-primary_100 text-white text-sm rounded-xl gap-3 py-3 px-5"
+            className="flex items-center bg-primary_100 text-white text-sm rounded gap-1 leading-4 py-1 px-2"
           >
             <AddUser colorStroke={"#FFFFFF"} /> New Client
           </button>
         </div>
-      </div>
+      </section>
       {/* Top Start */}
 
       {/* Second Start */}
-      <div className="grid gap-5 grid-rows-1 lg:grid-cols-2">
+      <section className="grid gap-5 grid-rows-1 lg:grid-cols-2">
         <Card>
           <div className="flex justify-between">
             <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
@@ -71,7 +83,7 @@ const Client = () => {
           <div className="flex flex-row justify-between mt-7">
             <div>
               <h5 className="text-night_30">All Clients</h5>
-              <p className="text-night_60 font-medium">{dataClients?.length}</p>
+              <p className="text-night_60 font-medium">{totalClient}</p>
             </div>
             <div>
               <h5 className="text-night_30">Active</h5>
@@ -106,11 +118,11 @@ const Client = () => {
             </div>
           </div>
         </Card>
-      </div>
+      </section>
       {/* Second End */}
 
       {/* Third Start */}
-      <div className="grid grid-rows-1 grid-cols-1">
+      <section className="grid grid-rows-1 grid-cols-1">
         <Card>
           {dataClients?.length === 0 ? (
             <DataEmpty
@@ -121,25 +133,11 @@ const Client = () => {
           ) : (
             <>
               {/* Third Head Start */}
-              <div className="flex flex-row justify-between items-center">
-                <h2 className="text-night_60">Clients</h2>
-                <div className="flex flex-row gap-3">
-                  <input
-                    type="search"
-                    placeholder="Search"
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="border rounded focus:outline-none w-20 lg:w-fit px-2 py-1"
-                  />
-                  <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
-                    {/* <HiOutlineFilter /> */}
-                    Filter
-                  </button>
-                  <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
-                    {/* <HiOutlineCalendar /> */}
-                    Filter
-                  </button>
-                </div>
-              </div>
+              <SearchTable
+                title="Clients"
+                search={search}
+                setSearch={setSearch}
+              />
               {/* Third Head End */}
 
               {/* Third Table Start */}
@@ -150,31 +148,24 @@ const Client = () => {
 
               {/* Table view up to the `md:` breakpoint Start  */}
               <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-                <TableClientMobile dataClients={dataClients} />
+                <TableClientMobile dataClients={dataClients} search={search} />
               </div>
               {/* Table view up to the `md:` breakpoint End  */}
-
-              {/* Third Pagination Start */}
-              <div className="flex justify-between gap-3 py-3">
-                <div className="flex flex-row items-center gap-3">
-                  <SelectMenuItems />
-                  <p className="text-[#666666] text-sm">
-                    of {dataClients?.length} items
-                  </p>
-                </div>
-
-                <div className="flex flex-row items-center gap-3">
-                  {/* <HiChevronLeft size={25} color="#666666" /> */}
-                  <SelectMenuPages />
-                  <p className="text-[#666666] text-sm">of 10 pages</p>
-                  {/* <HiChevronRight size={25} color="#666666" /> */}
-                </div>
-              </div>
-              {/* Third Pagination End */}
             </>
           )}
+
+          {/* Third Pagination Start */}
+          <Pagination
+            // handlePageChange={handlePageChange}
+            limitClient={limitClient}
+            totalClient={totalClient}
+            page={page}
+            totalPage={totalPage}
+            setPage={setPage}
+          />
+          {/* Third Pagination End */}
         </Card>
-      </div>
+      </section>
       {/* Third End */}
 
       <ModalAddClient

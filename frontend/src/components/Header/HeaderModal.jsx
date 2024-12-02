@@ -1,3 +1,5 @@
+import { Cancel01Icon } from "hugeicons-react";
+
 export const HeaderModal = ({ setOpenModal, title }) => {
   return (
     <div className="flex justify-between items-center">
@@ -6,7 +8,7 @@ export const HeaderModal = ({ setOpenModal, title }) => {
         onClick={() => setOpenModal(false)}
         className="bg-secondary_30 rounded-lg w-8 h-8"
       >
-        {/* <HiOutlineX size={20} className="mx-auto" /> */}
+        <Cancel01Icon size={24} className="mx-auto" />
       </button>
     </div>
   );

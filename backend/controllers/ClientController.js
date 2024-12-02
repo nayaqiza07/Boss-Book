@@ -39,7 +39,7 @@ export const allClient = asyncHandler(async (req, res) => {
 
   query = query.skip(skipData).limit(limitData);
 
-  let countClient = await Client.countDocuments();
+  let countClient = await Client.countDocuments(queryObj);
   if (req.query.page) {
     if (skipData >= countClient) {
       res.status(404);
@@ -48,11 +48,17 @@ export const allClient = asyncHandler(async (req, res) => {
   }
 
   const clients = await query;
+  const totalPage = Math.ceil(countClient / limitData);
 
   return res.status(200).json({
     message: "Seluruh Client berhasil ditampilkan",
     data: clients,
-    count: countClient,
+    pagination: {
+      limitClient: limitData,
+      totalClient: countClient,
+      page,
+      totalPage,
+    },
   });
 });
 

@@ -2,10 +2,18 @@ import customAPI from "./axios.js";
 import { toast } from "react-toastify";
 
 // GET Data Client
-export const getClients = async () => {
+export const getClients = async (page, limit) => {
   try {
-    const response = await customAPI.get("/client");
-    return response.data.data;
+    const response = await customAPI.get(`/client?page=${page}&limit=${limit}`);
+    const client = response.data.data;
+    const limitClient = response.data.pagination.limitClient;
+    const totalClient = response.data.pagination.totalClient;
+    const currentPage = response.data.pagination.page;
+    const totalPage = response.data.pagination.totalPage;
+
+    // console.log({ limitClient });
+    // console.log(client, pagination, params);
+    return { client, limitClient, totalClient, currentPage, totalPage };
   } catch (error) {
     console.log(error);
   }
