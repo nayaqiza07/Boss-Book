@@ -8,7 +8,7 @@ const FormInput = ({
   onChange,
 }) => {
   return (
-    <div className="flex items-center gap-3 mb-7 rounded-lg bg-[#EFF1F9]/60">
+    <div className="flex items-center gap-3 mb-7 rounded-lg bg-[#EFF1F9]/60 w-full">
       {icon ? <span className="ml-4">{icon}</span> : null}
 
       <input

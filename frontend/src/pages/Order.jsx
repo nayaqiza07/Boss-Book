@@ -78,6 +78,7 @@ const Order = () => {
     });
     toast.success("Item berhasil ditambahkan");
     setAddProduct(false);
+    console.log(items);
   };
 
   // Create Data Order ke dalam Database
@@ -130,7 +131,7 @@ const Order = () => {
           <h1 className="text-night_60 font-medium">Order Summary</h1>
           <button
             onClick={() => setOpenModalOrder(true)}
-            className="flex items-center bg-primary_100 text-white text-sm rounded-xl gap-3 py-3 px-5 transition-all hover:scale-105"
+            className="flex items-center bg-primary_100 text-white text-sm rounded gap-1 leading-4 py-1 px-2"
           >
             <Add01Icon /> New Order
           </button>

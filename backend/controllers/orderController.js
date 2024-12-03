@@ -1,5 +1,7 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Order from "../models/orderModel.js";
+import { v2 as cloudinary } from "cloudinary";
+import streamifier from "streamifier";
 
 // Create Order
 export const createOrder = asyncHandler(async (req, res) => {
@@ -118,17 +120,26 @@ export const currentClientOrder = asyncHandler(async (req, res) => {
 
 // File Upload Order
 export const fileUpload = asyncHandler(async (req, res) => {
-  const file = req.file;
-  if (!file) {
-    res.status(400);
-    throw new Error("Tidak file yang diupload");
-  }
+  const stream = cloudinary.uploader.upload_stream(
+    {
+      folder: "uploads",
+      allowed_formats: ["jpg", "png", "jpeg"],
+    },
+    function (err, result) {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          message: "Gagal Upload Gambar",
+          error: err,
+        });
+      }
 
-  const imageFileName = file.filename;
-  const pathImageFile = `/uploads/${imageFileName}`;
+      res.json({
+        message: "Gambar berhasil di upload",
+        url: result.secure_url,
+      });
+    }
+  );
 
-  res.status(200).json({
-    message: "Image berhasil diupload",
-    image: pathImageFile,
-  });
+  streamifier.createReadStream(req.file.buffer).pipe(stream);
 });

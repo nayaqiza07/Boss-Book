@@ -40,11 +40,11 @@ const TableOrder = ({
           })
           .map((order) => (
             <tr key={order._id} className="text-night_40 text-left text-sm">
-              <td className="py-3">
+              <td className="py-2.5">
                 <Checkbox />
               </td>
 
-              <td className="whitespace-nowrap text-primary_100 px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
+              <td className="whitespace-nowrap text-primary_100 px-6 py-2.5 w-full max-w-0 sm:w-auto sm:max-w-none">
                 <span
                   onClick={() => handleModalInvoice(order._id)}
                   className="cursor-pointer "
@@ -67,23 +67,23 @@ const TableOrder = ({
                 </dl>
                 {/* Stack Table End */}
               </td>
-              <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
+              <td className="whitespace-nowrap  px-6 py-2.5 hidden xl:table-cell">
                 {order.clientData.map((client) => (
                   <span key={client._id}>{client.name}</span>
                 ))}
               </td>
-              <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell">
+              <td className="whitespace-nowrap  px-6 py-2.5 hidden xl:table-cell">
                 {order.clientData.map((client) => (
                   <span key={client._id}>{client.address}</span>
                 ))}
               </td>
-              <td className="whitespace-nowrap  px-6 py-3 hidden xl:table-cell text-right">
+              <td className="whitespace-nowrap  px-6 py-2.5 hidden xl:table-cell text-right">
                 {order.date}
               </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell text-right">
+              <td className="whitespace-nowrap px-6 py-2.5 hidden md:table-cell text-right">
                 {priceFormat(order.total)}
               </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
+              <td className="whitespace-nowrap px-6 py-2.5 hidden md:table-cell">
                 <button
                   onClick={() => handleModalUpdateOrder(order._id)}
                   className="px-3 py-1 rounded bg-primary_100 text-white transition-all hover:scale-105"
@@ -91,7 +91,7 @@ const TableOrder = ({
                   Update
                 </button>
               </td>
-              <td className="whitespace-nowrap px-6 py-3">
+              <td className="whitespace-nowrap px-6 py-2.5">
                 <p
                   className={`px-5 py-1 rounded w-fit ${
                     order.status === "Completed"

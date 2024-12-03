@@ -83,7 +83,7 @@ export const ModalAddOrder = ({
         />
         {/* Header End */}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
           {/* Content Start */}
           <div className="max-h-96 overflow-y-auto mt-7 grid grid-cols-1 gap-5 lg:grid-cols-2 lg:max-h-fit">
             {/* Left Content Start */}

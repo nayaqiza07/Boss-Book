@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 import cookieParser from "cookie-parser";
+import { v2 as cloudinary } from "cloudinary";
 
 import authRouter from "./routes/authRouter.js";
 import clientRouter from "./routes/clientRouter.js";
@@ -13,6 +14,12 @@ dotenv.config();
 
 const app = express();
 const port = 5000;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET, // Click 'View API Keys' above to copy your API secret
+});
 
 // Middleware
 app.use(cors());
