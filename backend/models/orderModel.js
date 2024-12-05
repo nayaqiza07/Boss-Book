@@ -8,8 +8,12 @@ const singleItem = Schema({
   quantity: { type: Number, required: true },
   price: { type: Number, required: true },
   totalPrice: { type: Number, required: true },
-  image: { type: String, default: null },
+  // image: { type: String, default: null },
 });
+
+// const singleImage = Schema({
+//   image: { type: String, required: true },
+// });
 
 const orderSchema = new Schema({
   orderNumber: {
@@ -36,6 +40,8 @@ const orderSchema = new Schema({
     default: "Pending",
   },
   items: [singleItem],
+  image: { type: String, default: null },
+  // image: [singleImage],
 });
 
 const Order = mongoose.model("Order", orderSchema);

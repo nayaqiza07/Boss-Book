@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
+import Button from "../Button/Button";
 
-const TableClientMobile = ({ dataClients, search }) => {
+const TableClientMobile = ({ dataClients }) => {
   return (
     <>
       {dataClients
-        .filter((client) => {
-          return search.toLowerCase() === ""
-            ? client
-            : client.name.toLowerCase().includes(search);
-        })
+        // .filter((client) => {
+        //   return search.toLowerCase() === ""
+        //     ? client
+        //     : client.name.toLowerCase().includes(search);
+        // })
         .map((client, index) => (
           <div
             key={index + 1}
@@ -17,9 +18,13 @@ const TableClientMobile = ({ dataClients, search }) => {
             <div className="flex justify-between">
               <h1 className="font-medium text-night_40">{client.name}</h1>
               <Link to={`view/${client._id}`}>
-                <button className="rounded px-3 py-1 bg-[#97a5eb]/20 text-primary_100 text-xs transition-all hover:scale-110">
+                <Button
+                  variant="primary_2"
+                  size="xs"
+                  className="transition-all hover:scale-105"
+                >
                   View
-                </button>
+                </Button>
               </Link>
             </div>
             <div className="text-night_20 text-xs">

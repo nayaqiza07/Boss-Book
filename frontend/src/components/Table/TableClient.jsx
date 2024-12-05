@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Checkbox } from "../Checkbox/Checkbox";
+import Button from "../Button/Button";
 
-const TableClient = ({ dataClients, search }) => {
+const TableClient = ({ dataClients }) => {
   return (
     <>
       <table className="w-full">
@@ -27,11 +28,11 @@ const TableClient = ({ dataClients, search }) => {
         </thead>
         <tbody className="border-b border-[#E1E2E9]">
           {dataClients
-            .filter((client) => {
-              return search.toLowerCase() === ""
-                ? client
-                : client.name.toLowerCase().includes(search);
-            })
+            // .filter((client) => {
+            //   return search.toLowerCase() === ""
+            //     ? client
+            //     : client.name.toLowerCase().includes(search);
+            // })
             .map((client) => (
               <tr key={client._id} className="text-night_40 text-left text-sm">
                 <td className="py-2.5">
@@ -60,9 +61,13 @@ const TableClient = ({ dataClients, search }) => {
                 </td>
                 <td className="whitespace-nowrap px-6 py-2.5 hidden sm:table-cell">
                   <Link to={`view/${client._id}`}>
-                    <button className="rounded px-3 py-1 bg-[#97a5eb]/20 text-primary_100 transition-all hover:scale-110">
+                    <Button
+                      variant="primary_2"
+                      size="sm"
+                      className="transition-all hover:scale-105"
+                    >
                       View
-                    </button>
+                    </Button>
                   </Link>
                 </td>
               </tr>

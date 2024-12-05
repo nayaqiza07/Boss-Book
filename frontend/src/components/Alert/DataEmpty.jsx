@@ -1,11 +1,11 @@
 export const DataEmpty = ({ icon, title, subTitle }) => {
   return (
-    <div className="flex flex-col justify-center items-center px-5 py-10 border-2 border-[#E1E2E9] rounded-lg">
+    <div className="px-4 py-10 h-80 flex flex-col justify-center items-center border-2 border-[#E1E2E9] rounded-lg">
       <div className="w-fit border border-[#E1E2E9] bg-main_background rounded-full p-10">
         {icon}
       </div>
       <div className="text-center mt-10">
-        <h5 className="font-medium text-xl">{title}</h5>
+        <h5 className="font-medium text-lg">{title}</h5>
         <p className="text-night_30 text-sm">{subTitle}</p>
         {/* <button
           onClick={() => setOpen(true)}

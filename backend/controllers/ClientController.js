@@ -62,6 +62,16 @@ export const allClient = asyncHandler(async (req, res) => {
   });
 });
 
+// GET allClient without limit, page, name
+export const clientData = asyncHandler(async (req, res) => {
+  const clientData = await Client.find();
+
+  return res.status(200).json({
+    message: "Detail data Client berhasil ditampilkan",
+    data: clientData,
+  });
+});
+
 // Detail Client
 export const detailClient = asyncHandler(async (req, res) => {
   const paramsId = req.params.id;

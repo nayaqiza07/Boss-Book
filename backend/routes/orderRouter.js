@@ -49,6 +49,7 @@ router.post(
   "/file-upload",
   protectedMiddleware,
   upload.single("image"),
+  // upload.array("image"),
   fileUpload
 );
 

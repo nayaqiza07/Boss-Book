@@ -2,9 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
+
+import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 
 import authRouter from "./routes/authRouter.js";
 import clientRouter from "./routes/clientRouter.js";

@@ -1,11 +1,12 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Order from "../models/orderModel.js";
+
 import { v2 as cloudinary } from "cloudinary";
 import streamifier from "streamifier";
 
 // Create Order
 export const createOrder = asyncHandler(async (req, res) => {
-  const { client, date, status, items } = req.body;
+  const { client, date, status, items, image } = req.body;
 
   // Jika item tidak dimasukkan, maka tampilkan error
   if (!items || items.length < 1) {
@@ -14,6 +15,7 @@ export const createOrder = asyncHandler(async (req, res) => {
   }
 
   let orderItem = [];
+  // let imagesItem = [];
   let total = 0;
   let newOrderNumber = "";
 
@@ -24,7 +26,7 @@ export const createOrder = asyncHandler(async (req, res) => {
       quantity: item.quantity,
       price: item.price,
       totalPrice: item.quantity * item.price,
-      image: item.image,
+      // image: item.image,
     };
 
     // Memberi nilai pada variabel yang sudah dibuat diatas untuk menampung setiap item
@@ -33,6 +35,16 @@ export const createOrder = asyncHandler(async (req, res) => {
     // Menghitung total dari totalPrice setiap item
     total += item.quantity * item.price;
   }
+
+  // Looping untuk setiap image yang dimasukkan
+  // for (const img of image) {
+  //   const singleImage = {
+  //     image: img.image,
+  //   };
+
+  //   // Memberi nilai pada variabel yang sudah dibuat diatas untuk menampung setiap image
+  //   imagesItem = [...imagesItem, singleImage];
+  // }
 
   // Generate orderNumber otomatis, jika data order kosong, maka nilai default GRG00001, jika data ada, maka + 1
   const lastOrder = await Order.findOne().sort({ orderNumber: -1 }).exec();
@@ -51,6 +63,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     total: total,
     status,
     items: orderItem,
+    image,
   });
 
   return res.status(201).json({
@@ -140,6 +153,11 @@ export const fileUpload = asyncHandler(async (req, res) => {
       });
     }
   );
+
+  if (!req.file) {
+    res.status(400);
+    throw new Error("Tidak ada image yang ditambahkan");
+  }
 
   streamifier.createReadStream(req.file.buffer).pipe(stream);
 });

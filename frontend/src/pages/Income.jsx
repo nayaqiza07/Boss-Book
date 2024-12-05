@@ -1,3 +1,4 @@
+import { Card } from "../components/Card/Card";
 import { SidebarItem } from "../components/Sidebar/SidebarItem";
 
 const Income = () => {
@@ -12,8 +13,10 @@ const Income = () => {
       {/* Nav Link End */}
 
       <div>
-        <div>
-          <h1>income</h1>
+        <div className="p-5 grid gap-5">
+          <Card></Card>
+          <Card></Card>
+          <Card></Card>
         </div>
       </div>
     </>

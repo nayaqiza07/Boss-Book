@@ -50,7 +50,7 @@ const ClientView = () => {
 
   const handleModalInvoice = (id) => {
     setOpenModalInvoice(true);
-    console.log(id);
+    // console.log(id);
     fetchDataOrderById(id);
   };
 

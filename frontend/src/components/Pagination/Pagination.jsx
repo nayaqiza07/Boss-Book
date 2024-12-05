@@ -16,6 +16,11 @@ const Pagination = ({ limitClient, totalClient, page, totalPage, setPage }) => {
   //   navigate(`${pathname}?${searchParams.toString()}`);
   // };
 
+  // const handlePageChange = ({ selected }) => {
+  //   const newOffset = selected + 1;
+  //   setPage(newOffset);
+  // };
+
   return (
     <>
       <div className="flex justify-between gap-3 pt-2">
@@ -25,7 +30,7 @@ const Pagination = ({ limitClient, totalClient, page, totalPage, setPage }) => {
           </p>
         </div>
 
-        <div className="flex flex-row items-center gap-3">
+        <nav className="flex flex-row items-center gap-3">
           <p className="text-[#666666] text-sm">
             {totalClient ? page : 0} of {totalPage} pages
           </p>
@@ -49,7 +54,7 @@ const Pagination = ({ limitClient, totalClient, page, totalPage, setPage }) => {
             pageCount={totalPage}
             onPageChange={handlePageChange}
           /> */}
-        </div>
+        </nav>
       </div>
     </>
   );

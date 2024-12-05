@@ -7,10 +7,11 @@ import { ShopBag } from "../../assets/Icon/ShopBag";
 import FormInput from "../Form/FormInput";
 import FormSelect from "../Form/FormSelect";
 
-import { getClients } from "../../api/clientApi";
+import { getAllClients } from "../../api/clientApi";
 import { priceFormat } from "../utils";
 
 import { Add01Icon, ArrowLeft01Icon } from "hugeicons-react";
+import Uploader from "../Uploader/Uploader";
 
 export const ModalAddOrder = ({
   openModalOrder,
@@ -25,14 +26,17 @@ export const ModalAddOrder = ({
 }) => {
   const [clients, setClients] = useState([]);
 
+  // const [page] = useState(0);
+  // const [keyword] = useState("");
+
   useEffect(() => {
     fetchDataClient();
   }, []);
 
   // Fetch data client untuk form select
   const fetchDataClient = () => {
-    getClients().then(({ client }) => {
-      setClients(client);
+    getAllClients().then((result) => {
+      setClients(result);
     });
   };
 
@@ -75,7 +79,7 @@ export const ModalAddOrder = ({
       openModal={openModalOrder}
       onCloseModal={() => setOpenModalOrder(false)}
     >
-      <div className="max-w-72 lg:max-w-[576px]">
+      <div className="max-w-72 lg:max-w-[860px]">
         {/* Header Start */}
         <HeaderModal
           setOpenModal={setOpenModalOrder}
@@ -85,7 +89,7 @@ export const ModalAddOrder = ({
 
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           {/* Content Start */}
-          <div className="max-h-96 overflow-y-auto mt-7 grid grid-cols-1 gap-5 lg:grid-cols-2 lg:max-h-fit">
+          <div className="max-h-96 overflow-y-auto mt-7 grid grid-cols-1 gap-5 lg:grid-cols-3 lg:max-h-fit">
             {/* Left Content Start */}
             <div>
               <div className="flex justify-between">
@@ -109,6 +113,7 @@ export const ModalAddOrder = ({
                     defaultValue={todayDate}
                     readonly={true}
                   />
+                  <label className="text-xs text-[#5E6366]">Order Status</label>
                   <FormSelect
                     list={list}
                     name="status"
@@ -159,12 +164,12 @@ export const ModalAddOrder = ({
                       />
                     </div>
 
-                    <FormInput
+                    {/* <FormInput
                       icon={false}
                       type="file"
                       name="image"
                       onChange={handleChangeItem}
-                    />
+                    /> */}
 
                     <div className="flex justify-between">
                       <span
@@ -210,6 +215,13 @@ export const ModalAddOrder = ({
               </div>
             </div>
             {/* Right Content End */}
+
+            {/* Uploader Start */}
+            <div>
+              <Uploader />
+              {/* <input type="file" name="image" /> */}
+            </div>
+            {/* Uploader End */}
           </div>
           {/* Content End */}
 

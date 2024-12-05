@@ -15,23 +15,27 @@ import SearchTable from "../components/Search/SearchTable";
 const Client = () => {
   const [openModalClient, setOpenModalClient] = useState(false);
 
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
   const [dataClients, setDataClients] = useState([]);
 
   // Pagination
-  const [limitClient, setLimitClient] = useState(10);
+  const [limitClient, setLimitClient] = useState(0);
   const [totalClient, setTotalClient] = useState(0);
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
 
+  // Search
+  const [keyword, setKeyword] = useState("");
+  const [query, setQuery] = useState("");
+
   // console.log(limitClient, totalClient, page, totalPages);
 
   useEffect(() => {
-    fetchDataClient(page, limitClient);
-  }, [page, limitClient]);
+    fetchDataClient(keyword, page);
+  }, [keyword, page]);
 
-  const fetchDataClient = (page, limitClient) => {
-    getClients(page, limitClient).then(
+  const fetchDataClient = (keyword, page) => {
+    getClients(keyword, page).then(
       ({ client, limitClient, totalClient, currentPage, totalPage }) => {
         setDataClients(client);
         setLimitClient(limitClient);
@@ -53,6 +57,12 @@ const Client = () => {
 
     await createClient(data.name, data.email, data.phone, data.address);
     fetchDataClient();
+  };
+
+  const searchData = (e) => {
+    e.preventDefault();
+    setPage(1);
+    setKeyword(query);
   };
 
   return (
@@ -135,20 +145,21 @@ const Client = () => {
               {/* Third Head Start */}
               <SearchTable
                 title="Clients"
-                search={search}
-                setSearch={setSearch}
+                query={query}
+                setQuery={setQuery}
+                searchData={searchData}
               />
               {/* Third Head End */}
 
               {/* Third Table Start */}
               <div className="hidden overflow-x-auto mt-5 md:block">
-                <TableClient dataClients={dataClients} search={search} />
+                <TableClient dataClients={dataClients} />
               </div>
               {/* Third Table End */}
 
               {/* Table view up to the `md:` breakpoint Start  */}
               <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-                <TableClientMobile dataClients={dataClients} search={search} />
+                <TableClientMobile dataClients={dataClients} />
               </div>
               {/* Table view up to the `md:` breakpoint End  */}
             </>

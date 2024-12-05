@@ -6,6 +6,7 @@ import {
 import {
   createClient,
   allClient,
+  clientData,
   detailClient,
   updateClient,
   deleteClient,
@@ -23,6 +24,10 @@ router.post("/", protectedMiddleware, createClient);
 // Read Data Client
 // GET /api/v1/client
 router.get("/", allClient);
+
+// Read Data Client
+// GET /api/v1/client
+router.get("/all", clientData);
 
 // Detail Data Client
 // GET /api/v1/client/:id

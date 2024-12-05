@@ -1,3 +1,4 @@
+import Button from "../Button/Button";
 import { priceFormat } from "../utils";
 
 const TableOrderMobile = ({
@@ -38,12 +39,14 @@ const TableOrderMobile = ({
                   {order.status}
                 </span>
               </div>
-              <button
+              <Button
+                variant="primary"
+                size="xs"
+                className="transition-all hover:scale-105"
                 onClick={() => handleModalUpdateOrder(order._id)}
-                className="px-3 py-1 rounded bg-primary_100 text-white text-xs transition-all hover:scale-105"
               >
                 Update
-              </button>
+              </Button>
             </div>
             <div className="text-night_20 text-xs">
               <p

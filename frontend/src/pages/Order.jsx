@@ -21,6 +21,7 @@ import { ShopBag } from "../assets/Icon/ShopBag";
 import { toast } from "react-toastify";
 import SearchTable from "../components/Search/SearchTable";
 import Pagination from "../components/Pagination/Pagination";
+import Button from "../components/Button/Button";
 
 const Order = () => {
   const [openModalOrder, setOpenModalOrder] = useState(false);
@@ -74,11 +75,11 @@ const Order = () => {
       name: inputItem.name,
       quantity: parseInt(inputItem.quantity),
       price: parseInt(inputItem.price),
-      image: inputItem.image,
+      // image: inputItem.image,
     });
     toast.success("Item berhasil ditambahkan");
     setAddProduct(false);
-    console.log(items);
+    // console.log(items);
   };
 
   // Create Data Order ke dalam Database
@@ -91,7 +92,7 @@ const Order = () => {
     const data = Object.fromEntries(dataForm);
     // console.log(data);
 
-    await createOrder(data.client, data.date, data.status, items);
+    await createOrder(data.client, data.date, data.status, items, data.image);
     fetchDataOrder();
   };
 
@@ -129,12 +130,14 @@ const Order = () => {
       <div className="grid grid-rows-1 grid-cols-1">
         <div className="flex justify-between items-center">
           <h1 className="text-night_60 font-medium">Order Summary</h1>
-          <button
+          <Button
+            variant="primary"
+            size="md"
+            className="flex gap-1"
             onClick={() => setOpenModalOrder(true)}
-            className="flex items-center bg-primary_100 text-white text-sm rounded gap-1 leading-4 py-1 px-2"
           >
             <Add01Icon /> New Order
-          </button>
+          </Button>
         </div>
       </div>
       {/* Top Start */}
