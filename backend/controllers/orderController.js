@@ -156,7 +156,7 @@ export const fileUpload = asyncHandler(async (req, res) => {
 
   if (!req.file) {
     res.status(400);
-    throw new Error("Tidak ada image yang ditambahkan");
+    throw new Error("Tidak ada gambar yang ditambahkan");
   }
 
   streamifier.createReadStream(req.file.buffer).pipe(stream);

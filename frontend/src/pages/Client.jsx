@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Card } from "../components/Card/Card";
 import { ModalAddClient } from "../components/Modal/ModalAddClient";
-import { SelectMenuMonth } from "../components/Select/SelectMenu";
 
-import { AddUser, User2 } from "../components/Icon/Icon";
+import { AddUser } from "../components/Icon/Icon";
 import { DataEmpty } from "../components/Alert/DataEmpty";
 import { BigUser2 } from "../assets/Icon/BigUser2";
 import TableClient from "../components/Table/TableClient";
@@ -11,6 +10,7 @@ import TableClientMobile from "../components/Table/TableClientMobile";
 import { getClients, createClient } from "../api/clientApi";
 import Pagination from "../components/Pagination/Pagination";
 import SearchTable from "../components/Search/SearchTable";
+import Button from "../components/Button/Button";
 
 const Client = () => {
   const [openModalClient, setOpenModalClient] = useState(false);
@@ -56,7 +56,7 @@ const Client = () => {
     // console.log(data);
 
     await createClient(data.name, data.email, data.phone, data.address);
-    fetchDataClient();
+    fetchDataClient(keyword, page);
   };
 
   const searchData = (e) => {
@@ -71,67 +71,19 @@ const Client = () => {
       <section className="grid grid-rows-1 grid-cols-1">
         <div className="flex justify-between items-center">
           <h1 className="text-night_60 font-medium">Client Summary</h1>
-          <button
+          <Button
+            variant="primary"
+            size="md"
             onClick={() => setOpenModalClient(true)}
-            className="flex items-center bg-primary_100 text-white text-sm rounded gap-1 leading-4 py-1 px-2"
+            className="flex gap-1"
           >
             <AddUser colorStroke={"#FFFFFF"} /> New Client
-          </button>
+          </Button>
         </div>
       </section>
       {/* Top Start */}
 
       {/* Second Start */}
-      <section className="grid gap-5 grid-rows-1 lg:grid-cols-2">
-        <Card>
-          <div className="flex justify-between">
-            <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              <User2 colorStroke={"#130F26"} />
-            </div>
-            <SelectMenuMonth />
-          </div>
-          <div className="flex flex-row justify-between mt-7">
-            <div>
-              <h5 className="text-night_30">All Clients</h5>
-              <p className="text-night_60 font-medium">{totalClient}</p>
-            </div>
-            <div>
-              <h5 className="text-night_30">Active</h5>
-              <p className="text-night_60 font-medium">0</p>
-            </div>
-            <div>
-              <h5 className="text-night_30">In-Active</h5>
-              <p className="text-night_60 font-medium">0</p>
-            </div>
-          </div>
-        </Card>
-
-        <Card>
-          <div className="flex justify-between">
-            <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              {/* <HiOutlineReceiptRefund size={20} color="#130F26" /> */}
-            </div>
-            <SelectMenuMonth />
-          </div>
-          <div className="flex flex-row justify-between mt-7">
-            <div>
-              <h5 className="text-night_30">New Client</h5>
-              <p className="text-night_60 font-medium">30</p>
-            </div>
-            <div>
-              <h5 className="text-night_30">Purchasing</h5>
-              <p className="text-night_60 font-medium">657</p>
-            </div>
-            <div>
-              <h5 className="text-night_30">Cancel</h5>
-              <p className="text-night_60 font-medium">5</p>
-            </div>
-          </div>
-        </Card>
-      </section>
-      {/* Second End */}
-
-      {/* Third Start */}
       <section className="grid grid-rows-1 grid-cols-1">
         <Card>
           {dataClients?.length === 0 ? (
@@ -142,20 +94,20 @@ const Client = () => {
             />
           ) : (
             <>
-              {/* Third Head Start */}
+              {/* Second Head Start */}
               <SearchTable
-                title="Clients"
+                placeholder="Enter client name"
                 query={query}
                 setQuery={setQuery}
                 searchData={searchData}
               />
-              {/* Third Head End */}
+              {/* Second Head End */}
 
-              {/* Third Table Start */}
+              {/* Second Table Start */}
               <div className="hidden overflow-x-auto mt-5 md:block">
                 <TableClient dataClients={dataClients} />
               </div>
-              {/* Third Table End */}
+              {/* Second Table End */}
 
               {/* Table view up to the `md:` breakpoint Start  */}
               <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
@@ -165,7 +117,7 @@ const Client = () => {
             </>
           )}
 
-          {/* Third Pagination Start */}
+          {/* Second Pagination Start */}
           <Pagination
             // handlePageChange={handlePageChange}
             limitClient={limitClient}
@@ -174,10 +126,10 @@ const Client = () => {
             totalPage={totalPage}
             setPage={setPage}
           />
-          {/* Third Pagination End */}
+          {/* Second Pagination End */}
         </Card>
       </section>
-      {/* Third End */}
+      {/* Second End */}
 
       <ModalAddClient
         openModalClient={openModalClient}

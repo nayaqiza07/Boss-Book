@@ -24,7 +24,7 @@ const Button = ({
   return (
     <button
       type={type}
-      className={`${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+      className={`transition duration-200 hover:scale-105 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
       {...rest}
     >
       {children}

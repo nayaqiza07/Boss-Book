@@ -133,8 +133,8 @@ const Order = () => {
           <Button
             variant="primary"
             size="md"
-            className="flex gap-1"
             onClick={() => setOpenModalOrder(true)}
+            className="flex gap-1"
           >
             <Add01Icon /> New Order
           </Button>
@@ -216,7 +216,7 @@ const Order = () => {
             <>
               {/* Third Head Start */}
               <SearchTable
-                title="Orders"
+                placeholder="Enter order number"
                 search={search}
                 setSearch={setSearch}
               />

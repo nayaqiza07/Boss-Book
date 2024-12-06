@@ -4,6 +4,7 @@ const FormInput = ({
   type,
   placeholder,
   defaultValue,
+  value,
   readonly,
   onChange,
 }) => {
@@ -16,6 +17,7 @@ const FormInput = ({
         name={name}
         placeholder={placeholder}
         defaultValue={defaultValue}
+        value={value}
         readOnly={readonly}
         onChange={onChange}
         className="w-full px-4 py-[16.5px] rounded-lg focus:outline-none bg-transparent text-[#ABAFB1] focus:bg-[#E9ECF8]/90 transition-colors"
