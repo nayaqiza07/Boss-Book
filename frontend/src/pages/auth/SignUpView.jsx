@@ -4,7 +4,7 @@ import customAPI from "../../api/axios";
 import { Logo } from "../../assets/Icon/Logo";
 import { Card } from "../../components/Card/Card";
 import FormAuth from "../../components/Form/FormAuth";
-import { signUpUser } from "../../features/userSlice";
+import { signUpUser } from "../../redux/slices/userSlice.js";
 
 export const action =
   (store) =>

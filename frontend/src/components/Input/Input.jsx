@@ -16,7 +16,7 @@ const Input = ({
   // };
 
   const variantClasses = {
-    text: "border border-[#E1E2E9] focus:outline-none focus:border-primary_100",
+    text: "border border-[#E1E2E9] focus:outline-none focus:border-primary_100 focus:text-[#5E6366]",
     disabled:
       "border border-[#DDE2E5] bg-[#F2F4F5] text-[#5E6366] focus:outline-none",
   };

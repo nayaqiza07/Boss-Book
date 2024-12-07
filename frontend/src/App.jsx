@@ -31,7 +31,7 @@ import { action as LoginAction } from "./pages/auth/LoginView";
 import { action as SignUpAction } from "./pages/auth/SignUpView";
 
 // Storage
-import { store } from "./store";
+import { store } from "./redux/store";
 
 const router = createBrowserRouter([
   {

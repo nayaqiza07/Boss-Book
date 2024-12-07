@@ -3,7 +3,7 @@ import { SidebarItem } from "./SidebarItem";
 import { Logo } from "../Icon/Icon";
 import { useDispatch, useSelector } from "react-redux";
 import customAPI from "../../api/axios";
-import { logoutUser } from "../../features/userSlice";
+import { logoutUser } from "../../redux/slices/userSlice";
 
 export const Sidebar = ({ sidebarOpen }) => {
   const user = useSelector((state) => state.userState.user);
