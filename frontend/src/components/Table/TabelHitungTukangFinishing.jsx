@@ -1,19 +1,49 @@
+import { useState } from "react";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
+import { priceFormat } from "../utils";
+
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setPanjang,
+  setLebar,
+  setPersen,
+  hitungTotal,
+} from "../../redux/slices/finishingSlice";
 
 const TabelHitungTukangFinishing = () => {
+  const { total } = useSelector((state) => state.finishingState);
+  const dispatch = useDispatch();
+
+  const [inputChange, setInputChange] = useState({});
+
+  const handleInputChange = (e) => {
+    setInputChange({
+      ...inputChange,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleHitung = () => {
+    dispatch(setPanjang(inputChange.panjangFinishing));
+    dispatch(setLebar(inputChange.lebarFinishing));
+    dispatch(setPersen(inputChange.persenFinishing));
+    dispatch(hitungTotal());
+    console.log(inputChange);
+  };
+
   return (
     <>
       <div className="hidden overflow-x-auto mt-5 md:block">
         <table className="w-full">
           <thead className="border-b border-t border-[#E1E2E9]">
             <tr className="text-left text-sm text-night_90">
-              <th className="font-normal px-6 py-3">Nama</th>
-              <th className="font-normal px-6 py-3">Panjang</th>
+              <th className="font-normal px-6 py-3">Nama Tukang Finishing</th>
+              <th className="font-normal px-6 py-3">Panjang (cm)</th>
               <th className="font-normal px-6 py-3 hidden md:table-cell">
-                Lebar
+                Lebar (cm)
               </th>
-              <th className="font-normal px-6 py-3">Persen</th>
+              <th className="font-normal px-6 py-3">Persen (%)</th>
               <th className="font-normal px-6 py-3">Total</th>
             </tr>
           </thead>
@@ -21,50 +51,55 @@ const TabelHitungTukangFinishing = () => {
             <tr className="text-night_40 text-left text-sm">
               <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
                 <Input
-                  name="namaTukang"
+                  name="namaTukangFinishing"
                   type="text"
                   variant="text"
-                  placeholder="Nama Tukang"
+                  placeholder="Nama Tukang Finishing"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap  px-6 py-3">
                 <Input
-                  name="panjang"
+                  name="panjangFinishing"
                   type="number"
                   variant="text"
-                  placeholder="Panjang"
+                  placeholder="Panjang in cm"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
                 <Input
-                  name="lebar"
+                  name="lebarFinishing"
                   type="number"
                   variant="text"
-                  placeholder="Lebar"
+                  placeholder="Lebar in cm"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
                 <Input
-                  name="persen"
+                  name="persenFinishing"
                   type="number"
                   variant="text"
-                  placeholder="Persen"
+                  placeholder="Persen (%)"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
                 <Input
-                  name="total"
+                  name="totalFinishing"
                   type="text"
                   variant="disabled"
                   placeholder="Total"
                   readOnly={true}
+                  value={priceFormat(total)}
                 />
               </td>
             </tr>
           </tbody>
         </table>
         <div className="flex justify-end gap-5 mt-5 mb-3 mr-3">
-          <Button type="button" variant="primaryOutline">
+          <Button type="button" variant="primaryOutline" onClick={handleHitung}>
             Hitung
           </Button>
         </div>

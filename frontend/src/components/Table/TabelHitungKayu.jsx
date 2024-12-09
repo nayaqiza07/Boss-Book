@@ -1,31 +1,97 @@
-import { useKayu } from "../../hooks/useCalculator";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
+
+import {
+  setPanjangDepan,
+  setLebarDepan,
+  setTebalDepan,
+  setPanjangBelakang,
+  setLebarBelakang,
+  setTebalBelakang,
+  setPanjangSamping,
+  setLebarSamping,
+  setTebalSamping,
+  setPanjangAtasBawah,
+  setLebarAtasBawah,
+  setTebalAtasBawah,
+  setPanjangAmbalan,
+  setLebarAmbalan,
+  setTebalAmbalan,
+  setJenisKayu,
+  setSisiDepan,
+  setSisiBelakang,
+  setSisiSamping,
+  setSisiAtasBawah,
+  setSisiAmbalan,
+  setTotalSisiKeseluruhan,
+  setTotalKubikasiKeseluruhan,
+  setTotalHargaKeseluruhan,
+} from "../../redux/slices/kayuSlice";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Select from "../Input/Select";
 import { priceFormat } from "../utils";
 
 const TabelHitungKayu = () => {
   const {
-    totalDepan,
-    totalSisiDepan,
-    kubikasiDepan,
-    totalBelakang,
-    totalSisiBelakang,
-    kubikasiBelakang,
-    totalSamping,
-    totalSisiSamping,
-    kubikasiSamping,
-    totalAtasBawah,
-    totalSisiAtasBawah,
-    kubikasiAtasBawah,
-    totalAmbalan,
-    totalSisiAmbalan,
-    kubikasiAmbalan,
-    totalHargaKeseluruhan,
+    jenisKayuData,
+    jenisKayu,
+    sisiDepan,
+    sisiBelakang,
+    sisiSamping,
+    sisiAtasBawah,
+    sisiAmbalan,
     totalSisiKeseluruhan,
     totalKubikasiKeseluruhan,
-    handleChangeKayu,
-    hitungKayu,
-  } = useKayu();
+    totalHargaKeseluruhan,
+  } = useSelector((state) => state.kayuState);
+  const dispatch = useDispatch();
+
+  const [inputChange, setInputChange] = useState({});
+
+  const handleInputChange = (e) => {
+    setInputChange({
+      ...inputChange,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleInputSelect = (e) => {
+    dispatch(setJenisKayu(e.target.value));
+  };
+
+  const handleHitung = () => {
+    dispatch(setPanjangDepan(inputChange.panjangDepan));
+    dispatch(setLebarDepan(inputChange.lebarDepan));
+    dispatch(setTebalDepan(inputChange.tebalDepan));
+    dispatch(setSisiDepan(inputChange.sisiDepan));
+
+    dispatch(setPanjangBelakang(inputChange.panjangBelakang));
+    dispatch(setLebarBelakang(inputChange.lebarBelakang));
+    dispatch(setTebalBelakang(inputChange.tebalBelakang));
+    dispatch(setSisiBelakang(inputChange.sisiBelakang));
+
+    dispatch(setPanjangSamping(inputChange.panjangSamping));
+    dispatch(setLebarSamping(inputChange.lebarSamping));
+    dispatch(setTebalSamping(inputChange.tebalSamping));
+    dispatch(setSisiSamping(inputChange.sisiSamping));
+
+    dispatch(setPanjangAtasBawah(inputChange.panjangAtasBawah));
+    dispatch(setLebarAtasBawah(inputChange.lebarAtasBawah));
+    dispatch(setTebalAtasBawah(inputChange.tebalAtasBawah));
+    dispatch(setSisiAtasBawah(inputChange.sisiAtasBawah));
+
+    dispatch(setPanjangAmbalan(inputChange.panjangAmbalan));
+    dispatch(setLebarAmbalan(inputChange.lebarAmbalan));
+    dispatch(setTebalAmbalan(inputChange.tebalAmbalan));
+    dispatch(setSisiAmbalan(inputChange.sisiAmbalan));
+
+    dispatch(setTotalSisiKeseluruhan());
+    dispatch(setTotalKubikasiKeseluruhan());
+    dispatch(setTotalHargaKeseluruhan());
+
+    console.log(inputChange);
+  };
 
   return (
     <>
@@ -39,10 +105,17 @@ const TabelHitungKayu = () => {
                 Lebar
               </th>
               <th className="font-normal px-6 py-3">Tebal</th>
-              <th className="font-normal px-6 py-3">Harga Kayu</th>
-              <th className="font-normal px-6 py-3">Total Sisi</th>
-              <th className="font-normal px-6 py-3">Kubikasi</th>
-              <th className="font-normal px-6 py-3">Total Harga</th>
+              <th className="font-normal px-6 py-3">Jumlah Sisi</th>
+              <th className="font-normal px-6 py-3">
+                <Select
+                  list={jenisKayuData}
+                  name="jenisKayu"
+                  variant="text"
+                  value={jenisKayu}
+                  onChange={handleInputSelect}
+                  placeholder="Jenis Kayu"
+                />
+              </th>
             </tr>
           </thead>
           <tbody className="border-b border-[#E1E2E9]">
@@ -55,6 +128,7 @@ const TabelHitungKayu = () => {
                   defaultValue="Depan"
                   variant="disabled"
                   placeholder="Depan"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap  px-6 py-3">
@@ -63,7 +137,7 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Panjang"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
@@ -72,7 +146,7 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Lebar"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
@@ -81,45 +155,27 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Tebal"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
+                />
+              </td>
+              <td className="whitespace-nowrap  px-6 py-3">
+                <Input
+                  name="sisiDepan"
+                  type="number"
+                  variant="disabled"
+                  placeholder="Sisi"
+                  value={sisiDepan}
+                  onChange={handleInputChange}
+                  readOnly={true}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
                 <Input
                   name="hargaDepan"
-                  type="number"
-                  variant="text"
+                  type="text"
+                  variant="disabled"
                   placeholder="Harga"
-                  onChange={handleChangeKayu}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="totalSisiDepan"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Total Sisi"
-                  value={totalSisiDepan}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="kubikasiDepan"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Kubikasi"
-                  value={kubikasiDepan}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="totalDepan"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Total"
-                  value={priceFormat(totalDepan)}
+                  value={jenisKayu}
                   readOnly={true}
                 />
               </td>
@@ -135,6 +191,7 @@ const TabelHitungKayu = () => {
                   defaultValue="Belakang"
                   variant="disabled"
                   placeholder="Belakang"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap  px-6 py-3">
@@ -143,7 +200,7 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Panjang"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
@@ -152,7 +209,7 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Lebar"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
@@ -161,45 +218,28 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Tebal"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
+                />
+              </td>
+              <td className="whitespace-nowrap  px-6 py-3">
+                <Input
+                  name="sisiBelakang"
+                  type="number"
+                  variant="disabled"
+                  placeholder="Sisi"
+                  value={sisiBelakang}
+                  onChange={handleInputChange}
+                  readOnly={true}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
                 <Input
                   name="hargaBelakang"
-                  type="number"
-                  variant="text"
+                  type="text"
+                  variant="disabled"
                   placeholder="Harga"
-                  onChange={handleChangeKayu}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="totalSisiBelakang"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Total Sisi"
-                  value={totalSisiBelakang}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="kubikasiBelakang"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Kubikasi"
-                  value={kubikasiBelakang}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="totalBelakang"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Total"
-                  value={priceFormat(totalBelakang)}
+                  value={jenisKayu}
+                  onChange={handleInputChange}
                   readOnly={true}
                 />
               </td>
@@ -215,6 +255,7 @@ const TabelHitungKayu = () => {
                   defaultValue="Samping"
                   variant="disabled"
                   placeholder="Samping"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap  px-6 py-3">
@@ -223,7 +264,7 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Panjang"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
@@ -232,7 +273,7 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Lebar"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
@@ -241,45 +282,28 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Tebal"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
+                />
+              </td>
+              <td className="whitespace-nowrap  px-6 py-3">
+                <Input
+                  name="sisiSamping"
+                  type="number"
+                  variant="disabled"
+                  placeholder="Sisi"
+                  value={sisiSamping}
+                  onChange={handleInputChange}
+                  readOnly={true}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
                 <Input
                   name="hargaSamping"
-                  type="number"
-                  variant="text"
+                  type="text"
+                  variant="disabled"
                   placeholder="Harga"
-                  onChange={handleChangeKayu}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="totalSisiSamping"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Total Sisi"
-                  value={totalSisiSamping}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="kubikasiSamping"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Kubikasi"
-                  value={kubikasiSamping}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="totalSamping"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Total"
-                  value={priceFormat(totalSamping)}
+                  value={jenisKayu}
+                  onChange={handleInputChange}
                   readOnly={true}
                 />
               </td>
@@ -295,6 +319,7 @@ const TabelHitungKayu = () => {
                   defaultValue="Atas & Bawah"
                   variant="disabled"
                   placeholder="Atas & Bawah"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap  px-6 py-3">
@@ -303,7 +328,7 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Panjang"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
@@ -312,7 +337,7 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Lebar"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
@@ -321,45 +346,28 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Tebal"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
+                />
+              </td>
+              <td className="whitespace-nowrap  px-6 py-3">
+                <Input
+                  name="sisiAtasBawah"
+                  type="number"
+                  variant="disabled"
+                  placeholder="Sisi"
+                  value={sisiAtasBawah}
+                  onChange={handleInputChange}
+                  readOnly={true}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
                 <Input
                   name="hargaAtasBawah"
-                  type="number"
-                  variant="text"
+                  type="text"
+                  variant="disabled"
                   placeholder="Harga"
-                  onChange={handleChangeKayu}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="totalSisiAtasBawah"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Total Sisi"
-                  value={totalSisiAtasBawah}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="kubikasiAtasBawah"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Kubikasi"
-                  value={kubikasiAtasBawah}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="totalAtasBawah"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Total"
-                  value={priceFormat(totalAtasBawah)}
+                  value={jenisKayu}
+                  onChange={handleInputChange}
                   readOnly={true}
                 />
               </td>
@@ -375,6 +383,7 @@ const TabelHitungKayu = () => {
                   defaultValue="Ambalan"
                   variant="disabled"
                   placeholder="Ambalan"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap  px-6 py-3">
@@ -383,7 +392,7 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Panjang"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
@@ -392,7 +401,7 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Lebar"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
@@ -401,45 +410,28 @@ const TabelHitungKayu = () => {
                   type="number"
                   variant="text"
                   placeholder="Tebal"
-                  onChange={handleChangeKayu}
+                  onChange={handleInputChange}
+                />
+              </td>
+              <td className="whitespace-nowrap  px-6 py-3">
+                <Input
+                  name="sisiAmbalan"
+                  type="number"
+                  variant="disabled"
+                  placeholder="Sisi"
+                  value={sisiAmbalan}
+                  onChange={handleInputChange}
+                  readOnly={true}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
                 <Input
                   name="hargaAmbalan"
-                  type="number"
-                  variant="text"
+                  type="text"
+                  variant="disabled"
                   placeholder="Harga"
-                  onChange={handleChangeKayu}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="totalSisiAmbalan"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Total Sisi"
-                  value={totalSisiAmbalan}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="kubikasiAmbalan"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Kubikasi"
-                  value={kubikasiAmbalan}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="totalAmbalan"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Total"
-                  value={priceFormat(totalAmbalan)}
+                  value={jenisKayu}
+                  onChange={handleInputChange}
                   readOnly={true}
                 />
               </td>
@@ -448,8 +440,6 @@ const TabelHitungKayu = () => {
           </tbody>
           <tfoot>
             <tr>
-              <td></td>
-              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -462,8 +452,8 @@ const TabelHitungKayu = () => {
                   type="text"
                   variant="disabled"
                   placeholder="Total Sisi"
-                  value={totalSisiKeseluruhan}
                   readOnly={true}
+                  value={totalSisiKeseluruhan}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
@@ -474,8 +464,8 @@ const TabelHitungKayu = () => {
                     type="text"
                     variant="disabled"
                     placeholder="Kubikasi"
-                    value={totalKubikasiKeseluruhan}
                     readOnly={true}
+                    value={totalKubikasiKeseluruhan}
                   />
                 </label>
               </td>
@@ -487,8 +477,8 @@ const TabelHitungKayu = () => {
                     type="text"
                     variant="disabled"
                     placeholder="Total"
-                    value={priceFormat(totalHargaKeseluruhan)}
                     readOnly={true}
+                    value={priceFormat(totalHargaKeseluruhan)}
                   />
                 </label>
               </td>
@@ -496,7 +486,7 @@ const TabelHitungKayu = () => {
           </tfoot>
         </table>
         <div className="flex justify-end gap-5 mt-5 mb-3 mr-3">
-          <Button type="button" variant="primaryOutline" onClick={hitungKayu}>
+          <Button type="button" variant="primaryOutline" onClick={handleHitung}>
             Hitung
           </Button>
         </div>

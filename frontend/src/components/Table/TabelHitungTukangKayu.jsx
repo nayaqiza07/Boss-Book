@@ -1,22 +1,48 @@
-import { useTukangKayu } from "../../hooks/useCalculator";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { priceFormat } from "../utils";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
-import { priceFormat } from "../utils";
+import {
+  setPanjang,
+  setLebar,
+  setPersen,
+  hitungTotal,
+} from "../../redux/slices/tukangKayuSlice";
 
 const TabelHitungTukangKayu = () => {
-  const { total, handleTukangKayu, hitungTukangKayu } = useTukangKayu();
+  const { total } = useSelector((state) => state.tukangKayuState);
+  const dispatch = useDispatch();
+
+  const [inputChange, setInputChange] = useState({});
+
+  const handleInputChange = (e) => {
+    setInputChange({
+      ...inputChange,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleHitung = () => {
+    dispatch(setPanjang(inputChange.panjangTukangKayu));
+    dispatch(setLebar(inputChange.lebarTukangKayu));
+    dispatch(setPersen(inputChange.persenTukangKayu));
+    dispatch(hitungTotal());
+    console.log(inputChange);
+  };
+
   return (
     <>
       <div className="hidden overflow-x-auto mt-5 md:block">
         <table className="w-full">
           <thead className="border-b border-t border-[#E1E2E9]">
             <tr className="text-left text-sm text-night_90">
-              <th className="font-normal px-6 py-3">Nama</th>
-              <th className="font-normal px-6 py-3">Panjang</th>
+              <th className="font-normal px-6 py-3">Nama Tukang Kayu</th>
+              <th className="font-normal px-6 py-3">Panjang (cm)</th>
               <th className="font-normal px-6 py-3 hidden md:table-cell">
-                Lebar
+                Lebar (cm)
               </th>
-              <th className="font-normal px-6 py-3">Persen</th>
+              <th className="font-normal px-6 py-3">Persen (%)</th>
               <th className="font-normal px-6 py-3">Total</th>
             </tr>
           </thead>
@@ -24,43 +50,43 @@ const TabelHitungTukangKayu = () => {
             <tr className="text-night_40 text-left text-sm">
               <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
                 <Input
-                  name="namaTukang"
+                  name="namaTukangKayu"
                   type="text"
                   variant="text"
-                  placeholder="Nama Tukang"
-                  onChange={handleTukangKayu}
+                  placeholder="Nama Tukang Kayu"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap  px-6 py-3">
                 <Input
-                  name="panjang"
+                  name="panjangTukangKayu"
                   type="number"
                   variant="text"
-                  placeholder="Panjang"
-                  onChange={handleTukangKayu}
+                  placeholder="Panjang (cm)"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
                 <Input
-                  name="lebar"
+                  name="lebarTukangKayu"
                   type="number"
                   variant="text"
-                  placeholder="Lebar"
-                  onChange={handleTukangKayu}
+                  placeholder="Lebar (cm)"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
                 <Input
-                  name="persen"
+                  name="persenTukangKayu"
                   type="number"
                   variant="text"
-                  placeholder="Persen"
-                  onChange={handleTukangKayu}
+                  placeholder="Persen (%)"
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
                 <Input
-                  name="total"
+                  name="totalTukangKayu"
                   type="text"
                   variant="disabled"
                   placeholder="Total"
@@ -71,12 +97,15 @@ const TabelHitungTukangKayu = () => {
             </tr>
           </tbody>
         </table>
-        <div className="flex justify-end gap-5 mt-5 mb-3 mr-3">
-          <Button
-            type="button"
-            variant="primaryOutline"
-            onClick={hitungTukangKayu}
-          >
+        <div className="flex justify-between items-start gap-5 mt-5 mb-3 mr-3">
+          <div className="text-xs text-night_90">
+            <p className="font-bold">Note:</p>
+            <p>
+              Per tinggi 50 cm x 100, Jika tinggi lebih dari 50 cm tambah 10.
+              Contoh: tinggi 100, maka menjadi 110.
+            </p>
+          </div>
+          <Button type="button" variant="primaryOutline" onClick={handleHitung}>
             Hitung
           </Button>
         </div>

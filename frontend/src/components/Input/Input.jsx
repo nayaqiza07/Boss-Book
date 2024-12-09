@@ -4,7 +4,7 @@ const Input = ({
   name,
   readOnly,
   type,
-  variant = "primary", // Untuk variant Input
+  variant, // Untuk variant Input
   size = "sm", // Untuk ukuran Input
   className, // Untuk className tambahan pada Input
   ...rest //Untuk meneruskan props lainnya pada Input

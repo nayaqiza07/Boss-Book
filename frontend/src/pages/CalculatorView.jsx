@@ -24,6 +24,7 @@ const CalculatorView = () => {
 
     const kayu = [
       {
+        jenisKayu: data.jenisKayu,
         depan: {
           panjang: data.panjangDepan,
           lebar: data.lebarDepan,
@@ -74,11 +75,21 @@ const CalculatorView = () => {
 
     const tukangKayu = [
       {
-        name: data.namaTukang,
-        panjang: data.panjang,
-        lebar: data.lebar,
-        persen: data.persen,
-        total: data.total,
+        name: data.namaTukangKayu,
+        panjang: data.panjangTukangKayu,
+        lebar: data.lebarTukangKayu,
+        persen: data.persenTukangKayu,
+        total: data.totalTukangKayu,
+      },
+    ];
+
+    const tukangFinishing = [
+      {
+        name: data.namaTukangFinishing,
+        panjang: data.panjangFinishing,
+        lebar: data.lebarFinishing,
+        persen: data.persenFinishing,
+        total: data.totalFinishing,
       },
     ];
 
@@ -87,6 +98,7 @@ const CalculatorView = () => {
       client,
       kayu,
       tukangKayu,
+      tukangFinishing,
       keseluruhanSisi,
       keseluruhanKubikasi,
       keseluruhanHarga,
