@@ -1,34 +1,34 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Layout
-import PublicLayout from "./layouts/PublicLayout";
+import PublicLayout from "@/layouts/PublicLayout";
 
 // Auth
-import LoginView from "./pages/auth/LoginView";
-import SignUpView from "./pages/auth/SignUpView";
+import LoginView from "@pages/auth/LoginView";
+import SignUpView from "@pages/auth/SignUpView";
 
 // Protect Route
-import ProtectedRoute from "./components/utils/ProtectedRoute";
+import ProtectedRoute from "@components/utils/ProtectedRoute";
 
 // Page Component
-import Dashboard from "./pages/Dashboard";
-import Transaksi from "./pages/Transaksi";
-import Outcome from "./pages/Outcome";
-import CalculatorView from "./pages/CalculatorView";
-import Piutang from "./pages/Piutang";
-import Utang from "./pages/Utang";
-import Income from "./pages/Income";
-import Order from "./pages/Order";
-import Client from "./pages/Client";
-import ClientView from "./pages/ClientView";
+import Dashboard from "@pages/Dashboard";
+import Transaksi from "@pages/Transaksi";
+import Outcome from "@pages/Outcome";
+import CalculatorView from "@pages/CalculatorView";
+import Piutang from "@pages/Piutang";
+import Utang from "@pages/Utang";
+import Income from "@pages/Income";
+import Order from "@pages/Order";
+import Client from "@pages/Client";
+import ClientView from "@pages/ClientView";
 
 // Loader API Data
 // import { getClients } from "./api/clientApi";
 // import { getOrders } from "./api/orderApi";
 
 // Action
-import { action as LoginAction } from "./pages/auth/LoginView";
-import { action as SignUpAction } from "./pages/auth/SignUpView";
+import { action as LoginAction } from "@pages/auth/LoginView";
+import { action as SignUpAction } from "@pages/auth/SignUpView";
 
 // Storage
 import { store } from "./redux/store";

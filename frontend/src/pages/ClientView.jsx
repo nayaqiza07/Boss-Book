@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { EditSquare, Delete } from "../components/Icon/Icon";
-import { Modal } from "../components/Modal";
-import { ModalEditClient } from "../components/Modal/ModalEditClient";
-import Cards from "../components/Card/Cards";
-import { getClientById, deleteClient, updateClient } from "../api/clientApi";
-import { getClientOrder, getOrderById } from "../api/orderApi";
-import TableClientOrder from "../components/Table/TableClientOrder";
-import { Card } from "../components/Card/Card";
-import TableClientOrderMobile from "../components/Table/TableClientOrderMobile";
-import { DataEmpty } from "../components/Alert/DataEmpty";
-import { ShopBag } from "../assets/Icon/ShopBag";
-import { ModalInvoice } from "../components/Modal/ModalInvoice";
+import { EditSquare, Delete } from "@components/Icon/Icon";
+import { Modal } from "@components/Organisms/Modal";
+import { ModalEditClient } from "@components/Organisms/Modal/ModalEditClient";
+import { Card } from "@components/Organisms/Card/Card";
+import Cards from "@components/Organisms/Card/Cards";
+import { getClientById, deleteClient, updateClient } from "@/api/clientApi";
+import { getClientOrder, getOrderById } from "@/api/orderApi";
+import TableClientOrder from "@components/Organisms/Table/TableClientOrder";
+import TableClientOrderMobile from "@components/Organisms/Table/TableClientOrderMobile";
+import { DataEmpty } from "@components/Molecules/404/DataEmpty";
+import { ShopBag } from "@/assets/Icon/ShopBag";
+import { ModalInvoice } from "@components/Organisms/Modal/ModalInvoice";
 
 const ClientView = () => {
   const { id } = useParams();

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Outlet, useNavigation } from "react-router-dom";
-import { Sidebar } from "../components/Sidebar/Sidebar";
-import { Navbar } from "../components/Navbar/Navbar";
-import Loading from "../components/Loading/Loading";
+import { Sidebar } from "@components/Organisms/Sidebar/Sidebar";
+import { Navbar } from "@components/Molecules/Navbar/Navbar";
+import Loading from "@components/Atoms/Loading/Loading";
 
 const PublicLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

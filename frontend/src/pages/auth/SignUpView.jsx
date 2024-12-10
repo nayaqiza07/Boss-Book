@@ -1,10 +1,10 @@
 import { redirect } from "react-router-dom";
 import { toast } from "react-toastify";
-import customAPI from "../../api/axios";
-import { Logo } from "../../assets/Icon/Logo";
-import { Card } from "../../components/Card/Card";
-import FormAuth from "../../components/Form/FormAuth";
-import { signUpUser } from "../../redux/slices/userSlice.js";
+import customAPI from "@/api/axios";
+import { Logo } from "@/assets/Icon/Logo";
+import { Card } from "@components/Organisms/Card/Card";
+import FormAuth from "@components/Organisms/Form/FormAuth";
+import { signUpUser } from "@/redux/slices/userSlice.js";
 
 export const action =
   (store) =>

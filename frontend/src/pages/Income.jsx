@@ -1,5 +1,5 @@
-import { Card } from "../components/Card/Card";
-import { SidebarItem } from "../components/Sidebar/SidebarItem";
+import { Card } from "@components/Organisms/Card/Card";
+import { SidebarItem } from "@components/Organisms/Sidebar/SidebarItem";
 
 const Income = () => {
   return (

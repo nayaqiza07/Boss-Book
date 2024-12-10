@@ -1,9 +1,9 @@
-import { Logo } from "../../assets/Icon/Logo";
-import { Card } from "../../components/Card/Card";
-import FormAuth from "../../components/Form/FormAuth";
+import { Logo } from "@/assets/Icon/Logo";
+import { Card } from "@components/Organisms/Card/Card";
+import FormAuth from "@components/Organisms/Form/FormAuth";
 import { redirect } from "react-router-dom";
-import { loginUser } from "../../redux/slices/userSlice";
-import customAPI from "../../api/axios";
+import { loginUser } from "@/redux/slices/userSlice";
+import customAPI from "@/api/axios";
 import { toast } from "react-toastify";
 
 export const action =

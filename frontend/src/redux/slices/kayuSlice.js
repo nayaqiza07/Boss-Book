@@ -21,6 +21,17 @@ const initialState = {
   lebarAmbalan: 0,
   tebalAmbalan: 0,
 
+  panjangLain: 0,
+  lebarLain: 0,
+  tebalLain: 0,
+
+  jumlahSisiDepan: 0,
+  jumlahSisiBelakang: 0,
+  jumlahSisiSamping: 0,
+  jumlahSisiAtasBawah: 0,
+  jumlahSisiAmbalan: 0,
+  jumlahSisiLain: 0,
+
   jenisKayuData: [
     { name: "Jati Kampung", value: "Jati Kampung", perkalianJenisKayu: 20 },
     { name: "Jati Sulawesi", value: "Jati Sulawesi", perkalianJenisKayu: 24 },
@@ -30,12 +41,6 @@ const initialState = {
   ],
   jenisKayu: "",
   perkalianJenisKayu: 1,
-
-  sisiDepan: 0,
-  sisiBelakang: 0,
-  sisiSamping: 0,
-  sisiAtasBawah: 0,
-  sisiAmbalan: 0,
 
   totalSisiKeseluruhan: 0,
   totalKubikasiKeseluruhan: 0,
@@ -91,6 +96,15 @@ const kayuSlice = createSlice({
     setTebalAmbalan: (state, action) => {
       state.tebalAmbalan = action.payload;
     },
+    setPanjangLain: (state, action) => {
+      state.panjangLain = action.payload;
+    },
+    setLebarLain: (state, action) => {
+      state.lebarLain = action.payload;
+    },
+    setTebalLain: (state, action) => {
+      state.tebalLain = action.payload;
+    },
     setJenisKayu: (state, action) => {
       state.jenisKayu = action.payload;
       const kayu = state.jenisKayuData.find(
@@ -102,62 +116,119 @@ const kayuSlice = createSlice({
         state.perkalianJenisKayu = 1;
       }
     },
-    setSisiDepan: (state) => {
-      state.sisiDepan =
-        state.panjangDepan * state.lebarDepan * state.tebalDepan;
+    setJumlahSisiDepan: (state, action) => {
+      state.jumlahSisiDepan = action.payload;
     },
-    setSisiBelakang: (state) => {
-      state.sisiBelakang =
-        state.panjangBelakang * state.lebarBelakang * state.tebalBelakang;
+    setJumlahSisiBelakang: (state, action) => {
+      state.jumlahSisiBelakang = action.payload;
     },
-    setSisiSamping: (state) => {
-      state.sisiSamping =
-        state.panjangSamping * state.lebarSamping * state.tebalSamping;
+    setJumlahSisiSamping: (state, action) => {
+      state.jumlahSisiSamping = action.payload;
     },
-    setSisiAtasBawah: (state) => {
-      state.sisiAtasBawah =
-        state.panjangAtasBawah * state.lebarAtasBawah * state.tebalAtasBawah;
+    setJumlahSisiAtasBawah: (state, action) => {
+      state.jumlahSisiAtasBawah = action.payload;
     },
-    setSisiAmbalan: (state) => {
-      state.sisiAmbalan =
-        state.panjangAmbalan * state.lebarAmbalan * state.tebalAmbalan;
+    setJumlahSisiAmbalan: (state, action) => {
+      state.jumlahSisiAmbalan = action.payload;
+    },
+    setJumlahSisiLain: (state, action) => {
+      state.jumlahSisiLain = action.payload;
     },
     setTotalSisiKeseluruhan: (state) => {
+      const totalSisiDepan =
+        state.panjangDepan * state.lebarDepan * state.tebalDepan || 0;
+      const totalSisiBelakang =
+        state.panjangBelakang * state.lebarBelakang * state.tebalBelakang || 0;
+      const totalSisiSamping =
+        state.panjangSamping * state.lebarSamping * state.tebalSamping || 0;
+      const totalSisiAtasBawah =
+        state.panjangAtasBawah * state.lebarAtasBawah * state.tebalAtasBawah ||
+        0;
+      const totalSisiAmbalan =
+        state.panjangAmbalan * state.lebarAmbalan * state.tebalAmbalan || 0;
+      const totalSisiLain =
+        state.panjangLain * state.lebarLain * state.tebalLain || 0;
+
       state.totalSisiKeseluruhan =
-        state.sisiDepan +
-        state.sisiBelakang +
-        state.sisiSamping +
-        state.sisiAtasBawah +
-        state.sisiAmbalan;
+        totalSisiDepan +
+        totalSisiBelakang +
+        totalSisiSamping +
+        totalSisiAtasBawah +
+        totalSisiAmbalan +
+        totalSisiLain;
     },
     setTotalKubikasiKeseluruhan: (state) => {
-      const totalKubikasiDepan = state.sisiDepan / 1000000;
-      const totalKubikasiBelakang = state.sisiBelakang / 1000000;
-      const totalKubikasiSamping = state.sisiSamping / 1000000;
-      const totalKubikasiAtasBawah = state.sisiAtasBawah / 1000000;
-      const totalKubikasiAmbalan = state.sisiAmbalan / 1000000;
+      const totalKubikasiDepan =
+        (state.panjangDepan * state.lebarDepan * state.tebalDepan) / 1000000 ||
+        0;
+      const totalKubikasiBelakang =
+        (state.panjangBelakang * state.lebarBelakang * state.tebalBelakang) /
+          1000000 || 0;
+      const totalKubikasiSamping =
+        (state.panjangSamping * state.lebarSamping * state.tebalSamping) /
+          1000000 || 0;
+      const totalKubikasiAtasBawah =
+        (state.panjangAtasBawah * state.lebarAtasBawah * state.tebalAtasBawah) /
+          1000000 || 0;
+      const totalKubikasiAmbalan =
+        (state.panjangAmbalan * state.lebarAmbalan * state.tebalAmbalan) /
+          1000000 || 0;
+      const totalKubikasiLain =
+        (state.panjangLain * state.lebarLain * state.tebalLain) / 1000000 || 0;
 
       state.totalKubikasiKeseluruhan =
         totalKubikasiDepan +
         totalKubikasiBelakang +
         totalKubikasiSamping +
         totalKubikasiAtasBawah +
-        totalKubikasiAmbalan;
+        totalKubikasiAmbalan +
+        totalKubikasiLain;
     },
     setTotalHargaKeseluruhan: (state) => {
-      const totalHargaDepan = state.sisiDepan * state.perkalianJenisKayu;
-      const totalHargaBelakang = state.sisiBelakang * state.perkalianJenisKayu;
-      const totalHargaSamping = state.sisiSamping * state.perkalianJenisKayu;
+      const totalHargaDepan =
+        state.panjangDepan *
+          state.lebarDepan *
+          state.tebalDepan *
+          state.jumlahSisiDepan *
+          state.perkalianJenisKayu || 0;
+      const totalHargaBelakang =
+        state.panjangBelakang *
+          state.lebarBelakang *
+          state.tebalBelakang *
+          state.jumlahSisiBelakang *
+          state.perkalianJenisKayu || 0;
+      const totalHargaSamping =
+        state.panjangSamping *
+          state.lebarSamping *
+          state.tebalSamping *
+          state.jumlahSisiSamping *
+          state.perkalianJenisKayu || 0;
       const totalHargaAtasBawah =
-        state.sisiAtasBawah * state.perkalianJenisKayu;
-      const totalHargaAmbalan = state.sisiAmbalan * state.perkalianJenisKayu;
+        state.panjangAtasBawah *
+          state.lebarAtasBawah *
+          state.tebalAtasBawah *
+          state.jumlahSisiAtasBawah *
+          state.perkalianJenisKayu || 0;
+      const totalHargaAmbalan =
+        state.panjangAmbalan *
+          state.lebarAmbalan *
+          state.tebalAmbalan *
+          state.jumlahSisiAmbalan *
+          state.perkalianJenisKayu || 0;
+      const totalHargaLain =
+        state.panjangLain *
+          state.lebarLain *
+          state.tebalLain *
+          state.jumlahSisiLain *
+          state.perkalianJenisKayu || 0;
 
       state.totalHargaKeseluruhan =
         totalHargaDepan +
         totalHargaBelakang +
         totalHargaSamping +
         totalHargaAtasBawah +
-        totalHargaAmbalan;
+        totalHargaAmbalan +
+        totalHargaLain;
     },
   },
 });
@@ -166,24 +237,36 @@ export const {
   setPanjangDepan,
   setLebarDepan,
   setTebalDepan,
+
   setPanjangBelakang,
   setLebarBelakang,
   setTebalBelakang,
+
   setPanjangSamping,
   setLebarSamping,
   setTebalSamping,
+
   setPanjangAtasBawah,
   setLebarAtasBawah,
   setTebalAtasBawah,
+
   setPanjangAmbalan,
   setLebarAmbalan,
   setTebalAmbalan,
+
+  setPanjangLain,
+  setLebarLain,
+  setTebalLain,
+
+  setJumlahSisiDepan,
+  setJumlahSisiBelakang,
+  setJumlahSisiSamping,
+  setJumlahSisiAtasBawah,
+  setJumlahSisiAmbalan,
+  setJumlahSisiLain,
+
   setJenisKayu,
-  setSisiDepan,
-  setSisiBelakang,
-  setSisiSamping,
-  setSisiAtasBawah,
-  setSisiAmbalan,
+
   setTotalSisiKeseluruhan,
   setTotalKubikasiKeseluruhan,
   setTotalHargaKeseluruhan,

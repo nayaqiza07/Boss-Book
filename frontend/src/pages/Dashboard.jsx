@@ -1,9 +1,14 @@
-import { SelectMenuMonth } from "../components/Select/SelectMenu";
-import { Card, CardPrimary, CardCol, CardRow } from "../components/Card/Card";
+import { SelectMenuMonth } from "@components/Atoms/Select/SelectMenu";
+import {
+  Card,
+  CardPrimary,
+  CardCol,
+  CardRow,
+} from "@components/Organisms/Card/Card";
 import { useEffect, useState } from "react";
-import { getClients } from "../api/clientApi";
-import { SummaryChart } from "../components/Chart/SummaryChart";
-import { OrderStatusChart } from "../components/Chart/OrderStatusChart";
+import { getClients } from "@/api/clientApi";
+import { SummaryChart } from "@components/Organisms/Chart/SummaryChart";
+import { OrderStatusChart } from "@components/Organisms/Chart/OrderStatusChart";
 
 const Dashboard = () => {
   const [clients, setClients] = useState([]);

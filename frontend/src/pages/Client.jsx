@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { Card } from "../components/Card/Card";
-import { ModalAddClient } from "../components/Modal/ModalAddClient";
+import { Card } from "@components/Organisms/Card/Card";
+import { ModalAddClient } from "@components/Organisms/Modal/ModalAddClient";
 
-import { AddUser } from "../components/Icon/Icon";
-import { DataEmpty } from "../components/Alert/DataEmpty";
-import { BigUser2 } from "../assets/Icon/BigUser2";
-import TableClient from "../components/Table/TableClient";
-import TableClientMobile from "../components/Table/TableClientMobile";
-import { getClients, createClient } from "../api/clientApi";
-import Pagination from "../components/Pagination/Pagination";
-import SearchTable from "../components/Search/SearchTable";
-import Button from "../components/Button/Button";
+import { AddUser } from "@components/Icon/Icon";
+import { DataEmpty } from "@components/Molecules/404/DataEmpty";
+import { BigUser2 } from "@/assets/Icon/BigUser2";
+import TableClient from "@components/Organisms/Table/TableClient";
+import TableClientMobile from "@components/Organisms/Table/TableClientMobile";
+import { getClients, createClient } from "@/api/clientApi";
+import Pagination from "@components/Molecules/Pagination/Pagination";
+import SearchTable from "@components/Molecules/Search/SearchTable";
+import Button from "@components/Atoms/Button/Button";
 
 const Client = () => {
   const [openModalClient, setOpenModalClient] = useState(false);

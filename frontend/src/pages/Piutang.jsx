@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { Card } from "../components/Card/Card";
-import { SidebarItem } from "../components/Sidebar/SidebarItem";
-import Table from "../components/Table/Table";
-import Modal from "../components/Modal/Modal";
+import { Card } from "@components/Organisms/Card/Card";
+import { SidebarItem } from "@components/Organisms/Sidebar/SidebarItem";
+import Table from "@components/Organisms/Table/Table";
+import Modal from "@components/Organisms/Modal/Modal";
 import { useState } from "react";
 
 const Piutang = () => {

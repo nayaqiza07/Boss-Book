@@ -1,4 +1,4 @@
-import { SidebarItem } from "../components/Sidebar/SidebarItem";
+import { SidebarItem } from "@components/Organisms/Sidebar/SidebarItem";
 
 const Outcome = () => {
   return (
@@ -13,7 +13,7 @@ const Outcome = () => {
 
       <div>
         <div>
-          <h1>income</h1>
+          <h1>Outcome</h1>
         </div>
       </div>
     </>

@@ -1,10 +1,10 @@
 // import Accordion from "../components/Accordion/Accordion";
-import Button from "../components/Button/Button";
-import { Card } from "../components/Card/Card";
-import Input from "../components/Input/Input";
-import TabelHitungKayu from "../components/Table/TabelHitungKayu";
-import TabelHitungTukangFinishing from "../components/Table/TabelHitungTukangFinishing";
-import TabelHitungTukangKayu from "../components/Table/TabelHitungTukangKayu";
+import Button from "@components/Atoms/Button/Button";
+import { Card } from "@components/Organisms/Card/Card";
+import Input from "@components/Atoms/Input/Input";
+import TabelHitungKayu from "@components/Organisms/Table/TabelHitungKayu";
+import TabelHitungTukangFinishing from "@components/Organisms/Table/TabelHitungTukangFinishing";
+import TabelHitungTukangKayu from "@components/Organisms/Table/TabelHitungTukangKayu";
 
 const CalculatorView = () => {
   // Handle Kayu Submit
@@ -29,46 +29,36 @@ const CalculatorView = () => {
           panjang: data.panjangDepan,
           lebar: data.lebarDepan,
           tebal: data.tebalDepan,
-          harga: data.hargaDepan,
-          sisi: data.totalSisiDepan,
-          kubikasi: data.kubikasiDepan,
-          total: data.totalDepan,
+          jenisKayu: data.jenisKayuDepan,
+          sisi: data.sisiDepan,
         },
         belakang: {
           panjang: data.panjangBelakang,
           lebar: data.lebarBelakang,
           tebal: data.tebalBelakang,
-          harga: data.hargaBelakang,
-          sisi: data.totalSisiBelakang,
-          kubikasi: data.kubikasiBelakang,
-          total: data.totalBelakang,
+          jenisKayu: data.jenisKayuBelakang,
+          sisi: data.sisiBelakang,
         },
         samping: {
           panjang: data.panjangSamping,
           lebar: data.lebarSamping,
           tebal: data.tebalSamping,
-          harga: data.hargaSamping,
-          sisi: data.totalSisiSamping,
-          kubikasi: data.kubikasiSamping,
-          total: data.totalSamping,
+          jenisKayu: data.jenisKayuSamping,
+          sisi: data.sisiSamping,
         },
         atasBawah: {
           panjang: data.panjangAtasBawah,
           lebar: data.lebarAtasBawah,
           tebal: data.tebalAtasBawah,
-          harga: data.hargaAtasBawah,
-          sisi: data.totalSisiAtasBawah,
-          kubikasi: data.kubikasiAtasBawah,
-          total: data.totalAtasBawah,
+          jenisKayu: data.jenisKayuAtasBawah,
+          sisi: data.sisiAtasBawah,
         },
         ambalan: {
           panjang: data.panjangAmbalan,
           lebar: data.lebarAmbalan,
           tebal: data.tebalAmbalan,
-          harga: data.hargaAmbalan,
-          sisi: data.totalSisiAmbalan,
-          kubikasi: data.kubikasiAmbalan,
-          total: data.totalAmbalan,
+          jenisKayu: data.jenisKayuAmbalan,
+          sisi: data.sisiAmbalan,
         },
       },
     ];
@@ -85,6 +75,7 @@ const CalculatorView = () => {
 
     const tukangFinishing = [
       {
+        jenisFinishing: data.jenisFinishing,
         name: data.namaTukangFinishing,
         panjang: data.panjangFinishing,
         lebar: data.lebarFinishing,
@@ -109,7 +100,7 @@ const CalculatorView = () => {
     <>
       <form onSubmit={kayuSubmit}>
         {/* Section 1 Start */}
-        <section className="sticky top-16 p-5 flex justify-between items-end bg-main_background">
+        <section className="sticky top-16 p-5 lg:flex lg:justify-between items-end bg-main_background">
           <div className="lg:flex gap-5">
             <label className="text-xs font-medium text-night_90">
               <span>Nama Barang</span>
@@ -130,7 +121,12 @@ const CalculatorView = () => {
             </label>
           </div>
           <div>
-            <Button type="submit" variant="primary" size="md">
+            <Button
+              type="submit"
+              variant="primary"
+              size="md"
+              className="w-full mt-5 lg:mt-0"
+            >
               Save
             </Button>
           </div>

@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
-import { Card } from "../components/Card/Card";
-import { ModalAddOrder } from "../components/Modal/ModalAddOrder";
-import { SelectMenuMonth } from "../components/Select/SelectMenu";
-import { ModalInvoice } from "../components/Modal/ModalInvoice";
-import ModalUpdateOrder from "../components/Modal/ModalUpdateOrder";
-import { Bag } from "../components/Icon/Icon";
-import TableOrder from "../components/Table/TableOrder";
-import TableOrderMobile from "../components/Table/TableOrderMobile";
+import { Card } from "@components/Organisms/Card/Card";
+import { ModalAddOrder } from "@components/Organisms/Modal/ModalAddOrder";
+import { SelectMenuMonth } from "@components/Atoms/Select/SelectMenu";
+import { ModalInvoice } from "@components/Organisms/Modal/ModalInvoice";
+import ModalUpdateOrder from "@components/Organisms/Modal/ModalUpdateOrder";
+import { Bag } from "@components/Icon/Icon";
+import TableOrder from "@components/Organisms/Table/TableOrder";
+import TableOrderMobile from "@components/Organisms/Table/TableOrderMobile";
 import {
   getOrders,
   createOrder,
   getOrderById,
   updateOrder,
-} from "../api/orderApi";
+} from "@/api/orderApi";
 
 // Icon
 import { Add01Icon } from "hugeicons-react";
-import { DataEmpty } from "../components/Alert/DataEmpty";
-import { ShopBag } from "../assets/Icon/ShopBag";
+import { DataEmpty } from "@components/Molecules/404/DataEmpty";
+import { ShopBag } from "@/assets/Icon/ShopBag";
 import { toast } from "react-toastify";
-import SearchTable from "../components/Search/SearchTable";
-import Pagination from "../components/Pagination/Pagination";
-import Button from "../components/Button/Button";
+import SearchTable from "@components/Molecules/Search/SearchTable";
+import Pagination from "@components/Molecules/Pagination/Pagination";
+import Button from "@components/Atoms/Button/Button";
 
 const Order = () => {
   const [openModalOrder, setOpenModalOrder] = useState(false);

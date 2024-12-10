@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Select from "react-select";
 
-import { Modal } from "../components/Modal";
+import { Modal } from "@components/Organisms/Modal";
 
 const Transaksi = () => {
   const [openModal, setOpenModal] = useState(false);
