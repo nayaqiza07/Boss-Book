@@ -1,94 +1,77 @@
+import Button from "@/components/Atoms/Button/Button";
+import { priceFormat } from "@/components/utils";
 import { Checkbox } from "@components/Atoms/Checkbox/Checkbox";
 
-const Table = () => {
-  const datas = [
-    {
-      name: "Mr. 1",
-      jumlah: 1000000,
-      belumDiterima: 5000,
-    },
-    {
-      name: "Mr. 2",
-      jumlah: 2000000,
-      belumDiterima: 5000,
-    },
-    {
-      name: "Mr. 3",
-      jumlah: 3000000,
-      belumDiterima: 5000,
-    },
-  ];
+const Table = (props) => {
+  const {
+    datas,
+    isUtang,
+    tHeadTextJumlah,
+    btnText,
+    handleUpdate,
+    handleDelete,
+  } = props;
 
   return (
-    <>
-      <div className="hidden overflow-x-auto mt-5 md:block">
-        <table className="w-full">
-          <thead className="border-b border-t border-[#E1E2E9]">
-            <tr className="text-left text-sm text-night_90">
-              <th className="py-3">
+    <div className="hidden overflow-x-auto mt-5 md:block">
+      <table className="w-full">
+        <thead className="border-b border-t border-[#E1E2E9]">
+          <tr className="text-left text-sm text-night_90">
+            <th className="py-3">
+              <Checkbox />
+            </th>
+            <th className="font-normal px-6 py-3">Nama</th>
+            <th className="font-normal px-6 py-3">Tanggal</th>
+            <th className="font-normal px-6 py-3">Total</th>
+            <th className="font-normal px-6 py-3 hidden md:table-cell">
+              {tHeadTextJumlah}
+            </th>
+            <th className="font-normal px-6 py-3">Action</th>
+          </tr>
+        </thead>
+        <tbody className="border-b border-[#E1E2E9]">
+          {datas.map((data, index) => (
+            <tr key={index + 1} className="text-night_40 text-left text-sm">
+              <td className="py-3">
                 <Checkbox />
-              </th>
-              <th className="font-normal px-6 py-3">Nama</th>
-              <th className="font-normal px-6 py-3">Jumlah</th>
-              <th className="font-normal px-6 py-3 hidden md:table-cell">
-                Belum Diterima
-              </th>
-              <th className="font-normal px-6 py-3">Action</th>
-            </tr>
-          </thead>
-          <tbody className="border-b border-[#E1E2E9]">
-            {datas.map((data, index) => (
-              <tr key={index + 1} className="text-night_40 text-left text-sm">
-                <td className="py-3">
-                  <Checkbox />
-                </td>
+              </td>
 
-                <td className="whitespace-nowrap text-primary_100 px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                  <span
-                    // onClick={() => handleModalInvoice(order.orderNumber)}
-                    className="cursor-pointer "
+              <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
+                {data.name}
+              </td>
+              <td className="whitespace-nowrap  px-6 py-3">{data.date}</td>
+              <td className="whitespace-nowrap  px-6 py-3">
+                {priceFormat(data.total)}
+              </td>
+              <td className="whitespace-nowrap px-6 py-3">
+                {isUtang
+                  ? priceFormat(data.jumlahDibayar)
+                  : priceFormat(data.jumlahDiterima)}
+              </td>
+              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
+                <div className="flex gap-3">
+                  <Button
+                    variant="primary_2"
+                    onClick={() => handleUpdate(data._id)}
+                    size="sm"
                   >
-                    {data.name}
-                  </span>
-                </td>
-                <td className="whitespace-nowrap  px-6 py-3">{data.jumlah}</td>
-                <td className="whitespace-nowrap px-6 py-3">
-                  {data.belumDiterima}
-                </td>
-                <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                  <button className="rounded-lg py-1 px-2 bg-[#97a5eb]/20 transition-all hover:scale-110">
-                    <span className="text-primary_100">Terima</span>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                    {btnText}
+                  </Button>
 
-      {/* Table view up to the `md:` breakpoint Start  */}
-      <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-        {Array.isArray(datas) &&
-          datas.map((data, index) => (
-            <div
-              key={index + 1}
-              className="p-3 border border-[#E1E2E9] rounded-lg"
-            >
-              <div className="flex justify-between items-center">
-                <h1 className="font-medium text-night_40">{data.name}</h1>
-                <button className="rounded-lg p-1 bg-[#97a5eb]/20 transition-all hover:scale-110">
-                  <span className="text-primary_100">Terima</span>
-                </button>
-              </div>
-              <div className="text-night_20 text-xs">
-                <p className="text-night_30 text-sm mt-1">{data.jumlah}</p>
-                <p className="mt-1">{data.belumDiterima}</p>
-              </div>
-            </div>
+                  <Button
+                    variant="delete"
+                    onClick={() => handleDelete(data._id)}
+                    size="sm"
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </td>
+            </tr>
           ))}
-      </div>
-      {/* Table view up to the `md:` breakpoint End  */}
-    </>
+        </tbody>
+      </table>
+    </div>
   );
 };
 

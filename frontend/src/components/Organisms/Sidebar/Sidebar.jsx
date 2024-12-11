@@ -1,9 +1,9 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SidebarItem } from "./SidebarItem";
 import { useDispatch, useSelector } from "react-redux";
-import customAPI from "@/api/axios";
 import { Logo } from "@components/Icon/Icon";
 import { logoutUser } from "@/redux/slices/userSlice";
+import customAPI from "@/api/axios";
 
 export const Sidebar = ({ sidebarOpen }) => {
   const user = useSelector((state) => state.userState.user);

@@ -1,5 +1,5 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
-import Client from "../models/ClientModel.js";
+import Client from "../models/clientModel.js";
 
 // Create Client
 export const createClient = asyncHandler(async (req, res) => {

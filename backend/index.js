@@ -10,6 +10,8 @@ import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 import authRouter from "./routes/authRouter.js";
 import clientRouter from "./routes/clientRouter.js";
 import orderRouter from "./routes/orderRouter.js";
+import piutangRouter from "./routes/piutangRouter.js";
+import utangRouter from "./routes/utangRouter.js";
 
 dotenv.config();
 
@@ -33,6 +35,8 @@ app.use(express.static("./public"));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/client", clientRouter);
 app.use("/api/v1/order", orderRouter);
+app.use("/api/v1/piutang", piutangRouter);
+app.use("/api/v1/utang", utangRouter);
 
 app.use(notFound);
 app.use(errorHandler);

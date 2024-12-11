@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const piutangSchema = new Schema({
+const utangSchema = new Schema({
   name: {
     type: String,
     required: [true, "Nama harus diisi"],
@@ -15,12 +15,12 @@ const piutangSchema = new Schema({
     type: Number,
     required: [true, "Total harus diisi"],
   },
-  jumlahDiterima: {
+  jumlahDibayar: {
     type: Number,
-    required: [true, "Jumlah diterima harus diisi"],
+    required: [true, "Jumlah dibayar harus diisi"],
   },
 });
 
-const Piutang = mongoose.model("Piutang", piutangSchema);
+const Utang = mongoose.model("Utang", utangSchema);
 
-export default Piutang;
+export default Utang;
