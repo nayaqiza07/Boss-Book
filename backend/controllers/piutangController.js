@@ -16,9 +16,22 @@ export const createPiutang = asyncHandler(async (req, res) => {
 export const allPiutang = asyncHandler(async (req, res) => {
   const allPiutang = await Piutang.find();
 
+  const totalPiutang = allPiutang
+    .map((data) => data.total)
+    .reduce((data, num) => data + num, 0);
+
+  const totalSudahDiterima = allPiutang
+    .map((data) => data.jumlahDiterima)
+    .reduce((data, num) => data + num, 0);
+
+  const totalBelumDiterima = totalPiutang - totalSudahDiterima;
+
   return res.status(200).json({
     message: "Seluruh Data Piutang berhasil di tampilkan",
     data: allPiutang,
+    totalPiutang,
+    totalSudahDiterima,
+    totalBelumDiterima,
   });
 });
 

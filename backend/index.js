@@ -7,9 +7,11 @@ import { v2 as cloudinary } from "cloudinary";
 
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 
+// Router
 import authRouter from "./routes/authRouter.js";
 import clientRouter from "./routes/clientRouter.js";
 import orderRouter from "./routes/orderRouter.js";
+import transaksiRouter from "./routes/transaksiRouter.js";
 import piutangRouter from "./routes/piutangRouter.js";
 import utangRouter from "./routes/utangRouter.js";
 
@@ -35,6 +37,7 @@ app.use(express.static("./public"));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/client", clientRouter);
 app.use("/api/v1/order", orderRouter);
+app.use("/api/v1/transaksi", transaksiRouter);
 app.use("/api/v1/piutang", piutangRouter);
 app.use("/api/v1/utang", utangRouter);
 

@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // API
 import {
@@ -24,7 +25,6 @@ import TableMobile from "@/components/Organisms/Table/TableMobile";
 import SearchTable from "@/components/Molecules/Search/SearchTable";
 import Pagination from "@/components/Molecules/Pagination/Pagination";
 import FormPiutang from "@/components/Organisms/Form/FormPiutang";
-import { toast } from "react-toastify";
 import { priceFormat } from "@/components/utils";
 
 const Piutang = () => {
@@ -35,25 +35,25 @@ const Piutang = () => {
   // Data
   const [piutang, setPiutang] = useState([]);
   const [piutangById, setPiutangById] = useState("");
+  const [totalPiutang, setTotalPiutang] = useState(0);
+  const [totalSudahDiterima, setTotalSudahDiterima] = useState(0);
+  const [totalBelumDiterima, setTotalBelumDiterima] = useState(0);
+
+  const formRef = useRef(null);
 
   useEffect(() => {
     fetchDataPiutang();
   }, []);
 
-  const totalPiutang = useMemo(() => {
-    return piutang
-      .map((item) => item.total)
-      .reduce((total, num) => total + num, 0);
-  }, [piutang]);
-
-  const totalSudahDiterima = useMemo(() => {
-    return piutang
-      .map((item) => item.jumlahDiterima)
-      .reduce((total, num) => total + num, 0);
-  }, [piutang]);
-
   const fetchDataPiutang = () => {
-    getPiutang().then((result) => setPiutang(result));
+    getPiutang().then(
+      ({ res, totalPiutang, totalSudahDiterima, totalBelumDiterima }) => {
+        setPiutang(res);
+        setTotalPiutang(totalPiutang);
+        setTotalSudahDiterima(totalSudahDiterima);
+        setTotalBelumDiterima(totalBelumDiterima);
+      }
+    );
   };
 
   const fetchDataPiutangById = (id) => {
@@ -71,6 +71,9 @@ const Piutang = () => {
 
     await createPiutang(data.name, data.date, data.total, data.jumlahDiterima);
     fetchDataPiutang();
+
+    // Reset nilai form
+    formRef.current.reset();
   };
 
   const handleUpdate = async (e) => {
@@ -134,7 +137,7 @@ const Piutang = () => {
         {/* Top Start */}
         <HeaderPages
           title="Piutang"
-          text="Tambah"
+          textBtn="Tambah"
           openModal={() => setOpenModal(true)}
         />
         {/* Top Start */}
@@ -165,7 +168,7 @@ const Piutang = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Belum Diterima"
-              data={priceFormat(totalPiutang - totalSudahDiterima)}
+              data={priceFormat(totalBelumDiterima)}
             />
           </div>
         </CardSummary>
@@ -175,13 +178,16 @@ const Piutang = () => {
           <SearchTable />
           <Table
             datas={piutang}
-            jumlah="jumlahDiterima"
             btnText="Terima"
-            tHeadTextJumlah="Jumlah Diterima"
             handleDelete={handleModalDelete}
             handleUpdate={handleModalUpdate}
           />
-          <TableMobile datas={piutang} />
+          <TableMobile
+            datas={piutang}
+            btnText="Terima"
+            handleDelete={handleModalDelete}
+            handleUpdate={handleModalUpdate}
+          />
           <Pagination />
         </Card>
       </div>
@@ -192,7 +198,7 @@ const Piutang = () => {
           title="Tambah Piutang"
           closeModal={() => setOpenModal(false)}
         />
-        <form onSubmit={handleSubmit}>
+        <form ref={formRef} onSubmit={handleSubmit}>
           <Modal.Body>
             <FormPiutang />
           </Modal.Body>

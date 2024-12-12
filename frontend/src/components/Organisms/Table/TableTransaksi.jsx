@@ -1,11 +1,9 @@
-import Button from "@/components/Atoms/Button/Button";
+import { Checkbox } from "@/components/Atoms/Checkbox/Checkbox";
 import Label from "@/components/Atoms/Input/Label";
 import { priceFormat } from "@/components/utils";
-import { Checkbox } from "@components/Atoms/Checkbox/Checkbox";
 
-const Table = (props) => {
-  const { datas, isUtang, btnText, handleUpdate, handleDelete } = props;
-
+const TableTransaksi = (props) => {
+  const { datas } = props;
   return (
     <div className="hidden overflow-x-auto mt-5 md:block">
       <table className="w-full">
@@ -14,14 +12,13 @@ const Table = (props) => {
             <th className="py-3">
               <Checkbox />
             </th>
-            <th className="font-normal px-6 py-3">Nama</th>
+            <th className="font-normal px-6 py-3">Deskripsi</th>
             <th className="font-normal px-6 py-3">Tanggal</th>
             <th className="font-normal px-6 py-3">Total</th>
             <th className="font-normal px-6 py-3 hidden md:table-cell">
-              {isUtang ? "Jumlah Dibayar" : "Jumlah Diterima"}
+              Kategori
             </th>
             <th className="font-normal px-6 py-3">Status</th>
-            <th className="font-normal px-6 py-3">Action</th>
           </tr>
         </thead>
         <tbody className="border-b border-[#E1E2E9]">
@@ -32,47 +29,23 @@ const Table = (props) => {
               </td>
 
               <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                {data.name}
+                {data.deskripsi}
               </td>
               <td className="whitespace-nowrap  px-6 py-3">{data.date}</td>
               <td className="whitespace-nowrap  px-6 py-3">
-                {priceFormat(data.total)}
+                {priceFormat(data.nominal)}
               </td>
-              <td className="whitespace-nowrap px-6 py-3">
-                {isUtang
-                  ? priceFormat(data.jumlahDibayar)
-                  : priceFormat(data.jumlahDiterima)}
-              </td>
+              <td className="whitespace-nowrap px-6 py-3">{data.kategori}</td>
               <td className="whitespace-nowrap  px-6 py-3">
-                {data.total === data.jumlahDibayar ||
-                data.total === data.jumlahDiterima ? (
+                {data.status === "In" ? (
                   <Label variant="success" size="sm">
-                    Lunas
+                    {data.status}
                   </Label>
                 ) : (
                   <Label variant="danger" size="sm">
-                    Belum Lunas
+                    {data.status}
                   </Label>
                 )}
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <div className="flex gap-3">
-                  <Button
-                    variant="primary_2"
-                    onClick={() => handleUpdate(data._id)}
-                    size="sm"
-                  >
-                    {btnText}
-                  </Button>
-
-                  <Button
-                    variant="secondary_2"
-                    onClick={() => handleDelete(data._id)}
-                    size="sm"
-                  >
-                    Delete
-                  </Button>
-                </div>
               </td>
             </tr>
           ))}
@@ -82,4 +55,4 @@ const Table = (props) => {
   );
 };
 
-export default Table;
+export default TableTransaksi;

@@ -7,3 +7,14 @@ export const priceFormat = (price) => {
   }).format(price);
   return rupiahFormat;
 };
+
+export const dateFormat = () => {
+  const showDate = new Date();
+  const todayDate =
+    ("0" + showDate.getDate()).slice(-2) +
+    "/" +
+    ("0" + (showDate.getMonth() + 1)).slice(-2) +
+    "/" +
+    showDate.getFullYear();
+  return todayDate;
+};

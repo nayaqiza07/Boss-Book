@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -25,6 +25,7 @@ import HeaderPages from "@/components/Molecules/Header/HeaderPages";
 import SearchTable from "@/components/Molecules/Search/SearchTable";
 import Pagination from "@/components/Molecules/Pagination/Pagination";
 import { priceFormat } from "@/components/utils";
+import TableMobile from "@/components/Organisms/Table/TableMobile";
 
 const Utang = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -34,13 +35,25 @@ const Utang = () => {
   // Data
   const [utang, setUtang] = useState([]);
   const [utangById, setUtangById] = useState("");
+  const [totalUtang, setTotalUtang] = useState(0);
+  const [totalSudahDibayar, setTotalSudahDibayar] = useState(0);
+  const [totalBelumDibayar, setTotalBelumDibayar] = useState(0);
+
+  const formRef = useRef(null);
 
   useEffect(() => {
     fetchDataUtang();
   }, []);
 
   const fetchDataUtang = () => {
-    getUtang().then((result) => setUtang(result));
+    getUtang().then(
+      ({ res, totalUtang, totalSudahDibayar, totalBelumDibayar }) => {
+        setUtang(res);
+        setTotalUtang(totalUtang);
+        setTotalSudahDibayar(totalSudahDibayar);
+        setTotalBelumDibayar(totalBelumDibayar);
+      }
+    );
   };
 
   const fetchDataUtangById = (id) => {
@@ -58,6 +71,9 @@ const Utang = () => {
 
     await createUtang(data.name, data.date, data.total, data.jumlahDibayar);
     fetchDataUtang();
+
+    // Reset nilai form
+    formRef.current.reset();
   };
 
   const handleUpdate = async (e) => {
@@ -121,7 +137,7 @@ const Utang = () => {
         {/* Top Start */}
         <HeaderPages
           title="Utang"
-          text="Tambah"
+          textBtn="Tambah"
           openModal={() => setOpenModal(true)}
         />
         {/* Top Start */}
@@ -130,7 +146,10 @@ const Utang = () => {
         <CardSummary>
           <CardSummary.Header icon={<Bag colorStroke={"#130F26"} />} />
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
-            <CardSummary.Body title="Total Utang" data={priceFormat(0)} />
+            <CardSummary.Body
+              title="Total Utang"
+              data={priceFormat(totalUtang)}
+            />
           </div>
         </CardSummary>
 
@@ -139,7 +158,7 @@ const Utang = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Sudah Dibayar"
-              data={priceFormat(0)}
+              data={priceFormat(totalSudahDibayar)}
             />
           </div>
         </CardSummary>
@@ -148,7 +167,7 @@ const Utang = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Belum Dibayar"
-              data={priceFormat(0)}
+              data={priceFormat(totalBelumDibayar)}
             />
           </div>
         </CardSummary>
@@ -160,7 +179,13 @@ const Utang = () => {
             datas={utang}
             isUtang={true}
             btnText="Bayar"
-            tHeadTextJumlah="Jumlah Dibayar"
+            handleDelete={handleModalDelete}
+            handleUpdate={handleModalUpdate}
+          />
+          <TableMobile
+            datas={utang}
+            isUtang={true}
+            btnText="Bayar"
             handleDelete={handleModalDelete}
             handleUpdate={handleModalUpdate}
           />
@@ -174,7 +199,7 @@ const Utang = () => {
           title="Tambah Utang"
           closeModal={() => setOpenModal(false)}
         />
-        <form onSubmit={handleSubmit}>
+        <form ref={formRef} onSubmit={handleSubmit}>
           <Modal.Body>
             <FormPiutang isUtang={true} />
           </Modal.Body>

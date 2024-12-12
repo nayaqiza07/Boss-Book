@@ -7,12 +7,12 @@ const Modal = (props) => {
     <div
       onClick={closeModal}
       className={`fixed z-10 inset-0 flex justify-center items-center transition-all ${
-        openModal ? "visible backdrop-blur-sm" : "invisible"
+        openModal ? "visible bg-black/20 backdrop-blur-sm" : "invisible"
       }`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`w-fit px-6 py-7 bg-white border rounded-xl shadow transition-all ${
+        className={`w-fit p-6 bg-white border rounded-xl shadow transition-all ${
           openModal ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -48,12 +48,12 @@ const Footer = (props) => {
       <Button
         type="button"
         variant="primaryOutline"
-        size="lg"
+        size="md"
         onClick={closeModal}
       >
         Cancel
       </Button>
-      <Button type="submit" variant="primary" size="lg" onClick={closeModal}>
+      <Button type="submit" variant="primary" size="md" onClick={closeModal}>
         {text}
       </Button>
     </div>

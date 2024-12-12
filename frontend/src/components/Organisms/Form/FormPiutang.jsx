@@ -1,17 +1,9 @@
-import FormInput from "@/components/Atoms/Form/FormInput";
 import { useState } from "react";
+import { dateFormat } from "@/components/utils";
+import FormInput from "@/components/Atoms/Form/FormInput";
 
 const FormPiutang = (props) => {
   const { isUtang } = props;
-
-  // Date
-  const showDate = new Date();
-  const todayDate =
-    ("0" + showDate.getDate()).slice(-2) +
-    "/" +
-    ("0" + (showDate.getMonth() + 1)).slice(-2) +
-    "/" +
-    showDate.getFullYear();
 
   return (
     <div className="w-full">
@@ -19,7 +11,7 @@ const FormPiutang = (props) => {
       <FormInput
         type="text"
         name="date"
-        defaultValue={todayDate}
+        defaultValue={dateFormat()}
         readonly={true}
       />
       <FormInput type="number" name="total" placeholder="Total" />

@@ -10,7 +10,7 @@ export const createUtang = async (name, date, total, jumlahDibayar) => {
       name,
       date,
       total,
-      jumlahDibayar,
+      jumlahDibayar: jumlahDibayar || 0,
     });
     toast.success("Berhasil menambahkan data utang");
     return response.data;
@@ -23,7 +23,15 @@ export const createUtang = async (name, date, total, jumlahDibayar) => {
 export const getUtang = async () => {
   try {
     const response = await customAPI.get("/utang");
-    return response.data.data;
+
+    const res = response.data.data;
+    const totalUtang = response.data.totalUtang;
+    const totalSudahDibayar = response.data.totalSudahDibayar;
+    const totalBelumDibayar = response.data.totalBelumDibayar;
+
+    // console.log({ res, totalUtang, totalSudahDibayar, totalBelumDibayar });
+
+    return { res, totalUtang, totalSudahDibayar, totalBelumDibayar };
   } catch (error) {
     console.log(error);
   }

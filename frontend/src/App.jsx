@@ -12,13 +12,13 @@ import ProtectedRoute from "@components/utils/ProtectedRoute";
 
 // Page Component
 import Dashboard from "@pages/Dashboard";
-import Transaksi from "@pages/Transaksi";
-import Outcome from "@pages/Outcome";
-import CalculatorView from "@pages/CalculatorView";
+import TransaksiView from "@pages/TransaksiView";
 import Piutang from "@pages/Piutang";
 import Utang from "@pages/Utang";
 import Income from "@pages/Income";
+import Outcome from "@pages/Outcome";
 import Order from "@pages/Order";
+import CalculatorView from "@pages/CalculatorView";
 import Client from "@pages/Client";
 import ClientView from "@pages/ClientView";
 
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
       },
       {
         path: "transaksi",
-        element: <Transaksi />,
+        element: <TransaksiView />,
       },
       {
         path: "piutang",

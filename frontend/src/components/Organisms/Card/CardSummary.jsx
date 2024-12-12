@@ -24,12 +24,10 @@ const Header = (props) => {
 const Body = (props) => {
   const { title, data } = props;
   return (
-    // <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
     <div>
-      <h5 className="text-night_30">{title}</h5>
-      <p className="text-night_60 font-medium">{data}</p>
+      <h5 className="text-night_30 text-sm">{title}</h5>
+      <p className="mt-2 text-xl text-night_60 font-medium">{data}</p>
     </div>
-    // </div>
   );
 };
 

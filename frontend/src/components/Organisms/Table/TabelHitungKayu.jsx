@@ -526,7 +526,7 @@ const TabelHitungKayu = () => {
               <td></td>
               <td></td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Label variant="default">
+                <Label variant="default" size="default">
                   Total Seluruh Sisi
                   <Input
                     name="totalSisiKeseluruhan"
@@ -539,7 +539,7 @@ const TabelHitungKayu = () => {
                 </Label>
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Label variant="default">
+                <Label variant="default" size="default">
                   Total Seluruh Kubikasi
                   <Input
                     name="totalKubikasiKeseluruhan"
@@ -552,7 +552,7 @@ const TabelHitungKayu = () => {
                 </Label>
               </td>
               <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Label variant="default">
+                <Label variant="default" size="default">
                   Total Seluruh Harga
                   <Input
                     name="totalHargaKeseluruhan"
@@ -579,7 +579,7 @@ const TabelHitungKayu = () => {
         {/* Depan */}
         <div className="p-3 flex flex-col gap-5 border border-[#E1E2E9] rounded-lg">
           <span>Sisi Depan</span>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Sisi Depan
             <Input
               readOnly={true}
@@ -590,7 +590,7 @@ const TabelHitungKayu = () => {
               onChange={handleInputChange}
             />
           </Label>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Panjang Depan
             <Input
               name="panjangDepan"
@@ -601,7 +601,7 @@ const TabelHitungKayu = () => {
               onChange={handleInputChange}
             />
           </Label>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Lebar Depan
             <Input
               name="lebarDepan"
@@ -612,7 +612,7 @@ const TabelHitungKayu = () => {
               onChange={handleInputChange}
             />
           </Label>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Tebal Depan
             <Input
               name="tebalDepan"
@@ -623,7 +623,7 @@ const TabelHitungKayu = () => {
               onChange={handleInputChange}
             />
           </Label>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Sisi Depan
             <Input
               name="sisiDepan"
@@ -634,7 +634,7 @@ const TabelHitungKayu = () => {
               onChange={handleInputChange}
             />
           </Label>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Jenis Kayu
             <Select
               list={jenisKayuData}
@@ -649,7 +649,7 @@ const TabelHitungKayu = () => {
         {/* Belakang */}
         <div className="p-3 flex flex-col gap-5 border border-[#E1E2E9] rounded-lg">
           <span>Sisi Belakang</span>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Sisi Belakang
             <Input
               readOnly={true}
@@ -660,7 +660,7 @@ const TabelHitungKayu = () => {
               onChange={handleInputChange}
             />
           </Label>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Panjang Belakang
             <Input
               name="panjangBelakang"
@@ -671,7 +671,7 @@ const TabelHitungKayu = () => {
               onChange={handleInputChange}
             />
           </Label>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Lebar Belakang
             <Input
               name="lebarBelakang"
@@ -682,7 +682,7 @@ const TabelHitungKayu = () => {
               onChange={handleInputChange}
             />
           </Label>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Tebal Belakang
             <Input
               name="tebalBelakang"
@@ -693,7 +693,7 @@ const TabelHitungKayu = () => {
               onChange={handleInputChange}
             />
           </Label>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Sisi Belakang
             <Input
               name="sisiBelakang"
@@ -704,7 +704,7 @@ const TabelHitungKayu = () => {
               onChange={handleInputChange}
             />
           </Label>
-          <Label variant="default">
+          <Label variant="default" size="default">
             Jenis Kayu
             <Select
               list={jenisKayuData}

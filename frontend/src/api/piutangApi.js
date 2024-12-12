@@ -10,7 +10,7 @@ export const createPiutang = async (name, date, total, jumlahDiterima) => {
       name,
       date,
       total,
-      jumlahDiterima,
+      jumlahDiterima: jumlahDiterima || 0,
     });
     toast.success("Berhasil menambahkan data piutang");
     return response.data;
@@ -23,8 +23,14 @@ export const createPiutang = async (name, date, total, jumlahDiterima) => {
 export const getPiutang = async () => {
   try {
     const response = await customAPI.get("/piutang");
-    // console.log(response.data.data);
-    return response.data.data;
+
+    const res = response.data.data;
+    const totalPiutang = response.data.totalPiutang;
+    const totalSudahDiterima = response.data.totalSudahDiterima;
+    const totalBelumDiterima = response.data.totalBelumDiterima;
+
+    // console.log({ totalPiutang, totalSudahDiterima, totalBelumDiterima });
+    return { res, totalPiutang, totalSudahDiterima, totalBelumDiterima };
   } catch (error) {
     console.log(error);
   }
