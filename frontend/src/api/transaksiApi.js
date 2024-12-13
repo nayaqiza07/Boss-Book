@@ -37,7 +37,45 @@ export const getTransaksi = async () => {
     const totalIn = response.data.totalIn;
     const totalOut = response.data.totalOut;
 
-    return { res, totalTransaksi, totalPersen, totalIn, totalOut };
+    // Income
+    const resIncome = response.data.income;
+    const totalSales = response.data.totalSales;
+    const totalCommision = response.data.totalCommision;
+    const totalServicesRevenue = response.data.totalServicesRevenue;
+
+    // Outcome
+    const resOutcome = response.data.outcome;
+    const totalAccomodation = response.data.totalAccomodation;
+    const totalAds = response.data.totalAds;
+    const totalEmployeeSalaries = response.data.totalEmployeeSalaries;
+    const totalElectricity = response.data.totalElectricity;
+    const totalTools = response.data.totalTools;
+    const totalRawMaterial = response.data.totalRawMaterial;
+    const totalAccessories = response.data.totalAccessories;
+    const totalFoamFabric = response.data.totalFoamFabric;
+    const totalPackaging = response.data.totalPackaging;
+
+    return {
+      res,
+      totalTransaksi,
+      totalPersen,
+      totalIn,
+      totalOut,
+      resIncome,
+      totalSales,
+      totalCommision,
+      totalServicesRevenue,
+      resOutcome,
+      totalAccomodation,
+      totalAds,
+      totalEmployeeSalaries,
+      totalElectricity,
+      totalTools,
+      totalRawMaterial,
+      totalAccessories,
+      totalFoamFabric,
+      totalPackaging,
+    };
   } catch (error) {
     console.log(error);
   }

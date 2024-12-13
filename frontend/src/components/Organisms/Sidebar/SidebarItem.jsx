@@ -1,31 +1,35 @@
 import {
-  DashboardSquare01Icon,
-  TransactionIcon,
-  AutoConversationsIcon,
-  AlignBoxTopLeftIcon,
-  ShoppingBag02Icon,
-  Calculator01Icon,
-  UserMultipleIcon,
-} from "hugeicons-react";
+  ArrowDown,
+  ArrowUp,
+  Bag,
+  Category,
+  Document,
+  Swap,
+  Ticket,
+  TwoUsers,
+} from "react-iconly";
 
 export const SidebarItem = [
   {
     key: "dashboard",
     label: "Dashboard",
     path: "/",
-    icon: <DashboardSquare01Icon size={20} />,
+    icon: <Category primaryColor="#53545c" size={20} />,
+    iconActive: <Category set="bulk" primaryColor="white" size={20} />,
   },
   {
     key: "transaksi",
     label: "Transaksi",
     path: "/transaksi",
-    icon: <TransactionIcon size={20} />,
+    icon: <Swap set="bold" primaryColor="#53545c" size={20} />,
+    iconActive: <Swap set="bulk" primaryColor="white" size={20} />,
   },
   {
     key: "piutang",
     label: "Piutang",
     path: "/piutang",
-    icon: <AlignBoxTopLeftIcon size={20} />,
+    icon: <Ticket primaryColor="#53545c" size={20} />,
+    iconActive: <Ticket set="bulk" primaryColor="white" size={20} />,
     sidebarSubItem: [
       {
         key: "piutang",
@@ -43,7 +47,8 @@ export const SidebarItem = [
     key: "income",
     label: "Income",
     path: "/income",
-    icon: <AutoConversationsIcon size={20} />,
+    icon: <ArrowDown set="bold" primaryColor="#53545c" size={20} />,
+    iconActive: <ArrowDown set="bulk" primaryColor="white" size={20} />,
     sidebarSubItem: [
       {
         key: "sales",
@@ -69,7 +74,8 @@ export const SidebarItem = [
     key: "outcome",
     label: "Outcome",
     path: "/outcome",
-    icon: <AutoConversationsIcon size={20} />,
+    icon: <ArrowUp set="bold" primaryColor="#53545c" size={20} />,
+    iconActive: <ArrowUp set="bulk" primaryColor="white" size={20} />,
     sidebarSubItem: [
       {
         key: "accommodation",
@@ -143,18 +149,21 @@ export const SidebarItem = [
     key: "order",
     label: "Order",
     path: "/order",
-    icon: <ShoppingBag02Icon size={20} />,
+    icon: <Bag primaryColor="#53545c" size={20} />,
+    iconActive: <Bag set="bulk" primaryColor="white" size={20} />,
   },
   {
     key: "calculator",
     label: "Calculator",
     path: "/calculator",
-    icon: <Calculator01Icon size={20} />,
+    icon: <Document primaryColor="#53545c" size={20} />,
+    iconActive: <Document set="bulk" primaryColor="white" size={20} />,
   },
   {
     key: "client",
     label: "Client",
     path: "/client",
-    icon: <UserMultipleIcon size={20} />,
+    icon: <TwoUsers primaryColor="#53545c" size={20} />,
+    iconActive: <TwoUsers set="bulk" primaryColor="white" size={20} />,
   },
 ];

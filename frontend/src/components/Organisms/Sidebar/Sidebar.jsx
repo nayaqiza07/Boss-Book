@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Graph, Logout } from "react-iconly";
 import { SidebarItem } from "./SidebarItem";
 import { useDispatch, useSelector } from "react-redux";
-import { Logo } from "@components/Icon/Icon";
 import { logoutUser } from "@/redux/slices/userSlice";
 import customAPI from "@/api/axios";
 
@@ -30,7 +30,12 @@ export const Sidebar = ({ sidebarOpen }) => {
       <nav className="w-72 h-full flex flex-col">
         {/* Top Sidebar Start */}
         <div className="px-6 h-16 border-b flex flex-row items-center cursor-default gap-2">
-          <Logo />
+          <Graph
+            set="bulk"
+            primaryColor="#97a5eb"
+            secondaryColor="#ffead1"
+            size={50}
+          />
           <h1 className="text-xl font-bold text-night_60">Boss Book</h1>
         </div>
         {/* Top Sidebar End */}
@@ -49,9 +54,10 @@ export const Sidebar = ({ sidebarOpen }) => {
           <div className={`px-3 py-7`}>
             <button
               onClick={handleLogout}
-              className="ml-3 p-3 rounded-lg bg-secondary_100"
+              className="ml-3 flex items-center gap-3 text-action_stop"
             >
-              Logout
+              <Logout set="bulk" primaryColor="#cc5f5f" size={20} />{" "}
+              <span>Logout</span>
             </button>
           </div>
         )}
@@ -74,7 +80,7 @@ export const SidebarMenus = ({ item }) => {
               : "text-night_50 hover:bg-[#5570f1]/20 hover:text-primary_100"
           }`}
         >
-          {item.icon}
+          {pathname === item.path ? item.iconActive : item.icon}
           <span className={`overflow-hidden transition-all flex-1 ml-3`}>
             {item.label}
           </span>

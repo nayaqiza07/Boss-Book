@@ -5,6 +5,7 @@ import Input from "@components/Atoms/Input/Input";
 import TabelHitungKayu from "@components/Organisms/Table/TabelHitungKayu";
 import TabelHitungTukangFinishing from "@components/Organisms/Table/TabelHitungTukangFinishing";
 import TabelHitungTukangKayu from "@components/Organisms/Table/TabelHitungTukangKayu";
+import TabelHitungAksesoris from "@/components/Organisms/Table/TabelHitungAksesoris";
 
 const CalculatorView = () => {
   // Handle Kayu Submit
@@ -79,7 +80,10 @@ const CalculatorView = () => {
         name: data.namaTukangFinishing,
         panjang: data.panjangFinishing,
         lebar: data.lebarFinishing,
-        persen: data.persenFinishing,
+        rumus: data.rumusFinishing,
+        gerinda: data.gerinda,
+        hargaFinishing: data.hargaFinishing,
+        packing: data.packing,
         total: data.totalFinishing,
       },
     ];
@@ -153,6 +157,12 @@ const CalculatorView = () => {
             <div className="px-[5px] py-[9px]">
               <h1>Tabel Hitung Tukang Finishing</h1>
               <TabelHitungTukangFinishing />
+            </div>
+          </Card>
+          <Card>
+            <div className="px-[5px] py-[9px]">
+              <h1>Tabel Hitung Aksesoris</h1>
+              <TabelHitungAksesoris />
             </div>
           </Card>
         </section>

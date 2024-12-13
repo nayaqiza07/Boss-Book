@@ -7,23 +7,31 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setPanjang,
   setLebar,
-  setPersen,
+  setRumus,
   setJenisFinishing,
+  setHargaFinishing,
+  setGerinda,
+  setPacking,
   hitungTotal,
 } from "../../../redux/slices/finishingSlice";
 import Select from "../../Atoms/Input/Select";
 
 const TabelHitungTukangFinishing = () => {
-  const { jenisFinishingData, jenisFinishing, total } = useSelector(
-    (state) => state.finishingState
-  );
+  const {
+    jenisFinishingData,
+    jenisFinishing,
+    hargaFinishing,
+    total,
+    gerinda,
+    packing,
+  } = useSelector((state) => state.finishingState);
   const dispatch = useDispatch();
 
   const [inputChange, setInputChange] = useState({
     namaTukangFinishing: "",
     panjangFinishing: "",
     lebarFinishing: "",
-    persenFinishing: "",
+    rumusFinishing: "",
   });
 
   const handleInputChange = (e) => {
@@ -40,7 +48,11 @@ const TabelHitungTukangFinishing = () => {
   const handleHitung = () => {
     dispatch(setPanjang(inputChange.panjangFinishing));
     dispatch(setLebar(inputChange.lebarFinishing));
-    dispatch(setPersen(inputChange.persenFinishing));
+    dispatch(setRumus(inputChange.rumusFinishing));
+
+    dispatch(setHargaFinishing());
+    dispatch(setGerinda());
+    dispatch(setPacking());
     dispatch(hitungTotal());
     console.log(inputChange);
   };
@@ -56,7 +68,7 @@ const TabelHitungTukangFinishing = () => {
               <th className="font-normal px-6 py-3 hidden md:table-cell">
                 Lebar (cm)
               </th>
-              <th className="font-normal px-6 py-3">Persen (%)</th>
+              <th className="font-normal px-6 py-3">Rumus</th>
               <th className="font-normal px-6 py-3">
                 <Select
                   list={jenisFinishingData}
@@ -67,6 +79,9 @@ const TabelHitungTukangFinishing = () => {
                   placeholder="Jenis Finishing"
                 />
               </th>
+              <th className="font-normal px-6 py-3">Harga Finishing</th>
+              <th className="font-normal px-6 py-3">Gerinda</th>
+              <th className="font-normal px-6 py-3">Packing</th>
               <th className="font-normal px-6 py-3">Total</th>
             </tr>
           </thead>
@@ -104,11 +119,11 @@ const TabelHitungTukangFinishing = () => {
               </td>
               <td className="whitespace-nowrap px-6 py-3">
                 <Input
-                  name="persenFinishing"
+                  name="rumusFinishing"
                   type="number"
                   variant="text"
-                  placeholder="Persen (%)"
-                  value={inputChange.persenFinishing}
+                  placeholder="Rumus"
+                  value={inputChange.rumusFinishing}
                   onChange={handleInputChange}
                 />
               </td>
@@ -119,6 +134,36 @@ const TabelHitungTukangFinishing = () => {
                   variant="disabled"
                   placeholder="Jenis Finishing"
                   value={jenisFinishing}
+                  readOnly={true}
+                />
+              </td>
+              <td className="whitespace-nowrap px-6 py-3">
+                <Input
+                  name="hargaFinishing"
+                  type="text"
+                  variant="disabled"
+                  placeholder="Harga Finishing"
+                  value={priceFormat(hargaFinishing)}
+                  readOnly={true}
+                />
+              </td>
+              <td className="whitespace-nowrap px-6 py-3">
+                <Input
+                  name="gerinda"
+                  type="text"
+                  variant="disabled"
+                  placeholder="Gerinda"
+                  value={priceFormat(gerinda)}
+                  readOnly={true}
+                />
+              </td>
+              <td className="whitespace-nowrap px-6 py-3">
+                <Input
+                  name="packing"
+                  type="text"
+                  variant="disabled"
+                  placeholder="Packing"
+                  value={priceFormat(packing)}
                   readOnly={true}
                 />
               </td>
@@ -179,13 +224,13 @@ const TabelHitungTukangFinishing = () => {
             />
           </label>
           <label className="text-xs font-medium">
-            Persen (%)
+            Rumus
             <Input
-              name="persenFinishing"
+              name="rumusFinishing"
               type="number"
               variant="text"
-              placeholder="Persen (%)"
-              value={inputChange.persenFinishing}
+              placeholder="Rumus"
+              value={inputChange.rumusFinishing}
               onChange={handleInputChange}
             />
           </label>
@@ -198,6 +243,28 @@ const TabelHitungTukangFinishing = () => {
               value={jenisFinishing}
               onChange={handleInputSelect}
               placeholder="Jenis Finishing"
+            />
+          </label>
+          <label className="text-xs font-medium">
+            Rumus
+            <Input
+              name="gerinda"
+              type="text"
+              variant="disabled"
+              placeholder="Gerinda"
+              readOnly={true}
+              value={priceFormat(gerinda)}
+            />
+          </label>
+          <label className="text-xs font-medium">
+            Rumus
+            <Input
+              name="packing"
+              type="text"
+              variant="disabled"
+              placeholder="Packing"
+              readOnly={true}
+              value={priceFormat(packing)}
             />
           </label>
           <label className="text-xs font-medium">

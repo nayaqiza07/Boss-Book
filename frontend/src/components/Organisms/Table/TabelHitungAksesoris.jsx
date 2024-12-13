@@ -1,78 +1,117 @@
+import { priceFormat } from "@/components/utils";
 import Button from "@components/Atoms/Button/Button";
 import Input from "@components/Atoms/Input/Input";
-import Select from "@components/Atoms/Input/Select";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Modal from "@components/Organisms/Modal/Modal";
+import FormAksesoris from "../Form/FormAksesoris";
+
+import {
+  setNamaAksesoris,
+  setHargaAksesoris,
+  setPanjangAksesoris,
+  setLebarAksesoris,
+  setBagiAksesoris,
+  setTotalAksesoris,
+} from "@/redux/slices/aksesorisSlice";
 
 const TabelHitungAksesoris = () => {
+  const { total, totalAksesoris } = useSelector(
+    (state) => state.aksesorisState
+  );
+  const dispatch = useDispatch();
+
+  const [openModal, setOpenModal] = useState(false);
+  const [inputChange, setInputChange] = useState({
+    nameJenisAksesoris: "",
+    hargaJenisAksesoris: 0,
+    panjangJenisAksesoris: 0,
+    lebarJenisAksesoris: 0,
+    bagiJenisAksesoris: 0,
+  });
+
+  const handleInputChange = (e) => {
+    setInputChange({
+      ...inputChange,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleClick = () => {
+    setOpenModal(false);
+    console.log(inputChange);
+
+    dispatch(setNamaAksesoris(inputChange.nameJenisAksesoris));
+    dispatch(setHargaAksesoris(inputChange.hargaJenisAksesoris));
+    dispatch(setPanjangAksesoris(inputChange.panjangJenisAksesoris));
+    dispatch(setLebarAksesoris(inputChange.lebarJenisAksesoris));
+    dispatch(setBagiAksesoris(inputChange.bagiJenisAksesoris));
+    dispatch(setTotalAksesoris());
+  };
+
   return (
     <>
       <div className="hidden overflow-x-auto mt-5 md:block">
         <table className="w-full">
           <thead className="border-b border-t border-[#E1E2E9]">
             <tr className="text-left text-sm text-night_90">
-              <th className="font-normal px-6 py-3">Nama Tukang Finishing</th>
               <th className="font-normal px-6 py-3">Panjang (cm)</th>
               <th className="font-normal px-6 py-3 hidden md:table-cell">
                 Lebar (cm)
               </th>
               <th className="font-normal px-6 py-3">Persen (%)</th>
-              <th className="font-normal px-6 py-3">
-                <Select
-                  // list={jenisFinishingData}
-                  name="jenisFinishing"
-                  variant="text"
-                  // value={jenisFinishing}
-                  // onChange={handleInputSelect}
-                  placeholder="Jenis Finishing"
+              <th className="flex justify-between gap-3 font-normal px-6 py-3">
+                <Input
+                  name="nameAksesoris"
+                  type="text"
+                  variant="disabled"
+                  placeholder="Nama Aksesoris"
+                  readOnly={true}
+                  value={inputChange.nameJenisAksesoris}
                 />
+                <Button type="button" onClick={() => setOpenModal(true)}>
+                  Aksesoris
+                </Button>
               </th>
               <th className="font-normal px-6 py-3">Total</th>
             </tr>
           </thead>
           <tbody className="border-b border-[#E1E2E9]">
             <tr className="text-night_40 text-left text-sm">
-              <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                <Input
-                  name="namaTukangFinishing"
-                  type="text"
-                  variant="text"
-                  placeholder="Nama Tukang Finishing"
-                  // onChange={handleInputChange}
-                />
-              </td>
               <td className="whitespace-nowrap  px-6 py-3">
                 <Input
-                  name="panjangFinishing"
+                  name="panjangAksesoris"
                   type="number"
                   variant="text"
                   placeholder="Panjang in cm"
-                  // onChange={handleInputChange}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
                 <Input
-                  name="lebarFinishing"
+                  name="lebarAksesoris"
                   type="number"
                   variant="text"
                   placeholder="Lebar in cm"
-                  // onChange={handleInputChange}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
                 <Input
-                  name="persenFinishing"
+                  name="persenAksesoris"
                   type="number"
                   variant="text"
                   placeholder="Persen (%)"
-                  // onChange={handleInputChange}
+                  onChange={handleInputChange}
                 />
               </td>
               <td className="whitespace-nowrap px-6 py-3">
                 <Input
-                  name="jenisFinishing"
+                  name="totalJenisAksesoris"
                   type="text"
                   variant="disabled"
-                  placeholder="Jenis Finishing"
-                  // value={jenisFinishing}
+                  placeholder="Jenis Aksesoris"
+                  value={priceFormat(totalAksesoris)}
                   readOnly={true}
                 />
               </td>
@@ -83,7 +122,7 @@ const TabelHitungAksesoris = () => {
                   variant="disabled"
                   placeholder="Total"
                   readOnly={true}
-                  // value={priceFormat(total)}
+                  value={priceFormat(total)}
                 />
               </td>
             </tr>
@@ -106,7 +145,7 @@ const TabelHitungAksesoris = () => {
               type="text"
               variant="text"
               placeholder="Nama Tukang Finishing"
-              // onChange={handleInputChange}
+              onChange={handleInputChange}
             />
           </label>
           <label className="text-xs font-medium">
@@ -116,7 +155,7 @@ const TabelHitungAksesoris = () => {
               type="number"
               variant="text"
               placeholder="Panjang in cm"
-              // onChange={handleInputChange}
+              onChange={handleInputChange}
             />
           </label>
           <label className="text-xs font-medium">
@@ -126,7 +165,7 @@ const TabelHitungAksesoris = () => {
               type="number"
               variant="text"
               placeholder="Lebar in cm"
-              // onChange={handleInputChange}
+              onChange={handleInputChange}
             />
           </label>
           <label className="text-xs font-medium">
@@ -136,7 +175,7 @@ const TabelHitungAksesoris = () => {
               type="number"
               variant="text"
               placeholder="Persen (%)"
-              // onChange={handleInputChange}
+              onChange={handleInputChange}
             />
           </label>
           <label className="text-xs font-medium">
@@ -147,7 +186,7 @@ const TabelHitungAksesoris = () => {
               variant="disabled"
               placeholder="Total"
               readOnly={true}
-              // value={priceFormat(total)}
+              value={priceFormat(total)}
             />
           </label>
           <Button
@@ -161,6 +200,20 @@ const TabelHitungAksesoris = () => {
         </div>
       </div>
       {/* Table view up to the `md:` breakpoint End  */}
+
+      {/* Create Modal */}
+      <Modal openModal={openModal} closeModal={() => setOpenModal(false)}>
+        <Modal.Header
+          title="Tambah Aksesoris"
+          closeModal={() => setOpenModal(false)}
+        />
+        {/* <form ref={formRef} onSubmit={handleSubmit}> */}
+        <Modal.Body>
+          <FormAksesoris handleInputChange={handleInputChange} />
+        </Modal.Body>
+        <Modal.Footer text="Tambah" type="button" closeModal={handleClick} />
+        {/* </form> */}
+      </Modal>
     </>
   );
 };

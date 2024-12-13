@@ -12,7 +12,6 @@ export const ModalEditClient = ({
   handleSubmit,
 }) => {
   const { id } = useParams();
-  console.log(client);
 
   return (
     <Modal

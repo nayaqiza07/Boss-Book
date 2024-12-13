@@ -1,6 +1,54 @@
+import { getTransaksi } from "@/api/transaksiApi";
+import CardSummary from "@/components/Organisms/Card/CardSummary";
+import { priceFormat } from "@/components/utils";
 import { SidebarItem } from "@components/Organisms/Sidebar/SidebarItem";
+import { useEffect, useState } from "react";
+import { ArrowUp } from "react-iconly";
 
 const Outcome = () => {
+  const [outcome, setOutcome] = useState([]);
+  const [totalAccomodation, setTotalAccomodation] = useState(0);
+  const [totalAds, setTotalAds] = useState(0);
+  const [totalEmployeeSalaries, setTotalEmployeeSalaries] = useState(0);
+  const [totalElectricity, setTotalElectricity] = useState(0);
+  const [totalTools, setTotalTools] = useState(0);
+  const [totalRawMaterial, setTotalRawMaterial] = useState(0);
+  const [totalAccessories, setTotalAccessories] = useState(0);
+  const [totalFoamFabric, setTotalFoamFabric] = useState(0);
+  const [totalPackaging, setTotalPackaging] = useState(0);
+
+  useEffect(() => {
+    fetchDataOutcome();
+  }, []);
+
+  const fetchDataOutcome = () => {
+    getTransaksi().then(
+      ({
+        resOutcome,
+        totalAccomodation,
+        totalAds,
+        totalEmployeeSalaries,
+        totalElectricity,
+        totalTools,
+        totalRawMaterial,
+        totalAccessories,
+        totalFoamFabric,
+        totalPackaging,
+      }) => {
+        setOutcome(resOutcome);
+        setTotalAccomodation(totalAccomodation);
+        setTotalAds(totalAds);
+        setTotalEmployeeSalaries(totalEmployeeSalaries);
+        setTotalElectricity(totalElectricity);
+        setTotalTools(totalTools);
+        setTotalRawMaterial(totalRawMaterial);
+        setTotalAccessories(totalAccessories);
+        setTotalFoamFabric(totalFoamFabric);
+        setTotalPackaging(totalPackaging);
+      }
+    );
+  };
+
   return (
     <>
       {/* Nav Link Start */}
@@ -12,8 +60,91 @@ const Outcome = () => {
       {/* Nav Link End */}
 
       <div>
-        <div>
-          <h1>Outcome</h1>
+        <div className="p-5 grid gap-5 lg:grid-cols-3">
+          {/* Top */}
+          <CardSummary>
+            <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
+            <div className="grid grid-cols-2 mt-8">
+              <CardSummary.Body
+                title="Accomodation"
+                data={priceFormat(totalAccomodation)}
+              />
+            </div>
+          </CardSummary>
+
+          <CardSummary>
+            <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
+            <div className="grid grid-cols-2 mt-8">
+              <CardSummary.Body title="Ads" data={priceFormat(totalAds)} />
+            </div>
+          </CardSummary>
+
+          <CardSummary>
+            <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
+            <div className="grid grid-cols-2 mt-8">
+              <CardSummary.Body
+                title="Employee Salaries"
+                data={priceFormat(totalEmployeeSalaries)}
+              />
+            </div>
+          </CardSummary>
+
+          <CardSummary>
+            <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
+            <div className="grid grid-cols-2 mt-8">
+              <CardSummary.Body
+                title="Electricity"
+                data={priceFormat(totalElectricity)}
+              />
+            </div>
+          </CardSummary>
+
+          <CardSummary>
+            <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
+            <div className="grid grid-cols-2 mt-8">
+              <CardSummary.Body title="Tools" data={priceFormat(totalTools)} />
+            </div>
+          </CardSummary>
+
+          <CardSummary>
+            <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
+            <div className="grid grid-cols-2 mt-8">
+              <CardSummary.Body
+                title="Raw Material"
+                data={priceFormat(totalRawMaterial)}
+              />
+            </div>
+          </CardSummary>
+
+          <CardSummary>
+            <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
+            <div className="grid grid-cols-2 mt-8">
+              <CardSummary.Body
+                title="Accessories"
+                data={priceFormat(totalAccessories)}
+              />
+            </div>
+          </CardSummary>
+
+          <CardSummary>
+            <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
+            <div className="grid grid-cols-2 mt-8">
+              <CardSummary.Body
+                title="Foam & Fabric"
+                data={priceFormat(totalFoamFabric)}
+              />
+            </div>
+          </CardSummary>
+
+          <CardSummary>
+            <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
+            <div className="grid grid-cols-2 mt-8">
+              <CardSummary.Body
+                title="Packaging"
+                data={priceFormat(totalPackaging)}
+              />
+            </div>
+          </CardSummary>
         </div>
       </div>
     </>

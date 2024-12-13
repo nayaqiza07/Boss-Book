@@ -233,6 +233,7 @@ const Utang = () => {
           <div className="mt-7">
             <Modal.Footer
               text="Delete"
+              type="submit"
               closeModal={() => setModalDelete(false)}
             />
           </div>

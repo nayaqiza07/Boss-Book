@@ -1,5 +1,5 @@
+import { CloseSquare } from "react-iconly";
 import Button from "@/components/Atoms/Button/Button";
-import { Cancel01Icon } from "hugeicons-react";
 
 const Modal = (props) => {
   const { openModal, closeModal, children } = props;
@@ -27,9 +27,16 @@ const Header = (props) => {
   return (
     <div className="flex justify-between items-center">
       <h2 className="text-xl font-medium">{title}</h2>
-      <Button size="close" onClick={closeModal} variant="close">
-        <Cancel01Icon size={24} />
-      </Button>
+
+      <span className="cursor-pointer transition duration-200 hover:scale-105">
+        <CloseSquare
+          onClick={closeModal}
+          set="bulk"
+          size={35}
+          secondaryColor="#fff2e2"
+          primaryColor="#1c1d22"
+        />
+      </span>
     </div>
   );
 };
@@ -42,7 +49,7 @@ const Body = (props) => {
 };
 
 const Footer = (props) => {
-  const { closeModal, text } = props;
+  const { closeModal, text, type } = props;
   return (
     <div className="flex justify-center gap-3">
       <Button
@@ -53,7 +60,7 @@ const Footer = (props) => {
       >
         Cancel
       </Button>
-      <Button type="submit" variant="primary" size="md" onClick={closeModal}>
+      <Button type={type} variant="primary" size="md" onClick={closeModal}>
         {text}
       </Button>
     </div>

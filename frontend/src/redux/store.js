@@ -4,6 +4,7 @@ import userReducer from "./slices/userSlice";
 import finishingReducer from "./slices/finishingSlice";
 import tukangKayuReducer from "./slices/tukangKayuSlice";
 import kayuReducer from "./slices/kayuSlice";
+import aksesorisReducer from "./slices/aksesorisSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     finishingState: finishingReducer,
     tukangKayuState: tukangKayuReducer,
     kayuState: kayuReducer,
+    aksesorisState: aksesorisReducer,
   },
 });
 

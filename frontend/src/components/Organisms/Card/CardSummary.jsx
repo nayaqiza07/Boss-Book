@@ -26,7 +26,7 @@ const Body = (props) => {
   return (
     <div>
       <h5 className="text-night_30 text-sm">{title}</h5>
-      <p className="mt-2 text-xl text-night_60 font-medium">{data}</p>
+      <p className="mt-2 text-night_60 font-medium">{data}</p>
     </div>
   );
 };

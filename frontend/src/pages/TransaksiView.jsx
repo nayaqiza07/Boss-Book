@@ -211,7 +211,11 @@ const TransaksiView = () => {
           <Modal.Body>
             <FormTransaksi status={status} list={options} />
           </Modal.Body>
-          <Modal.Footer text="Tambah" closeModal={() => setOpenModal(false)} />
+          <Modal.Footer
+            text="Tambah"
+            type="submit"
+            closeModal={() => setOpenModal(false)}
+          />
         </form>
       </Modal>
     </>

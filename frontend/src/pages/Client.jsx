@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
-import { Card } from "@components/Organisms/Card/Card";
-import { ModalAddClient } from "@components/Organisms/Modal/ModalAddClient";
+import { AddUser } from "react-iconly";
 
-import { AddUser } from "@components/Icon/Icon";
-import { DataEmpty } from "@components/Molecules/404/DataEmpty";
-import { BigUser2 } from "@/assets/Icon/BigUser2";
-import TableClient from "@components/Organisms/Table/TableClient";
-import TableClientMobile from "@components/Organisms/Table/TableClientMobile";
+// API
 import { getClients, createClient } from "@/api/clientApi";
+
+// Assets
+import { BigUser2 } from "@/assets/Icon/BigUser2";
+
+// Components
+import Button from "@components/Atoms/Button/Button";
+import { Card } from "@components/Organisms/Card/Card";
+import { DataEmpty } from "@components/Molecules/404/DataEmpty";
+import { ModalAddClient } from "@components/Organisms/Modal/ModalAddClient";
 import Pagination from "@components/Molecules/Pagination/Pagination";
 import SearchTable from "@components/Molecules/Search/SearchTable";
-import Button from "@components/Atoms/Button/Button";
+import TableClient from "@components/Organisms/Table/TableClient";
+import TableClientMobile from "@components/Organisms/Table/TableClientMobile";
 
 const Client = () => {
   const [openModalClient, setOpenModalClient] = useState(false);
@@ -77,7 +82,8 @@ const Client = () => {
             onClick={() => setOpenModalClient(true)}
             className="flex gap-1"
           >
-            <AddUser colorStroke={"#FFFFFF"} /> New Client
+            <AddUser primaryColor="white" />
+            New Client
           </Button>
         </div>
       </section>

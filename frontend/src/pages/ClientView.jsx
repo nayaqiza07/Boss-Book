@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { EditSquare, Delete } from "@components/Icon/Icon";
-import { Modal } from "@components/Organisms/Modal";
-import { ModalEditClient } from "@components/Organisms/Modal/ModalEditClient";
-import { Card } from "@components/Organisms/Card/Card";
-import Cards from "@components/Organisms/Card/Cards";
+import { Bag, Delete, EditSquare, Location, User } from "react-iconly";
+
+// API
 import { getClientById, deleteClient, updateClient } from "@/api/clientApi";
 import { getClientOrder, getOrderById } from "@/api/orderApi";
+
+// Asset
+import { ShopBag } from "@/assets/Icon/ShopBag";
+
+// Components
+import { Card } from "@components/Organisms/Card/Card";
+import CardSummary from "@/components/Organisms/Card/CardSummary";
+import { DataEmpty } from "@components/Molecules/404/DataEmpty";
+import { Modal } from "@components/Organisms/Modal";
+import { ModalEditClient } from "@components/Organisms/Modal/ModalEditClient";
+import { ModalInvoice } from "@components/Organisms/Modal/ModalInvoice";
 import TableClientOrder from "@components/Organisms/Table/TableClientOrder";
 import TableClientOrderMobile from "@components/Organisms/Table/TableClientOrderMobile";
-import { DataEmpty } from "@components/Molecules/404/DataEmpty";
-import { ShopBag } from "@/assets/Icon/ShopBag";
-import { ModalInvoice } from "@components/Organisms/Modal/ModalInvoice";
 
 const ClientView = () => {
   const { id } = useParams();
@@ -100,13 +106,15 @@ const ClientView = () => {
               onClick={() => setModalEdit(true)}
               className="flex items-center bg-[#5570F1]/20 text-primary_100 text-sm rounded-xl gap-3 py-3 px-5"
             >
-              <EditSquare colorStroke={"#5570F1"} /> Edit Client
+              <EditSquare primaryColor="#5570F1" />
+              Edit Client
             </button>
             <button
               onClick={() => setModalDelete(true)}
               className="flex items-center bg-[#cc5f5f]/20 text-[#cc5f5f] text-sm rounded-xl gap-3 py-3 px-5"
             >
-              <Delete colorStroke={"#cc5f5f"} /> Delete Client
+              <Delete primaryColor="#cc5f5f" />
+              Delete Client
             </button>
           </div>
         </div>
@@ -114,20 +122,32 @@ const ClientView = () => {
       {/* Top Start */}
 
       {/* Content Start */}
-      <Cards
-        type="client"
-        name={client.name}
-        phone={client.phone}
-        email={client.email}
-      />
-      <Cards type="address" address={client.address} />
-      <Cards
-        type="order"
-        totalOrder={clientOrder.length}
-        filterPending={filterPending.length}
-        filterInProgress={filterInProgress.length}
-        filterCompleted={filterCompleted.length}
-      />
+      <CardSummary>
+        <CardSummary.Header icon={<User primaryColor="#130F26" />} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-8">
+          <CardSummary.Body title="Phone" data={client.phone} />
+          <CardSummary.Body title="Email" data={client.email} />
+        </div>
+      </CardSummary>
+
+      <CardSummary>
+        <CardSummary.Header icon={<Location primaryColor="#130F26" />} />
+        <div className="grid grid-cols-1 mt-8">
+          <CardSummary.Body title="Home Address" data={client.address} />
+        </div>
+      </CardSummary>
+      <CardSummary>
+        <CardSummary.Header icon={<Bag primaryColor="#130F26" />} />
+        <div className="grid grid-cols-4 mt-8">
+          <CardSummary.Body title="All Order" data={clientOrder.length} />
+          <CardSummary.Body title="Pending" data={filterPending.length} />
+          <CardSummary.Body
+            title="In-Progress"
+            data={filterInProgress.length}
+          />
+          <CardSummary.Body title="Completed" data={filterCompleted.length} />
+        </div>
+      </CardSummary>
 
       <Card colSpan="lg:col-span-3">
         {clientOrder.length === 0 ? (
