@@ -12,6 +12,7 @@ const Button = ({
     primaryOutline: "border border-primary_100 bg-white text-primary_100",
     secondary: "bg-secondary_100  text-night_100",
     secondary_2: "bg-secondary_30 text-night_100",
+    tertiary: "text-primary_100",
     pressed: "bg-[#5B6EC6] text-white",
     delete: "bg-[#cc5f5f]/20 text-[#cc5f5f]",
     close: "bg-secondary_30",

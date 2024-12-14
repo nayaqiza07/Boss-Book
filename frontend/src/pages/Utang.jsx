@@ -203,7 +203,12 @@ const Utang = () => {
           <Modal.Body>
             <FormPiutang isUtang={true} />
           </Modal.Body>
-          <Modal.Footer text="Tambah" closeModal={() => setOpenModal(false)} />
+          <Modal.Footer
+            text="Tambah"
+            type="submit"
+            closeModal={() => setOpenModal(false)}
+            handleSubmit={() => setOpenModal(false)}
+          />
         </form>
       </Modal>
 
@@ -217,7 +222,12 @@ const Utang = () => {
           <Modal.Body>
             <FormPiutang.Terima isUtang={true} />
           </Modal.Body>
-          <Modal.Footer text="Bayar" closeModal={() => setModalUpdate(false)} />
+          <Modal.Footer
+            text="Bayar"
+            type="submit"
+            closeModal={() => setModalUpdate(false)}
+            handleSubmit={() => setModalUpdate(false)}
+          />
         </form>
       </Modal>
 
@@ -235,6 +245,7 @@ const Utang = () => {
               text="Delete"
               type="submit"
               closeModal={() => setModalDelete(false)}
+              handleSubmit={() => setModalDelete(false)}
             />
           </div>
         </form>

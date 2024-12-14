@@ -49,7 +49,7 @@ const Body = (props) => {
 };
 
 const Footer = (props) => {
-  const { closeModal, text, type } = props;
+  const { closeModal, handleSubmit, text, type } = props;
   return (
     <div className="flex justify-center gap-3">
       <Button
@@ -60,7 +60,7 @@ const Footer = (props) => {
       >
         Cancel
       </Button>
-      <Button type={type} variant="primary" size="md" onClick={closeModal}>
+      <Button type={type} variant="primary" size="md" onClick={handleSubmit}>
         {text}
       </Button>
     </div>

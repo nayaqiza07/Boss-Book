@@ -202,7 +202,13 @@ const Piutang = () => {
           <Modal.Body>
             <FormPiutang />
           </Modal.Body>
-          <Modal.Footer text="Tambah" closeModal={() => setOpenModal(false)} />
+
+          <Modal.Footer
+            text="Tambah"
+            type="submit"
+            closeModal={() => setOpenModal(false)}
+            handleSubmit={() => setOpenModal(false)}
+          />
         </form>
       </Modal>
 
@@ -218,7 +224,9 @@ const Piutang = () => {
           </Modal.Body>
           <Modal.Footer
             text="Terima"
+            type="submit"
             closeModal={() => setModalUpdate(false)}
+            handleSubmit={() => setModalUpdate(false)}
           />
         </form>
       </Modal>
@@ -239,6 +247,7 @@ const Piutang = () => {
               text="Delete"
               type="submit"
               closeModal={() => setModalDelete(false)}
+              handleSubmit={() => setModalDelete(false)}
             />
           </div>
         </form>

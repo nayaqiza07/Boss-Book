@@ -1,6 +1,8 @@
-export const DataEmpty = ({ icon, title, subTitle }) => {
+export const DataEmpty = ({ icon, title, subTitle, className }) => {
   return (
-    <div className="px-4 py-10 h-80 flex flex-col justify-center items-center border-2 border-[#E1E2E9] rounded-lg">
+    <div
+      className={`px-4 py-10 h-80 flex flex-col justify-center items-center border-2 border-[#E1E2E9] rounded-lg ${className}`}
+    >
       <div className="w-fit border border-[#E1E2E9] bg-main_background rounded-full p-10">
         {icon}
       </div>

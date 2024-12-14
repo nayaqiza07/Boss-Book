@@ -1,70 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  panjang: 0,
-  lebar: 0,
-  persen: 0,
-  total: 0,
-
-  namaAksesoris: "",
+  nameAksesoris: "",
   hargaAksesoris: 0,
-  panjangAksesoris: 0,
-  lebarAksesoris: 0,
-  bagiAksesoris: 0,
 
-  totalAksesoris: 0,
+  items: [],
+
+  total: 0,
 };
 
 const aksesorisSlice = createSlice({
   name: "aksesoris",
   initialState,
   reducers: {
-    setPanjang: (state, action) => {
-      state.panjang = action.payload;
-    },
-    setLebar: (state, action) => {
-      state.lebar = action.payload;
-    },
-    setPersen: (state, action) => {
-      state.persen = action.payload;
-    },
-    setTotal: (state, action) => {
-      state.total = action.payload;
-    },
-    setNamaAksesoris: (state, action) => {
-      state.namaAksesoris = action.payload;
+    setNameAksesoris: (state, action) => {
+      state.nameAksesoris = action.payload;
     },
     setHargaAksesoris: (state, action) => {
       state.hargaAksesoris = action.payload;
     },
-    setPanjangAksesoris: (state, action) => {
-      state.panjangAksesoris = action.payload;
+    setItems: (state) => {
+      state.items.push({
+        name: state.nameAksesoris,
+        harga: parseInt(state.hargaAksesoris),
+      });
     },
-    setLebarAksesoris: (state, action) => {
-      state.lebarAksesoris = action.payload;
-    },
-    setBagiAksesoris: (state, action) => {
-      state.bagiAksesoris = action.payload;
-    },
-    setTotalAksesoris: (state) => {
-      state.totalAksesoris =
-        (state.hargaAksesoris * state.panjangAksesoris * state.lebarAksesoris) /
-        state.bagiAksesoris;
+    setTotal: (state) => {
+      const item = state.items;
+      const harga = item.map((i) => i.harga).reduce((i, num) => i + num, 0);
+      state.total = harga;
     },
   },
 });
 
-export const {
-  setPanjang,
-  setLebar,
-  setPersen,
-  setTotal,
-  setNamaAksesoris,
-  setHargaAksesoris,
-  setPanjangAksesoris,
-  setLebarAksesoris,
-  setBagiAksesoris,
-  setTotalAksesoris,
-} = aksesorisSlice.actions;
+export const { setNameAksesoris, setHargaAksesoris, setItems, setTotal } =
+  aksesorisSlice.actions;
 
 export default aksesorisSlice.reducer;

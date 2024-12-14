@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Plus } from "react-iconly";
+
+// Components
+import Select from "@components/Atoms/Input/Select";
 import Button from "@components/Atoms/Button/Button";
 import Input from "@components/Atoms/Input/Input";
 import { priceFormat } from "@components/utils";
 
-import { useSelector, useDispatch } from "react-redux";
+// Redux actions
 import {
   setPanjang,
   setLebar,
@@ -13,8 +18,7 @@ import {
   setGerinda,
   setPacking,
   hitungTotal,
-} from "../../../redux/slices/finishingSlice";
-import Select from "../../Atoms/Input/Select";
+} from "@/redux/slices/finishingSlice";
 
 const TabelHitungTukangFinishing = () => {
   const {
@@ -26,6 +30,12 @@ const TabelHitungTukangFinishing = () => {
     packing,
   } = useSelector((state) => state.finishingState);
   const dispatch = useDispatch();
+
+  const dupeTable = useRef();
+  const [duplicateTable, setDuplicateTable] = useState([dupeTable]);
+  const onDupe = () => {
+    setDuplicateTable((prev) => prev.concat(dupeTable));
+  };
 
   const [inputChange, setInputChange] = useState({
     namaTukangFinishing: "",
@@ -86,101 +96,115 @@ const TabelHitungTukangFinishing = () => {
             </tr>
           </thead>
           <tbody className="border-b border-[#E1E2E9]">
-            <tr className="text-night_40 text-left text-sm">
-              <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                <Input
-                  name="namaTukangFinishing"
-                  type="text"
-                  variant="text"
-                  placeholder="Nama Tukang Finishing"
-                  value={inputChange.namaTukangFinishing}
-                  onChange={handleInputChange}
-                />
-              </td>
-              <td className="whitespace-nowrap  px-6 py-3">
-                <Input
-                  name="panjangFinishing"
-                  type="number"
-                  variant="text"
-                  placeholder="Panjang in cm"
-                  value={inputChange.panjangFinishing}
-                  onChange={handleInputChange}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3">
-                <Input
-                  name="lebarFinishing"
-                  type="number"
-                  variant="text"
-                  placeholder="Lebar in cm"
-                  value={inputChange.lebarFinishing}
-                  onChange={handleInputChange}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3">
-                <Input
-                  name="rumusFinishing"
-                  type="number"
-                  variant="text"
-                  placeholder="Rumus"
-                  value={inputChange.rumusFinishing}
-                  onChange={handleInputChange}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3">
-                <Input
-                  name="jenisFinishing"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Jenis Finishing"
-                  value={jenisFinishing}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3">
-                <Input
-                  name="hargaFinishing"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Harga Finishing"
-                  value={priceFormat(hargaFinishing)}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3">
-                <Input
-                  name="gerinda"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Gerinda"
-                  value={priceFormat(gerinda)}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3">
-                <Input
-                  name="packing"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Packing"
-                  value={priceFormat(packing)}
-                  readOnly={true}
-                />
-              </td>
-              <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
-                <Input
-                  name="totalFinishing"
-                  type="text"
-                  variant="disabled"
-                  placeholder="Total"
-                  readOnly={true}
-                  value={priceFormat(total)}
-                />
-              </td>
-            </tr>
+            {duplicateTable.map((dupe, index) => (
+              <tr
+                key={index}
+                ref={dupeTable}
+                className="text-night_40 text-left text-sm"
+              >
+                <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
+                  <Input
+                    name="namaTukangFinishing"
+                    type="text"
+                    variant="text"
+                    placeholder="Nama Tukang Finishing"
+                    value={inputChange.namaTukangFinishing}
+                    onChange={handleInputChange}
+                  />
+                </td>
+                <td className="whitespace-nowrap  px-6 py-3">
+                  <Input
+                    name="panjangFinishing"
+                    type="number"
+                    variant="text"
+                    placeholder="Panjang in cm"
+                    value={inputChange.panjangFinishing}
+                    onChange={handleInputChange}
+                  />
+                </td>
+                <td className="whitespace-nowrap px-6 py-3">
+                  <Input
+                    name="lebarFinishing"
+                    type="number"
+                    variant="text"
+                    placeholder="Lebar in cm"
+                    value={inputChange.lebarFinishing}
+                    onChange={handleInputChange}
+                  />
+                </td>
+                <td className="whitespace-nowrap px-6 py-3">
+                  <Input
+                    name="rumusFinishing"
+                    type="number"
+                    variant="text"
+                    placeholder="Rumus"
+                    value={inputChange.rumusFinishing}
+                    onChange={handleInputChange}
+                  />
+                </td>
+                <td className="whitespace-nowrap px-6 py-3">
+                  <Input
+                    name="jenisFinishing"
+                    type="text"
+                    variant="disabled"
+                    placeholder="Jenis Finishing"
+                    value={jenisFinishing}
+                    readOnly={true}
+                  />
+                </td>
+                <td className="whitespace-nowrap px-6 py-3">
+                  <Input
+                    name="hargaFinishing"
+                    type="text"
+                    variant="disabled"
+                    placeholder="Harga Finishing"
+                    value={priceFormat(hargaFinishing)}
+                    readOnly={true}
+                  />
+                </td>
+                <td className="whitespace-nowrap px-6 py-3">
+                  <Input
+                    name="gerinda"
+                    type="text"
+                    variant="disabled"
+                    placeholder="Gerinda"
+                    value={priceFormat(gerinda)}
+                    readOnly={true}
+                  />
+                </td>
+                <td className="whitespace-nowrap px-6 py-3">
+                  <Input
+                    name="packing"
+                    type="text"
+                    variant="disabled"
+                    placeholder="Packing"
+                    value={priceFormat(packing)}
+                    readOnly={true}
+                  />
+                </td>
+                <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
+                  <Input
+                    name="totalFinishing"
+                    type="text"
+                    variant="disabled"
+                    placeholder="Total"
+                    readOnly={true}
+                    value={priceFormat(total)}
+                  />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
-        <div className="flex justify-end gap-5 mt-5 mb-3 mr-3">
+        <div className="flex justify-between gap-5 mt-5 m-3">
+          <Button
+            type="button"
+            variant="tertiary"
+            onClick={onDupe}
+            className="flex items-center gap-1"
+          >
+            <Plus size={20} /> <span>Tambah</span>
+          </Button>
           <Button type="button" variant="primaryOutline" onClick={handleHitung}>
             Hitung
           </Button>

@@ -5,9 +5,12 @@ import Input from "@components/Atoms/Input/Input";
 import TabelHitungKayu from "@components/Organisms/Table/TabelHitungKayu";
 import TabelHitungTukangFinishing from "@components/Organisms/Table/TabelHitungTukangFinishing";
 import TabelHitungTukangKayu from "@components/Organisms/Table/TabelHitungTukangKayu";
+import TabelHitungBahanTambahan from "@/components/Organisms/Table/TabelHitungBahanTambahan";
 import TabelHitungAksesoris from "@/components/Organisms/Table/TabelHitungAksesoris";
+import { useSelector } from "react-redux";
 
 const CalculatorView = () => {
+  const { items, total } = useSelector((state) => state.aksesorisState);
   // Handle Kayu Submit
   const kayuSubmit = (e) => {
     e.preventDefault();
@@ -88,6 +91,8 @@ const CalculatorView = () => {
       },
     ];
 
+    const aksesoris = { items, total };
+
     console.log({
       barang,
       client,
@@ -97,6 +102,7 @@ const CalculatorView = () => {
       keseluruhanSisi,
       keseluruhanKubikasi,
       keseluruhanHarga,
+      aksesoris,
     });
   };
 
@@ -138,30 +144,45 @@ const CalculatorView = () => {
         {/* Section 1 End */}
 
         <section className="grid gap-5 px-5 pb-5">
-          <Card>
-            <div className="px-[5px] py-[9px]">
-              {/* <Accordion /> */}
-              <h1>Tabel Hitung Kayu</h1>
-              <TabelHitungKayu />
-            </div>
-          </Card>
+          <section>
+            <Card>
+              <div className="px-[5px] py-[9px]">
+                {/* <Accordion /> */}
+                <h1>Tabel Hitung Kayu</h1>
+                <TabelHitungKayu />
+              </div>
+            </Card>
+          </section>
+
+          <section>
+            <Card>
+              <div className="px-[5px] py-[9px]">
+                <h1>Tabel Hitung Tukang Kayu</h1>
+                <TabelHitungTukangKayu />
+              </div>
+            </Card>
+          </section>
+
+          <section>
+            <Card>
+              <div className="px-[5px] py-[9px]">
+                <h1>Tabel Hitung Tukang Finishing</h1>
+                <TabelHitungTukangFinishing />
+              </div>
+            </Card>
+          </section>
+
+          <section>
+            <Card>
+              <div className="px-[5px] py-[9px]">
+                <h1>Tabel Hitung Bahan Tambahan</h1>
+                <TabelHitungBahanTambahan />
+              </div>
+            </Card>
+          </section>
 
           <Card>
             <div className="px-[5px] py-[9px]">
-              <h1>Tabel Hitung Tukang Kayu</h1>
-              <TabelHitungTukangKayu />
-            </div>
-          </Card>
-
-          <Card>
-            <div className="px-[5px] py-[9px]">
-              <h1>Tabel Hitung Tukang Finishing</h1>
-              <TabelHitungTukangFinishing />
-            </div>
-          </Card>
-          <Card>
-            <div className="px-[5px] py-[9px]">
-              <h1>Tabel Hitung Aksesoris</h1>
               <TabelHitungAksesoris />
             </div>
           </Card>
