@@ -1,50 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const initialState = {
-  panjang: 0,
-  lebar: 0,
-  rumus: 0,
-  total: 0,
-
   jenisFinishingData: [
-    { name: "Basic ML", value: "Basic ML", penjumlahanJenisFinishing: 0 },
-    { name: "NC", value: "NC", penjumlahanJenisFinishing: 20 },
-    { name: "Bleaching", value: "Bleaching", penjumlahanJenisFinishing: 20 },
-    { name: "Duco Biasa", value: "Duco Biasa", penjumlahanJenisFinishing: 50 },
-    { name: "Duco Bagus", value: "Duco Bagus", penjumlahanJenisFinishing: 75 },
-    { name: "Lasur", value: "Lasur", penjumlahanJenisFinishing: 20 },
-    { name: "PU", value: "PU", penjumlahanJenisFinishing: 50 },
-    { name: "Take Oil", value: "Take Oil", penjumlahanJenisFinishing: 20 },
-    { name: "Waterbased", value: "Waterbased", penjumlahanJenisFinishing: 25 },
+    { name: "Basic ML", _id: "Basic ML", penjumlahanJenisFinishing: 0 },
+    { name: "NC", _id: "NC", penjumlahanJenisFinishing: 20 },
+    { name: "Bleaching", _id: "Bleaching", penjumlahanJenisFinishing: 20 },
+    { name: "Duco Biasa", _id: "Duco Biasa", penjumlahanJenisFinishing: 50 },
+    { name: "Duco Bagus", _id: "Duco Bagus", penjumlahanJenisFinishing: 75 },
+    { name: "Lasur", _id: "Lasur", penjumlahanJenisFinishing: 20 },
+    { name: "PU", _id: "PU", penjumlahanJenisFinishing: 50 },
+    { name: "Take Oil", _id: "Take Oil", penjumlahanJenisFinishing: 20 },
+    { name: "Waterbased", _id: "Waterbased", penjumlahanJenisFinishing: 25 },
   ],
   jenisFinishing: "",
   penjumlahanJenisFinishing: 0,
 
-  gerinda: 0,
-  packing: 0,
-  hargaFinishing: 0,
+  finishings: [],
+  totalFinishing: 0,
 };
 
 const finishingSlice = createSlice({
   name: "finishing",
   initialState,
   reducers: {
-    setPanjang: (state, action) => {
-      state.panjang = action.payload;
-      // state.total = state.panjang * state.lebar * state.persen;
-    },
-    setLebar: (state, action) => {
-      state.lebar = action.payload;
-      // state.total = state.panjang * state.lebar * state.persen;
-    },
-    setRumus: (state, action) => {
-      state.rumus = action.payload;
-      // state.total = state.panjang * state.lebar * state.persen;
-    },
     setJenisFinishing: (state, action) => {
       state.jenisFinishing = action.payload;
       const finishing = state.jenisFinishingData.find(
-        (Finishing) => Finishing.value === action.payload
+        (Finishing) => Finishing._id === action.payload
       );
       if (finishing) {
         state.penjumlahanJenisFinishing = finishing.penjumlahanJenisFinishing;
@@ -52,40 +35,33 @@ const finishingSlice = createSlice({
         state.penjumlahanJenisFinishing = 0;
       }
     },
-    setHargaFinishing: (state) => {
-      state.hargaFinishing = state.panjang * state.lebar * state.rumus;
-    },
-    setGerinda: (state) => {
-      state.gerinda = state.hargaFinishing * (12 / 100);
-    },
-    setPacking: (state) => {
-      state.packing = state.hargaFinishing * (10 / 100);
-    },
-    hitungTotal: (state) => {
-      const tambahJenisFinishing =
-        state.panjang *
-        state.lebar *
-        state.rumus *
-        (state.penjumlahanJenisFinishing / 100);
+    addFinishing: (state, action) => {
+      const { name, panjang, lebar, rumus, jenis } = action.payload;
 
-      state.total =
-        state.hargaFinishing +
-        tambahJenisFinishing +
-        state.gerinda +
-        state.packing;
+      const jenisFinishing =
+        panjang * lebar * rumus * (state.penjumlahanJenisFinishing / 100);
+      const hargaFinishing = panjang * lebar * rumus + jenisFinishing;
+      const gerinda = hargaFinishing * (12 / 100);
+      const packing = hargaFinishing * (10 / 100);
+
+      const totalPerFinishing = hargaFinishing + gerinda + packing;
+
+      if (name && panjang && lebar && rumus && jenis) {
+        state.finishings.push({
+          data: action.payload,
+          hargaFinishing,
+          gerinda,
+          packing,
+          totalPerFinishing,
+        });
+        state.totalFinishing += totalPerFinishing;
+      } else {
+        toast.error("Inputan harus di isi");
+      }
     },
   },
 });
 
-export const {
-  setPanjang,
-  setLebar,
-  setRumus,
-  setJenisFinishing,
-  setHargaFinishing,
-  setGerinda,
-  setPacking,
-  hitungTotal,
-} = finishingSlice.actions;
+export const { setJenisFinishing, addFinishing } = finishingSlice.actions;
 
 export default finishingSlice.reducer;

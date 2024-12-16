@@ -1,37 +1,37 @@
 import FormInput from "@/components/Atoms/Form/FormInput";
 
 const FormBahanTambahan = (props) => {
-  const { handleInputChange, name, ...rest } = props;
+  const { handleInputChange, ...rest } = props;
   return (
     <div {...rest} className="w-full">
       <FormInput
         type="text"
-        name={`name${name}`}
-        placeholder={`Nama ${name}`}
+        name="namaBahanTambahan"
+        placeholder="Nama Bahan"
         onChange={handleInputChange}
       />
       <FormInput
         type="text"
-        name={`harga${name}`}
-        placeholder={`Harga ${name}`}
+        name="hargaBahanTambahan"
+        placeholder="Harga Bahan Tambahan"
         onChange={handleInputChange}
       />
       <FormInput
         type="text"
-        name={`panjang${name}`}
-        placeholder={`Panjang ${name}`}
+        name="panjangBahanTambahan"
+        placeholder="Panjang Bahan Tambahan"
         onChange={handleInputChange}
       />
       <FormInput
         type="text"
-        name={`lebar${name}`}
-        placeholder={`Lebar ${name}`}
+        name="lebarBahanTambahan"
+        placeholder="Lebar Bahan Tambahan"
         onChange={handleInputChange}
       />
       <FormInput
         type="text"
-        name={`bagi${name}`}
-        placeholder={`Bagi ${name}`}
+        name="bagiBahanTambahan"
+        placeholder="Bagi Bahan Tambahan"
         onChange={handleInputChange}
       />
     </div>

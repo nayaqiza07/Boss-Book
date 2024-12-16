@@ -3,14 +3,23 @@ import Button from "@components/Atoms/Button/Button";
 import { Card } from "@components/Organisms/Card/Card";
 import Input from "@components/Atoms/Input/Input";
 import TabelHitungKayu from "@components/Organisms/Table/TabelHitungKayu";
-import TabelHitungTukangFinishing from "@components/Organisms/Table/TabelHitungTukangFinishing";
 import TabelHitungTukangKayu from "@components/Organisms/Table/TabelHitungTukangKayu";
 import TabelHitungBahanTambahan from "@/components/Organisms/Table/TabelHitungBahanTambahan";
 import TabelHitungAksesoris from "@/components/Organisms/Table/TabelHitungAksesoris";
 import { useSelector } from "react-redux";
+import TableFinishing from "@/components/Organisms/Table/TableFinishing";
 
 const CalculatorView = () => {
-  const { items, total } = useSelector((state) => state.aksesorisState);
+  const { accessories, totalPriceAccessories } = useSelector(
+    (state) => state.accessoriesState
+  );
+  const { itemsBahanTambahan, totalBahanTambahan } = useSelector(
+    (state) => state.bahanTambahanState
+  );
+  const { finishings, totalFinishing } = useSelector(
+    (state) => state.finishingState
+  );
+
   // Handle Kayu Submit
   const kayuSubmit = (e) => {
     e.preventDefault();
@@ -76,32 +85,20 @@ const CalculatorView = () => {
         total: data.totalTukangKayu,
       },
     ];
-
-    const tukangFinishing = [
-      {
-        jenisFinishing: data.jenisFinishing,
-        name: data.namaTukangFinishing,
-        panjang: data.panjangFinishing,
-        lebar: data.lebarFinishing,
-        rumus: data.rumusFinishing,
-        gerinda: data.gerinda,
-        hargaFinishing: data.hargaFinishing,
-        packing: data.packing,
-        total: data.totalFinishing,
-      },
-    ];
-
-    const aksesoris = { items, total };
+    const finishing = { finishings, totalFinishing };
+    const bahanTambahan = { itemsBahanTambahan, totalBahanTambahan };
+    const aksesoris = { accessories, totalPriceAccessories };
 
     console.log({
       barang,
       client,
       kayu,
       tukangKayu,
-      tukangFinishing,
+      finishing,
       keseluruhanSisi,
       keseluruhanKubikasi,
       keseluruhanHarga,
+      bahanTambahan,
       aksesoris,
     });
   };
@@ -166,8 +163,8 @@ const CalculatorView = () => {
           <section>
             <Card>
               <div className="px-[5px] py-[9px]">
-                <h1>Tabel Hitung Tukang Finishing</h1>
-                <TabelHitungTukangFinishing />
+                {/* <TabelHitungTukangFinishing /> */}
+                <TableFinishing />
               </div>
             </Card>
           </section>
@@ -175,7 +172,6 @@ const CalculatorView = () => {
           <section>
             <Card>
               <div className="px-[5px] py-[9px]">
-                <h1>Tabel Hitung Bahan Tambahan</h1>
                 <TabelHitungBahanTambahan />
               </div>
             </Card>

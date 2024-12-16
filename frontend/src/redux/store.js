@@ -5,7 +5,7 @@ import finishingReducer from "./slices/finishingSlice";
 import tukangKayuReducer from "./slices/tukangKayuSlice";
 import kayuReducer from "./slices/kayuSlice";
 import bahanTambahanReducer from "./slices/bahanTambahanSlice";
-import aksesorisReducer from "./slices/aksesorisSlice";
+import accessoriesReducer from "./slices/accessoriesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,7 +14,7 @@ export const store = configureStore({
     tukangKayuState: tukangKayuReducer,
     finishingState: finishingReducer,
     bahanTambahanState: bahanTambahanReducer,
-    aksesorisState: aksesorisReducer,
+    accessoriesState: accessoriesReducer,
   },
 });
 
