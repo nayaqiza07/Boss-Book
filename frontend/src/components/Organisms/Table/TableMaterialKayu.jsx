@@ -2,26 +2,31 @@ import { useState } from "react";
 import { Bag } from "react-iconly";
 
 // Components
-import { priceFormat } from "@components/utils";
+import { priceFormat } from "@/components/utils";
 
 // Atoms
-import Button from "@/components/Atoms/Button/Button";
-import Input from "@/components/Atoms/Input/Input";
+import Button from "@components/Atoms/Button/Button";
+import Input from "@components/Atoms/Input/Input";
 
 // Molecules
 import { DataEmpty } from "@components/Molecules/404/DataEmpty";
 
 // Organisms
-import FormMaterial from "@/components/Organisms/Form/FormMaterial";
 import Modal from "@components/Organisms/Modal/Modal";
+import FormMaterialKayu from "@components/Organisms/Form/FormMaterialKayu";
 
 // Redux Actions
 import { useDispatch, useSelector } from "react-redux";
-import { setJenisFinishing, addFinishing } from "@/redux/slices/finishingSlice";
+import { setJenisKayu, addMaterialKayu } from "@/redux/slices/kayuSlice";
 
-const TableFinishing = () => {
-  const { finishings, jenisFinishingData, jenisFinishing, totalFinishing } =
-    useSelector((state) => state.finishingState);
+const TableMaterialKayu = () => {
+  const {
+    materialKayu,
+    jenisKayuData,
+    jenisKayu,
+    totalKubikasi,
+    totalHargaKayu,
+  } = useSelector((state) => state.kayuState);
   const dispatch = useDispatch();
 
   const [openModal, setOpenModal] = useState(false);
@@ -36,34 +41,42 @@ const TableFinishing = () => {
   };
 
   const handleInputSelect = (e) => {
-    dispatch(setJenisFinishing(e.target.value));
+    dispatch(setJenisKayu(e.target.value));
   };
 
-  const handleAddFinishing = () => {
+  const handleAddKayu = () => {
     setOpenModal(false);
+
     dispatch(
-      addFinishing({
-        name: newItem.namaTukang,
+      addMaterialKayu({
+        sisi: newItem.sisi,
         panjang: parseInt(newItem.panjang),
         lebar: parseInt(newItem.lebar),
-        rumus: parseInt(newItem.rumus),
-        jenis: jenisFinishing,
+        tebal: parseInt(newItem.tebal),
+        jumlahSisi: parseInt(newItem.jumlahSisi),
+        jenisKayu: jenisKayu,
       })
     );
-    console.log(newItem);
   };
 
   return (
     <>
       <section className="flex justify-between">
-        <h1>Finishing</h1>
+        <h1>Material</h1>
         <div className="flex gap-5">
           <Input
             type="text"
             variant="disabled"
             readOnly={true}
+            placeholder="Kubikasi"
+            value={totalKubikasi.toFixed(3)}
+          />
+          <Input
+            type="text"
+            variant="disabled"
+            readOnly={true}
             placeholder="Total"
-            value={priceFormat(totalFinishing)}
+            value={priceFormat(totalHargaKayu)}
           />
           <Button
             type="button"
@@ -76,7 +89,7 @@ const TableFinishing = () => {
       </section>
 
       <section className="hidden overflow-x-auto mt-5 lg:block">
-        {finishings.length === 0 ? (
+        {materialKayu.length === 0 ? (
           <DataEmpty
             icon={<Bag set="bulk" size={60} primaryColor="#bec0ca" />}
           />
@@ -84,24 +97,25 @@ const TableFinishing = () => {
           <table className="w-full">
             <thead className="border-b border-t border-[#E1E2E9]">
               <tr className="text-left text-sm text-night_90">
-                <th className="font-normal px-6 py-3">Nama Tukang Finishing</th>
+                <th className="font-normal px-6 py-3">Sisi</th>
                 <th className="font-normal px-6 py-3">Panjang (cm)</th>
                 <th className="font-normal px-6 py-3 hidden md:table-cell">
                   Lebar (cm)
                 </th>
-                <th className="font-normal px-6 py-3">Rumus</th>
-                <th className="font-normal px-6 py-3">Jenis Finishing</th>
-                <th className="font-normal px-6 py-3">Harga Finishing</th>
-                <th className="font-normal px-6 py-3">Gerinda</th>
-                <th className="font-normal px-6 py-3">Packing</th>
+                <th className="font-normal px-6 py-3 hidden md:table-cell">
+                  Tebal (cm)
+                </th>
+                <th className="font-normal px-6 py-3">Jumlah Sisi</th>
+                <th className="font-normal px-6 py-3">Jenis Kayu</th>
+                <th className="font-normal px-6 py-3">Kubikasi</th>
                 <th className="font-normal px-6 py-3">Total</th>
               </tr>
             </thead>
             <tbody className="border-b border-[#E1E2E9]">
-              {finishings.map((item, index) => (
+              {materialKayu.map((item, index) => (
                 <tr key={index} className="text-night_40 text-left text-sm">
                   <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                    {item.data.name}
+                    {item.data.sisi}
                   </td>
                   <td className="whitespace-nowrap  px-6 py-3">
                     {item.data.panjang}
@@ -110,22 +124,19 @@ const TableFinishing = () => {
                     {item.data.lebar}
                   </td>
                   <td className="whitespace-nowrap px-6 py-3">
-                    {item.data.rumus}
+                    {item.data.tebal}
                   </td>
                   <td className="whitespace-nowrap px-6 py-3">
-                    {item.data.jenis}
+                    {item.data.jumlahSisi}
                   </td>
                   <td className="whitespace-nowrap px-6 py-3">
-                    {priceFormat(item.hargaFinishing)}
+                    {item.data.jenisKayu}
                   </td>
                   <td className="whitespace-nowrap px-6 py-3">
-                    {priceFormat(item.gerinda)}
+                    {item.kubikasiPerSisi}
                   </td>
                   <td className="whitespace-nowrap px-6 py-3">
-                    {priceFormat(item.packing)}
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-3">
-                    {priceFormat(item.totalPerFinishing)}
+                    {priceFormat(item.hargaPerSisi)}
                   </td>
                 </tr>
               ))}
@@ -134,66 +145,30 @@ const TableFinishing = () => {
         )}
       </section>
 
-      {/* Table view up to the `md:` breakpoint Start  */}
-      <section className="mt-5 lg:hidden">
-        {finishings.length === 0 ? (
-          <DataEmpty
-            icon={<Bag set="bulk" size={60} primaryColor="#bec0ca" />}
-          />
-        ) : (
-          finishings.map((item, index) => (
-            <div
-              key={index}
-              className="p-3 border-2 border-[#E1E2E9] rounded-lg"
-            >
-              <h1 className="text-night_40 font-medium">{item.data.name}</h1>
-
-              <span className="text-night_30 text-sm">
-                {item.data.panjang} x {item.data.lebar} x {item.data.rumus}
-              </span>
-              <p className="text-night_30 text-sm">{item.data.jenis}</p>
-              <p className="text-night_30 text-sm">
-                Harga {priceFormat(item.hargaFinishing)}
-              </p>
-              <p className="text-night_30 text-sm">
-                Gerinda {priceFormat(item.gerinda)}
-              </p>
-              <p className="text-night_30 text-sm">
-                Packing {priceFormat(item.packing)}
-              </p>
-              <p className="text-night_30 text-sm">
-                Total Per Finishing {priceFormat(item.totalPerFinishing)}
-              </p>
-            </div>
-          ))
-        )}
-      </section>
-
       {/* Create Modal */}
       <Modal openModal={openModal} closeModal={() => setOpenModal(false)}>
         <Modal.Header
-          title="Tambah Finishing"
+          title="Tambah Material Kayu"
           closeModal={() => setOpenModal(false)}
         />
 
         <Modal.Body>
-          <FormMaterial
+          <FormMaterialKayu
             handleOnChange={handleOnChange}
-            jenisFinishing={jenisFinishing}
             handleInputSelect={handleInputSelect}
-            jenisFinishingData={jenisFinishingData}
-            isFinishing={true}
+            jenisKayuData={jenisKayuData}
+            jenisKayu={jenisKayu}
           />
         </Modal.Body>
         <Modal.Footer
           text="Tambah"
           type="button"
           closeModal={() => setOpenModal(false)}
-          handleSubmit={handleAddFinishing}
+          handleSubmit={handleAddKayu}
         />
       </Modal>
     </>
   );
 };
 
-export default TableFinishing;
+export default TableMaterialKayu;

@@ -30,7 +30,7 @@ export const createOrder = async (client, date, status, items, image) => {
         headers: { "Content-Type": "multipart/form-data" },
       }
     );
-    // console.log(responseFileUpload.data.url);
+    console.log(responseFileUpload.data.url);
 
     const data = await customAPI.post("/order", {
       client,

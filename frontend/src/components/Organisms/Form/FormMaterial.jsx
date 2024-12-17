@@ -1,12 +1,13 @@
 import FormInput from "@/components/Atoms/Form/FormInput";
 import FormSelect from "@/components/Atoms/Form/FormSelect";
 
-const FormFinishing = (props) => {
+const FormMaterial = (props) => {
   const {
     handleOnChange,
     handleInputSelect,
     jenisFinishing,
     jenisFinishingData,
+    isFinishing,
   } = props;
 
   return (
@@ -35,15 +36,18 @@ const FormFinishing = (props) => {
         placeholder="Masukkan Rumus"
         onChange={handleOnChange}
       />
-      <FormSelect
-        name="jenisFinishing"
-        list={jenisFinishingData}
-        placeholder="Jenis Finishing"
-        value={jenisFinishing}
-        onChange={handleInputSelect}
-      />
+
+      {isFinishing && (
+        <FormSelect
+          name="jenisFinishing"
+          list={jenisFinishingData}
+          placeholder="Jenis Finishing"
+          value={jenisFinishing}
+          onChange={handleInputSelect}
+        />
+      )}
     </div>
   );
 };
 
-export default FormFinishing;
+export default FormMaterial;

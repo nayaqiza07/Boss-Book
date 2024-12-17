@@ -17,6 +17,9 @@ const initialState = {
   penjumlahanJenisFinishing: 0,
 
   finishings: [],
+  totalHargaFinishing: 0,
+  totalGerinda: 0,
+  totalPacking: 0,
   totalFinishing: 0,
 };
 
@@ -27,7 +30,7 @@ const finishingSlice = createSlice({
     setJenisFinishing: (state, action) => {
       state.jenisFinishing = action.payload;
       const finishing = state.jenisFinishingData.find(
-        (Finishing) => Finishing._id === action.payload
+        (finishing) => finishing._id === action.payload
       );
       if (finishing) {
         state.penjumlahanJenisFinishing = finishing.penjumlahanJenisFinishing;
@@ -54,7 +57,10 @@ const finishingSlice = createSlice({
           packing,
           totalPerFinishing,
         });
+        state.totalHargaFinishing += hargaFinishing;
         state.totalFinishing += totalPerFinishing;
+        state.totalGerinda += gerinda;
+        state.totalPacking += packing;
       } else {
         toast.error("Inputan harus di isi");
       }

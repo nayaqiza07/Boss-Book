@@ -15,7 +15,6 @@ export const createOrder = asyncHandler(async (req, res) => {
   }
 
   let orderItem = [];
-  // let imagesItem = [];
   let total = 0;
   let newOrderNumber = "";
 
@@ -26,7 +25,6 @@ export const createOrder = asyncHandler(async (req, res) => {
       quantity: item.quantity,
       price: item.price,
       totalPrice: item.quantity * item.price,
-      // image: item.image,
     };
 
     // Memberi nilai pada variabel yang sudah dibuat diatas untuk menampung setiap item
@@ -35,16 +33,6 @@ export const createOrder = asyncHandler(async (req, res) => {
     // Menghitung total dari totalPrice setiap item
     total += item.quantity * item.price;
   }
-
-  // Looping untuk setiap image yang dimasukkan
-  // for (const img of image) {
-  //   const singleImage = {
-  //     image: img.image,
-  //   };
-
-  //   // Memberi nilai pada variabel yang sudah dibuat diatas untuk menampung setiap image
-  //   imagesItem = [...imagesItem, singleImage];
-  // }
 
   // Generate orderNumber otomatis, jika data order kosong, maka nilai default GRG00001, jika data ada, maka + 1
   const lastOrder = await Order.findOne().sort({ orderNumber: -1 }).exec();
@@ -132,32 +120,63 @@ export const currentClientOrder = asyncHandler(async (req, res) => {
 });
 
 // File Upload Order
+// export const fileUpload = asyncHandler(async (req, res) => {
+//   const stream = cloudinary.uploader.upload_stream(
+//     {
+//       folder: "uploads",
+//       allowed_formats: ["jpg", "png", "jpeg"],
+//     },
+//     function (err, result) {
+//       if (err) {
+//         console.log(err);
+//         return res.status(500).json({
+//           message: "Gagal Upload Gambar",
+//           error: err,
+//         });
+//       }
+
+//       res.json({
+//         message: "Gambar berhasil di upload",
+//         url: result.secure_url,
+//       });
+//     }
+//   );
+
+//   if (!req.file) {
+//     res.status(400);
+//     throw new Error("Tidak ada gambar yang ditambahkan");
+//   }
+
+//   streamifier.createReadStream(req.file.buffer).pipe(stream);
+// });
+
 export const fileUpload = asyncHandler(async (req, res) => {
-  const stream = cloudinary.uploader.upload_stream(
-    {
-      folder: "uploads",
-      allowed_formats: ["jpg", "png", "jpeg"],
-    },
-    function (err, result) {
-      if (err) {
-        console.log(err);
-        return res.status(500).json({
-          message: "Gagal Upload Gambar",
-          error: err,
+  const imageUrls = [];
+
+  for (const file of req.files) {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "uploads",
+        allowed_formats: ["jpg", "png", "jpeg"],
+      },
+      function (error, result) {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({
+            message: "Gagal upload gambar",
+            error: error,
+          });
+        }
+
+        imageUrls.push(result.secure_url);
+
+        res.json({
+          message: "Gambar berhasil di upload",
+          url: imageUrls,
         });
       }
+    );
 
-      res.json({
-        message: "Gambar berhasil di upload",
-        url: result.secure_url,
-      });
-    }
-  );
-
-  if (!req.file) {
-    res.status(400);
-    throw new Error("Tidak ada gambar yang ditambahkan");
+    streamifier.createReadStream(file.buffer).pipe(stream);
   }
-
-  streamifier.createReadStream(req.file.buffer).pipe(stream);
 });

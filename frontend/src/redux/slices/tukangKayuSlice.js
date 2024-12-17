@@ -1,35 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const initialState = {
-  panjang: 0,
-  lebar: 0,
-  persen: 0,
-  total: 0,
+  kayu: [],
+  totalKayu: 0,
 };
 
 const tukangKayuSlice = createSlice({
   name: "tukangKayu",
   initialState,
   reducers: {
-    setPanjang: (state, action) => {
-      state.panjang = action.payload;
-      state.total = state.panjang * state.lebar * (state.persen / 100);
-    },
-    setLebar: (state, action) => {
-      state.lebar = action.payload;
-      state.total = state.panjang * state.lebar * (state.persen / 100);
-    },
-    setPersen: (state, action) => {
-      state.persen = action.payload;
-      state.total = state.panjang * state.lebar * (state.persen / 100);
-    },
-    hitungTotal: (state) => {
-      state.total = state.panjang * state.lebar * (state.persen / 100);
+    addKayu: (state, action) => {
+      const { name, panjang, lebar, rumus } = action.payload;
+
+      const hargaKayu = panjang * lebar * rumus;
+
+      if (name && panjang && lebar && rumus) {
+        state.kayu.push({
+          data: action.payload,
+          hargaKayu,
+        });
+        state.totalKayu += hargaKayu;
+      } else {
+        toast.error("Inputan harus di isi");
+      }
     },
   },
 });
 
-export const { setPanjang, setLebar, setPersen, hitungTotal } =
-  tukangKayuSlice.actions;
+export const { addKayu } = tukangKayuSlice.actions;
 
 export default tukangKayuSlice.reducer;

@@ -12,7 +12,7 @@ const singleItem = Schema({
 });
 
 // const singleImage = Schema({
-//   image: { type: String, required: true },
+//   image: { type: String, default: null },
 // });
 
 const orderSchema = new Schema({
@@ -40,7 +40,7 @@ const orderSchema = new Schema({
     default: "Pending",
   },
   items: [singleItem],
-  image: { type: String, default: null },
+  image: [{ type: String, default: null }],
   // image: [singleImage],
 });
 
