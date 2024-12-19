@@ -27,9 +27,30 @@ export const createTransaksi = async (
 };
 
 // Read Transaksi (GET)
-export const getTransaksi = async () => {
+export const getTransaksi = async (keyword, page) => {
   try {
-    const response = await customAPI.get("/transaksi");
+    const response = await customAPI.get(
+      `/transaksi?deskripsi=${keyword}&page=${page}`
+    );
+
+    const res = response.data.data;
+
+    const limitTransaksi = response.data.pagination.limitTransaksi;
+    const totalDataTransaksi = response.data.pagination.totalDataTransaksi;
+    const currentPage = response.data.pagination.page;
+    const totalPage = response.data.pagination.totalPage;
+
+    console.log({ limitTransaksi, totalDataTransaksi, currentPage, totalPage });
+    return { res, limitTransaksi, totalDataTransaksi, currentPage, totalPage };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Read Transaksi (GET)
+export const getAllTransaksi = async () => {
+  try {
+    const response = await customAPI.get("/transaksi/all");
 
     const res = response.data.data;
     const totalTransaksi = response.data.totalTransaksi;

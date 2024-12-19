@@ -3,6 +3,7 @@ import { protectedMiddleware } from "../middlewares/authMiddleware.js";
 import {
   createUtang,
   allUtang,
+  getAllUtang,
   getUtangById,
   updateUtang,
   deleteUtang,
@@ -21,6 +22,11 @@ router.post("/", protectedMiddleware, createUtang);
 // GET /api/v1/utang
 // Middleware agar hanya bisa diakses oleh User yang telah melakukan autentikasi
 router.get("/", protectedMiddleware, allUtang);
+
+// Read Data Utang
+// GET /api/v1/utang
+// Middleware agar hanya bisa diakses oleh User yang telah melakukan autentikasi
+router.get("/all", protectedMiddleware, getAllUtang);
 
 // Read Data Utang By Id
 // GET /api/v1/utang/:id

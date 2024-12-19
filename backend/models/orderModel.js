@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 // Untuk item yang diorder
 const singleItem = Schema({
   name: { type: String, required: true },
+  note: { type: String },
   quantity: { type: Number, required: true },
   price: { type: Number, required: true },
   totalPrice: { type: Number, required: true },

@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  persenKeuntungan: 0,
   keuntungan: 0,
-  harga: 0,
   hargaJual: 0,
+  bagiHasil: 0,
 };
 
 const hargaSlice = createSlice({
@@ -11,18 +12,25 @@ const hargaSlice = createSlice({
   initialState,
   reducers: {
     setPersenKeuntungan: (state, action) => {
-      state.keuntungan = action.payload;
+      state.persenKeuntungan = action.payload;
     },
-    setHarga: (state, action) => {
-      state.harga = action.payload;
+    setKeuntungan: (state, action) => {
+      state.keuntungan = action.payload;
     },
     setHargaJual: (state, action) => {
       state.hargaJual = action.payload;
     },
+    setBagiHasil: (state, action) => {
+      state.bagiHasil = action.payload;
+    },
   },
 });
 
-export const { setPersenKeuntungan, setHarga, setHargaJual } =
-  hargaSlice.actions;
+export const {
+  setPersenKeuntungan,
+  setHargaJual,
+  setKeuntungan,
+  setBagiHasil,
+} = hargaSlice.actions;
 
 export default hargaSlice.reducer;

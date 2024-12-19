@@ -18,7 +18,9 @@ import Utang from "@pages/Utang";
 import Income from "@pages/Income";
 import Outcome from "@pages/Outcome";
 import Order from "@pages/Order";
-import CalculatorView from "@pages/CalculatorView";
+import Calculator from "@/pages/Calculator";
+import CalculatorData from "./pages/CalculatorData";
+import CalculatorView from "./pages/CalculatorView";
 import Client from "@pages/Client";
 import ClientView from "@pages/ClientView";
 
@@ -69,6 +71,14 @@ const router = createBrowserRouter([
       },
       {
         path: "calculator",
+        element: <Calculator />,
+      },
+      {
+        path: "calculator/data",
+        element: <CalculatorData />,
+      },
+      {
+        path: "calculator/data/view/:id",
         element: <CalculatorView />,
       },
       {

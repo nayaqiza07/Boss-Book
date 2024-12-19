@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -9,6 +9,7 @@ import {
   createPiutang,
   updatePiutang,
   deletePiutang,
+  getAllPiutang,
 } from "@/api/piutangApi";
 
 // Assets
@@ -27,7 +28,23 @@ import Pagination from "@/components/Molecules/Pagination/Pagination";
 import FormPiutang from "@/components/Organisms/Form/FormPiutang";
 import { priceFormat } from "@/components/utils";
 
+// Redux Actions
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setLimitData,
+  setTotalData,
+  setPage,
+  setTotalPage,
+  setKeyword,
+  setQuery,
+} from "@/redux/slices/paginationSlice";
+
 const Piutang = () => {
+  const { limitData, totalData, page, totalPage, keyword, query } = useSelector(
+    (state) => state.paginationState
+  );
+  const dispatch = useDispatch();
+
   const [openModal, setOpenModal] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
@@ -41,20 +58,39 @@ const Piutang = () => {
 
   const formRef = useRef(null);
 
-  useEffect(() => {
-    fetchDataPiutang();
-  }, []);
+  const fetchDataPiutang = useCallback(
+    (keyword, page) => {
+      getPiutang(keyword, page).then(
+        ({ res, limitPiutang, totalDataPiutang, currentPage, totalPage }) => {
+          setPiutang(res);
 
-  const fetchDataPiutang = () => {
-    getPiutang().then(
-      ({ res, totalPiutang, totalSudahDiterima, totalBelumDiterima }) => {
-        setPiutang(res);
+          dispatch(setLimitData(limitPiutang));
+          dispatch(setTotalData(totalDataPiutang));
+          dispatch(setPage(currentPage));
+          dispatch(setTotalPage(totalPage));
+        }
+      );
+    },
+    [dispatch]
+  );
+
+  const fetchAllDataPiutang = () => {
+    getAllPiutang().then(
+      ({ totalPiutang, totalSudahDiterima, totalBelumDiterima }) => {
         setTotalPiutang(totalPiutang);
         setTotalSudahDiterima(totalSudahDiterima);
         setTotalBelumDiterima(totalBelumDiterima);
       }
     );
   };
+
+  useEffect(() => {
+    fetchDataPiutang(keyword, page);
+  }, [keyword, page, fetchDataPiutang]);
+
+  useEffect(() => {
+    fetchAllDataPiutang();
+  }, []);
 
   const fetchDataPiutangById = (id) => {
     getPiutangById(id).then((result) => setPiutangById(result));
@@ -119,6 +155,12 @@ const Piutang = () => {
     fetchDataPiutangById(id);
   };
 
+  const searchData = (e) => {
+    e.preventDefault();
+    dispatch(setPage(1));
+    dispatch(setKeyword(query));
+  };
+
   return (
     <>
       {/* Nav Link Start */}
@@ -175,7 +217,12 @@ const Piutang = () => {
         {/* Second End */}
 
         <Card colSpan="lg:col-span-3">
-          <SearchTable />
+          <SearchTable
+            placeholder="Enter Name"
+            query={query}
+            setQuery={setQuery}
+            searchData={searchData}
+          />
           <Table
             datas={piutang}
             btnText="Terima"
@@ -188,7 +235,13 @@ const Piutang = () => {
             handleDelete={handleModalDelete}
             handleUpdate={handleModalUpdate}
           />
-          <Pagination />
+          <Pagination
+            limitData={limitData}
+            totalData={totalData}
+            page={page}
+            totalPage={totalPage}
+            setPage={setPage}
+          />
         </Card>
       </div>
 

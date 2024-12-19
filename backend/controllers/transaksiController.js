@@ -12,8 +12,56 @@ export const createTransaksi = asyncHandler(async (req, res) => {
   });
 });
 
-// Read All Transaksi
-export const allTransaksi = asyncHandler(async (req, res) => {
+export const getTransaksi = asyncHandler(async (req, res) => {
+  // Req Query
+  const queryObj = { ...req.query };
+
+  // fungsi untuk mengabaikan jika ada req page dan limit
+  const excludeField = ["page", "limit", "deskripsi"];
+  excludeField.forEach((element) => delete queryObj[element]);
+
+  // Search berdasarkan karatker nama
+  let query;
+  if (req.query.deskripsi) {
+    query = Transaksi.find({
+      deskripsi: { $regex: req.query.deskripsi, $options: "i" },
+    });
+  } else {
+    query = Transaksi.find(queryObj);
+  }
+
+  // Pagination
+  const page = req.query.page * 1 || 1;
+  const limitData = req.query.limit * 1 || 10;
+  const skipData = (page - 1) * limitData;
+
+  query = query.skip(skipData).limit(limitData);
+
+  let countTransaksi = await Transaksi.countDocuments(queryObj);
+  if (req.query.page) {
+    if (skipData >= countTransaksi) {
+      res.status(404);
+      throw new Error("This page doesn't exist");
+    }
+  }
+
+  const transaksi = await query;
+  const totalPage = Math.ceil(countTransaksi / limitData);
+
+  return res.status(201).json({
+    message: "Seluruh Data Transaksi berhasil di tampilkan",
+    data: transaksi,
+    pagination: {
+      limitTransaksi: limitData,
+      totalDataTransaksi: countTransaksi,
+      page,
+      totalPage,
+    },
+  });
+});
+
+// Read All Transaksi without limit, page, name
+export const getAllTransaksi = asyncHandler(async (req, res) => {
   const allTransaksi = await Transaksi.find();
 
   const totalIn = allTransaksi
@@ -27,7 +75,7 @@ export const allTransaksi = asyncHandler(async (req, res) => {
     .reduce((data, num) => data + num, 0);
 
   const totalTransaksi = totalIn - totalOut;
-  const totalPersen = Math.floor(((totalIn - totalOut) / totalIn) * 100);
+  const totalPersen = Math.floor(((totalIn - totalOut) / totalIn) * 100) || 0;
 
   // Income By Kategori
   const income = allTransaksi.filter((data) => data.status === "In");

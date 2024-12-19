@@ -1,6 +1,9 @@
 import { Search02Icon } from "hugeicons-react";
+import { useDispatch } from "react-redux";
 
 const SearchTable = ({ placeholder, query, setQuery, searchData }) => {
+  const dispatch = useDispatch();
+
   return (
     <>
       <div className="flex flex-row justify-between items-center">
@@ -13,7 +16,7 @@ const SearchTable = ({ placeholder, query, setQuery, searchData }) => {
               type="text"
               placeholder={placeholder}
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => dispatch(setQuery(e.target.value))}
               className="border rounded-lg focus:outline-none w-32 lg:w-fit px-2 py-1"
             />
           </div>

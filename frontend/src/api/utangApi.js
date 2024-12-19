@@ -4,10 +4,17 @@ import { toast } from "react-toastify";
 // CRUD
 
 // Create Utang (POST)
-export const createUtang = async (name, date, total, jumlahDibayar) => {
+export const createUtang = async (
+  name,
+  keterangan,
+  date,
+  total,
+  jumlahDibayar
+) => {
   try {
     const response = await customAPI.post("/utang", {
       name,
+      keterangan,
       date,
       total,
       jumlahDibayar: jumlahDibayar || 0,
@@ -20,18 +27,43 @@ export const createUtang = async (name, date, total, jumlahDibayar) => {
 };
 
 // Read Utang (GET)
-export const getUtang = async () => {
+export const getUtang = async (keyword, page) => {
   try {
-    const response = await customAPI.get("/utang");
+    const response = await customAPI.get(`/utang?name=${keyword}&page=${page}`);
 
     const res = response.data.data;
-    const totalUtang = response.data.totalUtang;
-    const totalSudahDibayar = response.data.totalSudahDibayar;
-    const totalBelumDibayar = response.data.totalBelumDibayar;
+
+    const limitUtang = response.data.pagination.limitUtang;
+    const totalDataUtang = response.data.pagination.totalDataUtang;
+    const currentPage = response.data.pagination.page;
+    const totalPage = response.data.pagination.totalPage;
 
     // console.log({ res, totalUtang, totalSudahDibayar, totalBelumDibayar });
 
-    return { res, totalUtang, totalSudahDibayar, totalBelumDibayar };
+    console.log(res);
+
+    return {
+      res,
+      limitUtang,
+      totalDataUtang,
+      currentPage,
+      totalPage,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Read Utang By Id (GET)
+export const getAllUtang = async () => {
+  try {
+    const response = await customAPI.get(`/utang/all`);
+
+    const totalUtang = response.data.totalUtang;
+    const totalSudahDibayar = response.data.totalSudahDibayar;
+    const totalBelumDibayar = response.data.totalBelumDibayar;
+    // console.log(response.data.data);
+    return { totalUtang, totalSudahDibayar, totalBelumDibayar };
   } catch (error) {
     console.log(error);
   }

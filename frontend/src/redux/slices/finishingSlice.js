@@ -20,7 +20,7 @@ const initialState = {
   totalHargaFinishing: 0,
   totalGerinda: 0,
   totalPacking: 0,
-  totalFinishing: 0,
+  totalTukangFinishing: 0,
 };
 
 const finishingSlice = createSlice({
@@ -39,17 +39,17 @@ const finishingSlice = createSlice({
       }
     },
     addFinishing: (state, action) => {
-      const { name, panjang, lebar, rumus, jenis } = action.payload;
+      const { name, panjang, lebar, rumus, jenisFinishing } = action.payload;
 
-      const jenisFinishing =
+      const hitungJenisFinishing =
         panjang * lebar * rumus * (state.penjumlahanJenisFinishing / 100);
-      const hargaFinishing = panjang * lebar * rumus + jenisFinishing;
+      const hargaFinishing = panjang * lebar * rumus + hitungJenisFinishing;
       const gerinda = hargaFinishing * (12 / 100);
       const packing = hargaFinishing * (10 / 100);
 
       const totalPerFinishing = hargaFinishing + gerinda + packing;
 
-      if (name && panjang && lebar && rumus && jenis) {
+      if (name && panjang && lebar && rumus && jenisFinishing) {
         state.finishings.push({
           data: action.payload,
           hargaFinishing,
@@ -58,7 +58,7 @@ const finishingSlice = createSlice({
           totalPerFinishing,
         });
         state.totalHargaFinishing += hargaFinishing;
-        state.totalFinishing += totalPerFinishing;
+        state.totalTukangFinishing += totalPerFinishing;
         state.totalGerinda += gerinda;
         state.totalPacking += packing;
       } else {

@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 const initialState = {
   accessories: [],
 
-  totalPriceAccessories: 0,
+  totalAccessories: 0,
 };
 
 const accessoriesSlice = createSlice({
@@ -16,7 +16,7 @@ const accessoriesSlice = createSlice({
 
       if (name && harga && typeof harga === "number") {
         state.accessories.push(action.payload);
-        state.totalPriceAccessories += action.payload.harga;
+        state.totalAccessories += action.payload.harga;
       } else {
         toast.error("Nama atau Harga tidak boleh kosong");
       }
@@ -30,7 +30,7 @@ const accessoriesSlice = createSlice({
 
       if (index !== -1) {
         // Kurangi total harga
-        state.totalPriceAccessories -= state.accessories[index].harga;
+        state.totalAccessories -= state.accessories[index].harga;
 
         // Hapus aksesoris dari array
         state.accessories.splice(index, 1);

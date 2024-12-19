@@ -15,7 +15,7 @@ import { DataEmpty } from "@/components/Molecules/404/DataEmpty";
 import { Bag } from "react-iconly";
 
 const TabelHitungBahanTambahan = () => {
-  const { itemsBahanTambahan, totalBahanTambahan } = useSelector(
+  const { itemsMaterialTambahan, totalMaterialTambahan } = useSelector(
     (state) => state.bahanTambahanState
   );
   const dispatch = useDispatch();
@@ -53,14 +53,14 @@ const TabelHitungBahanTambahan = () => {
   return (
     <>
       <section className="flex justify-between">
-        <h1>Bahan Tambahan</h1>
+        <h1>Material Tambahan</h1>
         <div className="flex gap-5">
           <Input
             type="text"
             variant="disabled"
             readOnly={true}
             placeholder="Total"
-            value={priceFormat(totalBahanTambahan)}
+            value={priceFormat(totalMaterialTambahan)}
           />
           <Button
             type="button"
@@ -73,13 +73,13 @@ const TabelHitungBahanTambahan = () => {
       </section>
 
       <section className="grid lg:grid-cols-3 gap-5 overflow-x-auto mt-5">
-        {itemsBahanTambahan.length === 0 ? (
+        {itemsMaterialTambahan.length === 0 ? (
           <DataEmpty
             icon={<Bag set="bulk" size={60} primaryColor="#bec0ca" />}
             className="col-span-3"
           />
         ) : (
-          itemsBahanTambahan.map((item, index) => (
+          itemsMaterialTambahan.map((item, index) => (
             <div
               key={index + 1}
               className="p-3 border-2 border-[#E1E2E9] rounded-lg"
@@ -95,7 +95,7 @@ const TabelHitungBahanTambahan = () => {
                 </Button>
               </div>
               <p className="text-night_30 text-sm">
-                {priceFormat(item.totalPerItem)}
+                {priceFormat(item.totalPerMaterialTambahan)}
               </p>
             </div>
           ))

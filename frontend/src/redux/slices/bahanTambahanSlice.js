@@ -2,9 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const initialState = {
-  itemsBahanTambahan: [],
+  itemsMaterialTambahan: [],
 
-  totalBahanTambahan: 0,
+  totalMaterialTambahan: 0,
 };
 
 const bahanTambahanSlice = createSlice({
@@ -13,11 +13,14 @@ const bahanTambahanSlice = createSlice({
   reducers: {
     addBahanTambahan: (state, action) => {
       const { name, harga, panjang, lebar, bagi } = action.payload;
-      const totalPerItem = (harga * panjang * lebar) / bagi;
+      const totalPerMaterialTambahan = (harga * panjang * lebar) / bagi;
 
       if (name && harga && panjang && lebar && bagi) {
-        state.itemsBahanTambahan.push({ data: action.payload, totalPerItem });
-        state.totalBahanTambahan += totalPerItem;
+        state.itemsMaterialTambahan.push({
+          data: action.payload,
+          totalPerMaterialTambahan,
+        });
+        state.totalMaterialTambahan += totalPerMaterialTambahan;
       } else {
         toast.error("Inputan tidak boleh kosong");
       }
@@ -25,17 +28,17 @@ const bahanTambahanSlice = createSlice({
     removeBahanTambahan: (state, action) => {
       const { name } = action.payload;
 
-      const index = state.itemsBahanTambahan.findIndex(
+      const index = state.itemsMaterialTambahan.findIndex(
         (item) => item.data.name === name
       );
 
       if (index !== -1) {
         // Kurangi total harga
-        state.totalBahanTambahan -=
-          state.itemsBahanTambahan[index].totalPerItem;
+        state.totalMaterialTambahan -=
+          state.itemsMaterialTambahan[index].totalPerMaterialTambahan;
 
         // Hapus aksesoris dari array
-        state.itemsBahanTambahan.splice(index, 1);
+        state.itemsMaterialTambahan.splice(index, 1);
       }
     },
   },

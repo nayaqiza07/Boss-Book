@@ -7,6 +7,10 @@ const utangSchema = new Schema({
     type: String,
     required: [true, "Nama harus diisi"],
   },
+  keterangan: {
+    type: String,
+    default: "-",
+  },
   date: {
     type: String,
     required: true,

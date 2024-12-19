@@ -14,6 +14,7 @@ import orderRouter from "./routes/orderRouter.js";
 import transaksiRouter from "./routes/transaksiRouter.js";
 import piutangRouter from "./routes/piutangRouter.js";
 import utangRouter from "./routes/utangRouter.js";
+import calculatorRouter from "./routes/calculatorRouter.js";
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.use("/api/v1/order", orderRouter);
 app.use("/api/v1/transaksi", transaksiRouter);
 app.use("/api/v1/piutang", piutangRouter);
 app.use("/api/v1/utang", utangRouter);
+app.use("/api/v1/calculator", calculatorRouter);
 
 app.use(notFound);
 app.use(errorHandler);

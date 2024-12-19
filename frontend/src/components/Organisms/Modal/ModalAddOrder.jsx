@@ -12,6 +12,7 @@ import { priceFormat } from "../../utils";
 
 import { Add01Icon, ArrowLeft01Icon } from "hugeicons-react";
 import Uploader from "../../Molecules/Uploader/Uploader";
+import FormTextarea from "@/components/Atoms/Form/FormTextarea";
 
 export const ModalAddOrder = ({
   openModalOrder,
@@ -146,6 +147,13 @@ export const ModalAddOrder = ({
                       placeholder="Item"
                       onChange={handleChangeItem}
                     />
+                    <FormTextarea
+                      icon={false}
+                      type="text"
+                      name="note"
+                      placeholder="Keterangan"
+                      onChange={handleChangeItem}
+                    />
 
                     <div className="flex gap-7">
                       <FormInput
@@ -203,6 +211,7 @@ export const ModalAddOrder = ({
                         className="py-1 px-2 text-left text-sm text-primary_100 border rounded-lg"
                       >
                         <p>Nama : {item.name}</p>
+                        <p>Ukuran : {item.note}</p>
                         <p>Qty : {item.quantity}</p>
                         <p>Price: {priceFormat(item.price)}</p>
                         <p>

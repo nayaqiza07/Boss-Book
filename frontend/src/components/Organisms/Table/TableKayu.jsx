@@ -20,7 +20,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { addKayu } from "@/redux/slices/tukangKayuSlice";
 
 const TableKayu = () => {
-  const { kayu, totalKayu } = useSelector((state) => state.tukangKayuState);
+  const { kayu, totalTukangKayu } = useSelector(
+    (state) => state.tukangKayuState
+  );
   const dispatch = useDispatch();
 
   const [openModal, setOpenModal] = useState(false);
@@ -52,14 +54,14 @@ const TableKayu = () => {
   return (
     <>
       <section className="flex justify-between">
-        <h1>Kayu</h1>
+        <h1>Tukang Kayu</h1>
         <div className="flex gap-5">
           <Input
             type="text"
             variant="disabled"
             readOnly={true}
             placeholder="Total"
-            value={priceFormat(totalKayu)}
+            value={priceFormat(totalTukangKayu)}
           />
           <Button
             type="button"

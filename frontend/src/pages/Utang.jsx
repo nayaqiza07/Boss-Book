@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import {
   createUtang,
   getUtang,
+  getAllUtang,
   getUtangById,
   updateUtang,
   deleteUtang,
@@ -27,7 +28,23 @@ import Pagination from "@/components/Molecules/Pagination/Pagination";
 import { priceFormat } from "@/components/utils";
 import TableMobile from "@/components/Organisms/Table/TableMobile";
 
+// Redux Actions
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setLimitData,
+  setTotalData,
+  setPage,
+  setTotalPage,
+  setKeyword,
+  setQuery,
+} from "@/redux/slices/paginationSlice";
+
 const Utang = () => {
+  const { limitData, totalData, page, totalPage, keyword, query } = useSelector(
+    (state) => state.paginationState
+  );
+  const dispatch = useDispatch();
+
   const [openModal, setOpenModal] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
@@ -41,20 +58,39 @@ const Utang = () => {
 
   const formRef = useRef(null);
 
-  useEffect(() => {
-    fetchDataUtang();
-  }, []);
+  const fetchDataUtang = useCallback(
+    (keyword, page) => {
+      getUtang(keyword, page).then(
+        ({ res, limitUtang, totalDataUtang, currentPage, totalPage }) => {
+          setUtang(res);
 
-  const fetchDataUtang = () => {
-    getUtang().then(
-      ({ res, totalUtang, totalSudahDibayar, totalBelumDibayar }) => {
-        setUtang(res);
+          dispatch(setLimitData(limitUtang));
+          dispatch(setTotalData(totalDataUtang));
+          dispatch(setPage(currentPage));
+          dispatch(setTotalPage(totalPage));
+        }
+      );
+    },
+    [dispatch]
+  );
+
+  const fetchAllDataUtang = () => {
+    getAllUtang().then(
+      ({ totalUtang, totalSudahDibayar, totalBelumDibayar }) => {
         setTotalUtang(totalUtang);
         setTotalSudahDibayar(totalSudahDibayar);
         setTotalBelumDibayar(totalBelumDibayar);
       }
     );
   };
+
+  useEffect(() => {
+    fetchDataUtang(keyword, page);
+  }, [keyword, page, fetchDataUtang]);
+
+  useEffect(() => {
+    fetchAllDataUtang();
+  }, []);
 
   const fetchDataUtangById = (id) => {
     getUtangById(id).then((result) => setUtangById(result));
@@ -69,8 +105,14 @@ const Utang = () => {
     const data = Object.fromEntries(dataForm);
     // console.log(data);
 
-    await createUtang(data.name, data.date, data.total, data.jumlahDibayar);
-    fetchDataUtang();
+    await createUtang(
+      data.name,
+      data.keterangan,
+      data.date,
+      data.total,
+      data.jumlahDibayar
+    );
+    fetchDataUtang(keyword, page);
 
     // Reset nilai form
     formRef.current.reset();
@@ -100,7 +142,7 @@ const Utang = () => {
       await updateUtang(utangById._id, jumlah);
     }
 
-    fetchDataUtang();
+    fetchDataUtang(keyword, page);
   };
 
   const handleModalUpdate = (id) => {
@@ -111,12 +153,18 @@ const Utang = () => {
   const handleDelete = async (e) => {
     e.preventDefault();
     await deleteUtang(utangById._id);
-    fetchDataUtang();
+    fetchDataUtang(keyword, page);
   };
 
   const handleModalDelete = (id) => {
     setModalDelete(true);
     fetchDataUtangById(id);
+  };
+
+  const searchData = (e) => {
+    e.preventDefault();
+    dispatch(setPage(1));
+    dispatch(setKeyword(query));
   };
 
   return (
@@ -162,6 +210,7 @@ const Utang = () => {
             />
           </div>
         </CardSummary>
+
         <CardSummary>
           <CardSummary.Header icon={<Bag colorStroke={"#130F26"} />} />
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
@@ -174,7 +223,12 @@ const Utang = () => {
         {/* Second End */}
 
         <Card colSpan="lg:col-span-3">
-          <SearchTable />
+          <SearchTable
+            placeholder="Enter Name"
+            query={query}
+            setQuery={setQuery}
+            searchData={searchData}
+          />
           <Table
             datas={utang}
             isUtang={true}
@@ -189,7 +243,13 @@ const Utang = () => {
             handleDelete={handleModalDelete}
             handleUpdate={handleModalUpdate}
           />
-          <Pagination />
+          <Pagination
+            limitData={limitData}
+            totalData={totalData}
+            page={page}
+            totalPage={totalPage}
+            setPage={setPage}
+          />
         </Card>
       </div>
 

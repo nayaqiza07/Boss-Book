@@ -14,13 +14,64 @@ export const createPiutang = asyncHandler(async (req, res) => {
 
 // Read All Piutang
 export const allPiutang = asyncHandler(async (req, res) => {
-  const allPiutang = await Piutang.find();
+  // Req Query
+  const queryObj = { ...req.query };
 
-  const totalPiutang = allPiutang
+  // fungsi untuk mengabaikan jika ada req page dan limit
+  const excludeField = ["page", "limit", "name"];
+  excludeField.forEach((element) => delete queryObj[element]);
+
+  // Search berdasarkan karatker nama
+  let query;
+  if (req.query.name) {
+    query = Piutang.find({
+      name: { $regex: req.query.name, $options: "i" },
+    });
+  } else {
+    query = Piutang.find(queryObj);
+  }
+
+  // Pagination
+  const page = req.query.page * 1 || 1;
+  const limitData = req.query.limit * 1 || 2;
+  const skipData = (page - 1) * limitData;
+
+  query = query.skip(skipData).limit(limitData);
+
+  let countPiutang = await Piutang.countDocuments(queryObj);
+  if (req.query.page) {
+    if (skipData >= countPiutang) {
+      res.status(404);
+      throw new Error("This page doesn't exist");
+    }
+  }
+
+  const piutang = await query;
+  const totalPage = Math.ceil(countPiutang / limitData);
+
+  // const allPiutang = await Piutang.find();
+
+  return res.status(200).json({
+    message: "Seluruh Data Piutang berhasil di tampilkan",
+    data: piutang,
+    pagination: {
+      limitPiutang: limitData,
+      totalDataPiutang: countPiutang,
+      page,
+      totalPage,
+    },
+  });
+});
+
+// Read piutang without limit, page, name
+export const getAllPiutang = asyncHandler(async (req, res) => {
+  const piutang = await Piutang.find();
+
+  const totalPiutang = piutang
     .map((data) => data.total)
     .reduce((data, num) => data + num, 0);
 
-  const totalSudahDiterima = allPiutang
+  const totalSudahDiterima = piutang
     .map((data) => data.jumlahDiterima)
     .reduce((data, num) => data + num, 0);
 
@@ -28,7 +79,7 @@ export const allPiutang = asyncHandler(async (req, res) => {
 
   return res.status(200).json({
     message: "Seluruh Data Piutang berhasil di tampilkan",
-    data: allPiutang,
+    data: piutang,
     totalPiutang,
     totalSudahDiterima,
     totalBelumDiterima,

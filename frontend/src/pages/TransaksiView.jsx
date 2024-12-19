@@ -1,7 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // API
-import { createTransaksi, getTransaksi } from "@/api/transaksiApi";
+import {
+  createTransaksi,
+  getTransaksi,
+  getAllTransaksi,
+} from "@/api/transaksiApi";
 
 // Assets
 import { Bag } from "@/assets/Icon/Bag";
@@ -16,10 +20,26 @@ import Modal from "@/components/Organisms/Modal/Modal";
 import FormTransaksi from "@/components/Organisms/Form/FormTransaksi";
 import Button from "@/components/Atoms/Button/Button";
 import TableTransaksi from "@/components/Organisms/Table/TableTransaksi";
-import { priceFormat } from "@/components/utils";
 import TableTransaksiMobile from "@/components/Organisms/Table/TableTransaksiMobile";
+import { priceFormat } from "@/components/utils";
+
+// Redux Actions
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setLimitData,
+  setTotalData,
+  setPage,
+  setTotalPage,
+  setKeyword,
+  setQuery,
+} from "@/redux/slices/paginationSlice";
 
 const TransaksiView = () => {
+  const { limitData, totalData, page, totalPage, keyword, query } = useSelector(
+    (state) => state.paginationState
+  );
+  const dispatch = useDispatch();
+
   const [openModal, setOpenModal] = useState(false);
   const [judul, setJudul] = useState("");
   const [status, setStatus] = useState("");
@@ -34,14 +54,31 @@ const TransaksiView = () => {
 
   const formRef = useRef(null);
 
-  useEffect(() => {
-    fetchDataTransaksi();
-  }, []);
+  const fetchDataTransaksi = useCallback(
+    (keyword, page) => {
+      getTransaksi(keyword, page).then(
+        ({
+          res,
+          limitTransaksi,
+          totalDataTransaksi,
+          currentPage,
+          totalPage,
+        }) => {
+          setTransaksi(res);
 
-  const fetchDataTransaksi = () => {
-    getTransaksi().then(
-      ({ res, totalTransaksi, totalPersen, totalIn, totalOut }) => {
-        setTransaksi(res);
+          dispatch(setLimitData(limitTransaksi));
+          dispatch(setTotalData(totalDataTransaksi));
+          dispatch(setPage(currentPage));
+          dispatch(setTotalPage(totalPage));
+        }
+      );
+    },
+    [dispatch]
+  );
+
+  const fetchAllDataTransaksi = () => {
+    getAllTransaksi().then(
+      ({ totalTransaksi, totalPersen, totalIn, totalOut }) => {
         setTotalTransaksi(totalTransaksi);
         setTotalPersen(totalPersen);
         setTotalIn(totalIn);
@@ -49,6 +86,14 @@ const TransaksiView = () => {
       }
     );
   };
+
+  useEffect(() => {
+    fetchDataTransaksi(keyword, page);
+  }, [keyword, page, fetchDataTransaksi]);
+
+  useEffect(() => {
+    fetchAllDataTransaksi();
+  }, []);
 
   const handleModalPemasukan = () => {
     setOpenModal(true);
@@ -81,10 +126,16 @@ const TransaksiView = () => {
       data.nominal
     );
 
-    fetchDataTransaksi();
+    fetchDataTransaksi(keyword, page);
 
     // Reset nilai form
     formRef.current.reset();
+  };
+
+  const searchData = (e) => {
+    e.preventDefault();
+    dispatch(setPage(1));
+    dispatch(setKeyword(query));
   };
 
   // Data Kategori
@@ -174,7 +225,13 @@ const TransaksiView = () => {
               title="Total Transaksi"
               data={priceFormat(totalTransaksi)}
             />
-            <CardSummary.Body title="Sisa Uang" data={totalPersen + "%"} />
+            <CardSummary.Body
+              title="Sisa Uang"
+              data={parseInt(totalPersen) + "%"}
+              className={`${
+                totalPersen < 0 ? "text-red-500" : "text-green-500"
+              }`}
+            />
           </div>
         </CardSummary>
 
@@ -197,10 +254,21 @@ const TransaksiView = () => {
         {/* Second End */}
 
         <Card colSpan="lg:col-span-3">
-          <SearchTable />
+          <SearchTable
+            placeholder="Enter Name"
+            query={query}
+            setQuery={setQuery}
+            searchData={searchData}
+          />
           <TableTransaksi datas={transaksi} />
           <TableTransaksiMobile datas={transaksi} />
-          <Pagination />
+          <Pagination
+            limitData={limitData}
+            totalData={totalData}
+            page={page}
+            totalPage={totalPage}
+            setPage={setPage}
+          />
         </Card>
       </div>
 
@@ -215,6 +283,7 @@ const TransaksiView = () => {
             text="Tambah"
             type="submit"
             closeModal={() => setOpenModal(false)}
+            handleSubmit={() => setOpenModal(false)}
           />
         </form>
       </Modal>

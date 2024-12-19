@@ -7,23 +7,21 @@ import { useDispatch, useSelector } from "react-redux";
 // Redux Actions
 import {
   setPersenKeuntungan,
-  setHarga,
+  setKeuntungan,
   setHargaJual,
 } from "@/redux/slices/hargaSlice";
 
 const TableKeseluruhan = () => {
-  const { totalKayu } = useSelector((state) => state.tukangKayuState);
+  const { totalTukangKayu } = useSelector((state) => state.tukangKayuState);
   const { totalGerinda, totalPacking, totalHargaFinishing } = useSelector(
     (state) => state.finishingState
   );
   const { totalHargaKayu } = useSelector((state) => state.kayuState);
-  const { totalBahanTambahan } = useSelector(
+  const { totalMaterialTambahan } = useSelector(
     (state) => state.bahanTambahanState
   );
-  const { totalPriceAccessories } = useSelector(
-    (state) => state.accessoriesState
-  );
-  const { harga } = useSelector((state) => state.hargaState);
+  const { totalAccessories } = useSelector((state) => state.accessoriesState);
+  const { keuntungan } = useSelector((state) => state.hargaState);
 
   const dispatch = useDispatch();
 
@@ -38,20 +36,20 @@ const TableKeseluruhan = () => {
   const handleHitung = () => {
     const total =
       totalHargaKayu +
-      totalKayu +
+      totalTukangKayu +
       totalHargaFinishing +
       totalGerinda +
       totalPacking +
-      totalBahanTambahan +
-      totalPriceAccessories;
+      totalMaterialTambahan +
+      totalAccessories;
 
-    const persenKeuntungan = total * (inputChange.keuntungan / 100);
+    const keuntungan = total * (inputChange.keuntungan / 100);
 
     dispatch(setPersenKeuntungan(inputChange.keuntungan));
-    dispatch(setHarga(persenKeuntungan));
-    dispatch(setHargaJual(total + persenKeuntungan));
+    dispatch(setKeuntungan(keuntungan));
+    dispatch(setHargaJual(total + keuntungan));
 
-    console.log(persenKeuntungan);
+    console.log(keuntungan);
   };
 
   return (
@@ -64,9 +62,9 @@ const TableKeseluruhan = () => {
               <th className="font-normal px-6 py-3">Tukang Kayu</th>
               <th className="font-normal px-6 py-3">Tukang Finishing</th>
               <th className="font-normal px-6 py-3 hidden md:table-cell">
-                Packing
+                Gerinda
               </th>
-              <th className="font-normal px-6 py-3">Gerinda</th>
+              <th className="font-normal px-6 py-3">Packing</th>
               <th className="font-normal px-6 py-3">Bahan Tambahan </th>
               <th className="font-normal px-6 py-3">Aksesoris & Akomodasi </th>
               <th className="font-normal px-6 py-3">
@@ -88,7 +86,7 @@ const TableKeseluruhan = () => {
                 {priceFormat(totalHargaKayu)}
               </td>
               <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                {priceFormat(totalKayu)}
+                {priceFormat(totalTukangKayu)}
               </td>
               <td className="whitespace-nowrap  px-6 py-3">
                 {priceFormat(totalHargaFinishing)}
@@ -100,13 +98,13 @@ const TableKeseluruhan = () => {
                 {priceFormat(totalPacking)}
               </td>
               <td className="whitespace-nowrap px-6 py-3">
-                {priceFormat(totalBahanTambahan)}
+                {priceFormat(totalMaterialTambahan)}
               </td>
               <td className="whitespace-nowrap px-6 py-3">
-                {priceFormat(totalPriceAccessories)}
+                {priceFormat(totalAccessories)}
               </td>
               <td className="whitespace-nowrap px-6 py-3">
-                {priceFormat(harga)}
+                {priceFormat(keuntungan)}
               </td>
             </tr>
           </tbody>

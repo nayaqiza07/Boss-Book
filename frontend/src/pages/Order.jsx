@@ -73,6 +73,7 @@ const Order = () => {
   const addItem = () => {
     items.push({
       name: inputItem.name,
+      note: inputItem.note,
       quantity: parseInt(inputItem.quantity),
       price: parseInt(inputItem.price),
       // image: inputItem.image,

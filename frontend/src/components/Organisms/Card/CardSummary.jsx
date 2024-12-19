@@ -22,11 +22,11 @@ const Header = (props) => {
 };
 
 const Body = (props) => {
-  const { title, data } = props;
+  const { title, data, className } = props;
   return (
     <div>
       <h5 className="text-night_30 text-sm">{title}</h5>
-      <p className="mt-2 text-night_60 font-medium">{data}</p>
+      <p className={`mt-2 text-night_60 font-medium ${className}`}>{data}</p>
     </div>
   );
 };

@@ -2,7 +2,8 @@ import express from "express";
 import { protectedMiddleware } from "../middlewares/authMiddleware.js";
 import {
   createTransaksi,
-  allTransaksi,
+  getTransaksi,
+  getAllTransaksi,
   getTransaksiById,
   updateTransaksi,
   deleteTransaksi,
@@ -20,7 +21,12 @@ router.post("/", protectedMiddleware, createTransaksi);
 // Read Data Transaksi
 // GET /api/v1/transaksi
 // Middleware agar hanya bisa diakses oleh User yang telah melakukan autentikasi
-router.get("/", protectedMiddleware, allTransaksi);
+router.get("/", protectedMiddleware, getTransaksi);
+
+// Read Data Transaksi
+// GET /api/v1/transaksi
+// Middleware agar hanya bisa diakses oleh User yang telah melakukan autentikasi
+router.get("/all", protectedMiddleware, getAllTransaksi);
 
 // Read Data Transaksi By Id
 // GET /api/v1/transaksi/:id

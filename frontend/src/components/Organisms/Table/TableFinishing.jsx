@@ -20,8 +20,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { setJenisFinishing, addFinishing } from "@/redux/slices/finishingSlice";
 
 const TableFinishing = () => {
-  const { finishings, jenisFinishingData, jenisFinishing, totalFinishing } =
-    useSelector((state) => state.finishingState);
+  const {
+    finishings,
+    jenisFinishingData,
+    jenisFinishing,
+    totalTukangFinishing,
+  } = useSelector((state) => state.finishingState);
   const dispatch = useDispatch();
 
   const [openModal, setOpenModal] = useState(false);
@@ -47,7 +51,7 @@ const TableFinishing = () => {
         panjang: parseInt(newItem.panjang),
         lebar: parseInt(newItem.lebar),
         rumus: parseInt(newItem.rumus),
-        jenis: jenisFinishing,
+        jenisFinishing: jenisFinishing,
       })
     );
     console.log(newItem);
@@ -56,14 +60,14 @@ const TableFinishing = () => {
   return (
     <>
       <section className="flex justify-between">
-        <h1>Finishing</h1>
+        <h1>Tukang Finishing</h1>
         <div className="flex gap-5">
           <Input
             type="text"
             variant="disabled"
             readOnly={true}
             placeholder="Total"
-            value={priceFormat(totalFinishing)}
+            value={priceFormat(totalTukangFinishing)}
           />
           <Button
             type="button"
@@ -113,7 +117,7 @@ const TableFinishing = () => {
                     {item.data.rumus}
                   </td>
                   <td className="whitespace-nowrap px-6 py-3">
-                    {item.data.jenis}
+                    {item.data.jenisFinishing}
                   </td>
                   <td className="whitespace-nowrap px-6 py-3">
                     {priceFormat(item.hargaFinishing)}
@@ -151,7 +155,9 @@ const TableFinishing = () => {
               <span className="text-night_30 text-sm">
                 {item.data.panjang} x {item.data.lebar} x {item.data.rumus}
               </span>
-              <p className="text-night_30 text-sm">{item.data.jenis}</p>
+              <p className="text-night_30 text-sm">
+                {item.data.jenisFinishing}
+              </p>
               <p className="text-night_30 text-sm">
                 Harga {priceFormat(item.hargaFinishing)}
               </p>

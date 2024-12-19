@@ -6,7 +6,7 @@ import streamifier from "streamifier";
 
 // Create Order
 export const createOrder = asyncHandler(async (req, res) => {
-  const { client, date, status, items, image } = req.body;
+  const { client, date, status, dp, items, image } = req.body;
 
   // Jika item tidak dimasukkan, maka tampilkan error
   if (!items || items.length < 1) {
@@ -22,6 +22,7 @@ export const createOrder = asyncHandler(async (req, res) => {
   for (const item of items) {
     const singleItem = {
       name: item.name,
+      note: item.note,
       quantity: item.quantity,
       price: item.price,
       totalPrice: item.quantity * item.price,
@@ -50,6 +51,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     date,
     total: total,
     status,
+    dp,
     items: orderItem,
     image,
   });

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AddUser } from "react-iconly";
 
 // API
@@ -17,39 +17,45 @@ import SearchTable from "@components/Molecules/Search/SearchTable";
 import TableClient from "@components/Organisms/Table/TableClient";
 import TableClientMobile from "@components/Organisms/Table/TableClientMobile";
 
+// Redux Actions
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setLimitData,
+  setTotalData,
+  setPage,
+  setTotalPage,
+  setKeyword,
+  setQuery,
+} from "@/redux/slices/paginationSlice";
+
 const Client = () => {
+  const { limitData, totalData, page, totalPage, keyword, query } = useSelector(
+    (state) => state.paginationState
+  );
+  const dispatch = useDispatch();
   const [openModalClient, setOpenModalClient] = useState(false);
 
-  // const [search, setSearch] = useState("");
   const [dataClients, setDataClients] = useState([]);
 
-  // Pagination
-  const [limitClient, setLimitClient] = useState(0);
-  const [totalClient, setTotalClient] = useState(0);
-  const [page, setPage] = useState(0);
-  const [totalPage, setTotalPage] = useState(0);
+  const fetchDataClient = useCallback(
+    (keyword, page) => {
+      getClients(keyword, page).then(
+        ({ client, limitClient, totalClient, currentPage, totalPage }) => {
+          setDataClients(client);
 
-  // Search
-  const [keyword, setKeyword] = useState("");
-  const [query, setQuery] = useState("");
-
-  // console.log(limitClient, totalClient, page, totalPages);
+          dispatch(setLimitData(limitClient));
+          dispatch(setTotalData(totalClient));
+          dispatch(setPage(currentPage));
+          dispatch(setTotalPage(totalPage));
+        }
+      );
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     fetchDataClient(keyword, page);
-  }, [keyword, page]);
-
-  const fetchDataClient = (keyword, page) => {
-    getClients(keyword, page).then(
-      ({ client, limitClient, totalClient, currentPage, totalPage }) => {
-        setDataClients(client);
-        setLimitClient(limitClient);
-        setTotalClient(totalClient);
-        setPage(currentPage);
-        setTotalPage(totalPage);
-      }
-    );
-  };
+  }, [keyword, page, fetchDataClient]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,8 +72,8 @@ const Client = () => {
 
   const searchData = (e) => {
     e.preventDefault();
-    setPage(1);
-    setKeyword(query);
+    dispatch(setPage(1));
+    dispatch(setKeyword(query));
   };
 
   return (
@@ -126,8 +132,8 @@ const Client = () => {
           {/* Second Pagination Start */}
           <Pagination
             // handlePageChange={handlePageChange}
-            limitClient={limitClient}
-            totalClient={totalClient}
+            limitData={limitData}
+            totalData={totalData}
             page={page}
             totalPage={totalPage}
             setPage={setPage}

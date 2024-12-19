@@ -20,17 +20,42 @@ export const createPiutang = async (name, date, total, jumlahDiterima) => {
 };
 
 // Read Piutang (GET)
-export const getPiutang = async () => {
+export const getPiutang = async (keyword, page) => {
   try {
-    const response = await customAPI.get("/piutang");
+    const response = await customAPI.get(
+      `/piutang?name=${keyword}&page=${page}`
+    );
 
     const res = response.data.data;
+
+    const limitPiutang = response.data.pagination.limitPiutang;
+    const totalDataPiutang = response.data.pagination.totalDataPiutang;
+    const currentPage = response.data.pagination.page;
+    const totalPage = response.data.pagination.totalPage;
+
+    // console.log({ totalPiutang, totalSudahDiterima, totalBelumDiterima });
+    return {
+      res,
+      limitPiutang,
+      totalDataPiutang,
+      currentPage,
+      totalPage,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Read Piutang
+export const getAllPiutang = async () => {
+  try {
+    const response = await customAPI.get(`/piutang/all`);
+
     const totalPiutang = response.data.totalPiutang;
     const totalSudahDiterima = response.data.totalSudahDiterima;
     const totalBelumDiterima = response.data.totalBelumDiterima;
-
-    // console.log({ totalPiutang, totalSudahDiterima, totalBelumDiterima });
-    return { res, totalPiutang, totalSudahDiterima, totalBelumDiterima };
+    // console.log(response.data.data);
+    return { totalPiutang, totalSudahDiterima, totalBelumDiterima };
   } catch (error) {
     console.log(error);
   }

@@ -2,22 +2,28 @@ import Button from "@/components/Atoms/Button/Button";
 import Input from "@/components/Atoms/Input/Input";
 import { priceFormat } from "@/components/utils";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+// Redux Actions
+import { setBagiHasil } from "@/redux/slices/hargaSlice";
 
 const TableHarga = () => {
-  const { totalKayu } = useSelector((state) => state.tukangKayuState);
-  const { totalFinishing } = useSelector((state) => state.finishingState);
+  const { totalTukangKayu } = useSelector((state) => state.tukangKayuState);
+  const { totalHargaFinishing, totalTukangFinishing } = useSelector(
+    (state) => state.finishingState
+  );
   const { totalKubikasi, totalHargaKayu } = useSelector(
     (state) => state.kayuState
   );
-  const { totalBahanTambahan } = useSelector(
+  const { totalMaterialTambahan } = useSelector(
     (state) => state.bahanTambahanState
   );
-  const { totalPriceAccessories } = useSelector(
-    (state) => state.accessoriesState
+  const { totalAccessories } = useSelector((state) => state.accessoriesState);
+  const { bagiHasil, keuntungan, hargaJual } = useSelector(
+    (state) => state.hargaState
   );
 
-  const { keuntungan, hargaJual } = useSelector((state) => state.hargaState);
+  const dispatch = useDispatch();
 
   const [inputChange, setInputChange] = useState({});
   const handleInputChange = (e) => {
@@ -29,12 +35,15 @@ const TableHarga = () => {
 
   const kalkulasiProduksi =
     totalHargaKayu +
-    totalKayu +
-    totalFinishing +
-    totalBahanTambahan +
-    totalPriceAccessories;
+    totalTukangKayu +
+    totalTukangFinishing +
+    totalMaterialTambahan +
+    totalAccessories;
 
-  // const persenKeuntungan = total * (inputChange.keuntungan / 100);
+  const hitungBagiHasil = () => {
+    const bagiHasil = inputChange.bagiHasil / 100;
+    dispatch(setBagiHasil(keuntungan * bagiHasil));
+  };
 
   return (
     <>
@@ -56,7 +65,11 @@ const TableHarga = () => {
                     placeholder="Pembagian Hasil"
                     onChange={handleInputChange}
                   />
-                  <Button type="button" variant="primaryOutline">
+                  <Button
+                    type="button"
+                    variant="primaryOutline"
+                    onClick={hitungBagiHasil}
+                  >
                     Hitung
                   </Button>
                 </div>
@@ -73,8 +86,12 @@ const TableHarga = () => {
               <td className="whitespace-nowrap  px-6 py-3">
                 {priceFormat(hargaJual)}
               </td>
-              <td className="whitespace-nowrap px-6 py-3">{keuntungan}%</td>
-              <td className="whitespace-nowrap px-6 py-3">0</td>
+              <td className="whitespace-nowrap px-6 py-3">
+                {priceFormat(keuntungan)}
+              </td>
+              <td className="whitespace-nowrap px-6 py-3">
+                {priceFormat(bagiHasil)}
+              </td>
               <td className="whitespace-nowrap px-6 py-3">
                 <p className="flex justify-between">
                   <span>Kubikasi</span> {totalKubikasi.toFixed(3)}
@@ -86,11 +103,11 @@ const TableHarga = () => {
               <td className="whitespace-nowrap px-6 py-3">
                 <p className="flex justify-between">
                   <span>Tukang Kayu</span>
-                  {priceFormat(0)}
+                  {priceFormat(totalTukangKayu)}
                 </p>
                 <p className="flex justify-between">
                   <span>Tukang Finishing</span>
-                  {priceFormat(0)}
+                  {priceFormat(totalHargaFinishing / 2)}
                 </p>
               </td>
             </tr>

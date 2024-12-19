@@ -19,25 +19,25 @@ export const getOrderById = async (id) => {
 };
 
 // POST Order
-export const createOrder = async (client, date, status, items, image) => {
+export const createOrder = async (client, date, status, items) => {
   try {
-    const responseFileUpload = await customAPI.post(
-      "/order/file-upload",
-      {
-        image: image,
-      },
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
-    console.log(responseFileUpload.data.url);
+    // const responseFileUpload = await customAPI.post(
+    //   "/order/file-upload",
+    //   {
+    //     image: image,
+    //   },
+    //   {
+    //     headers: { "Content-Type": "multipart/form-data" },
+    //   }
+    // );
+    // console.log(responseFileUpload.data.url);
 
     const data = await customAPI.post("/order", {
       client,
       date,
       status,
       items,
-      image: responseFileUpload.data.url,
+      // image: responseFileUpload.data.url,
     });
     toast.success("Berhasil menambahkan order");
     // console.log(data.data);

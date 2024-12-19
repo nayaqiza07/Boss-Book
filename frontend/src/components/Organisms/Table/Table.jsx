@@ -15,6 +15,7 @@ const Table = (props) => {
               <Checkbox />
             </th>
             <th className="font-normal px-6 py-3">Nama</th>
+            <th className="font-normal px-6 py-3">Keterangan</th>
             <th className="font-normal px-6 py-3">Tanggal</th>
             <th className="font-normal px-6 py-3">Total</th>
             <th className="font-normal px-6 py-3 hidden md:table-cell">
@@ -33,6 +34,9 @@ const Table = (props) => {
 
               <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
                 {data.name}
+              </td>
+              <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
+                {data.keterangan}
               </td>
               <td className="whitespace-nowrap  px-6 py-3">{data.date}</td>
               <td className="whitespace-nowrap  px-6 py-3">

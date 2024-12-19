@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { dateFormat } from "@/components/utils";
 import FormInput from "@/components/Atoms/Form/FormInput";
+import FormTextarea from "@/components/Atoms/Form/FormTextarea";
 
 const FormPiutang = (props) => {
   const { isUtang } = props;
@@ -8,6 +9,7 @@ const FormPiutang = (props) => {
   return (
     <div className="w-full">
       <FormInput type="text" name="name" placeholder="Nama" />
+      <FormTextarea type="text" name="keterangan" placeholder="Keterangan" />
       <FormInput
         type="text"
         name="date"

@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addAccessory, removeAccessory } from "@/redux/slices/accessoriesSlice";
 
 const TabelHitungAksesoris = () => {
-  const { accessories, totalPriceAccessories } = useSelector(
+  const { accessories, totalAccessories } = useSelector(
     (state) => state.accessoriesState
   );
   const dispatch = useDispatch();
@@ -47,14 +47,14 @@ const TabelHitungAksesoris = () => {
   return (
     <>
       <section className="flex justify-between">
-        <h1>Aksesoris</h1>
+        <h1>Aksesoris & Akomodasi</h1>
         <div className="flex gap-5">
           <Input
             type="text"
             variant="disabled"
             readOnly={true}
             placeholder="Total"
-            value={priceFormat(totalPriceAccessories)}
+            value={priceFormat(totalAccessories)}
           />
           <Button
             type="button"

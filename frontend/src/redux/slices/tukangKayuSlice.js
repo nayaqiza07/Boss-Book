@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 const initialState = {
   kayu: [],
-  totalKayu: 0,
+  totalTukangKayu: 0,
 };
 
 const tukangKayuSlice = createSlice({
@@ -20,7 +20,7 @@ const tukangKayuSlice = createSlice({
           data: action.payload,
           hargaKayu,
         });
-        state.totalKayu += hargaKayu;
+        state.totalTukangKayu += hargaKayu;
       } else {
         toast.error("Inputan harus di isi");
       }
