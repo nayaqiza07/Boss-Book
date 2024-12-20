@@ -2,10 +2,21 @@ import customAPI from "./axios.js";
 import { toast } from "react-toastify";
 
 // GET Data Order
-export const getOrders = async () => {
+export const getOrders = async (keyword, page) => {
   try {
-    const response = await customAPI.get("/order");
-    return response.data.data;
+    const response = await customAPI.get(
+      `/order?client=${keyword}&page=${page}`
+    );
+
+    const res = response.data.data;
+    const limitOrder = response.data.pagination.limitOrder;
+    const totalDataOrder = response.data.pagination.totalDataOrder;
+    const currentPage = response.data.pagination.page;
+    const totalPage = response.data.pagination.totalPage;
+
+    // return response.data.data;
+    console.log(res);
+    return { res, limitOrder, totalDataOrder, currentPage, totalPage };
   } catch (error) {
     console.log(error);
   }
@@ -19,7 +30,14 @@ export const getOrderById = async (id) => {
 };
 
 // POST Order
-export const createOrder = async (client, date, status, items) => {
+export const createOrder = async (
+  client,
+  date,
+  status,
+  items,
+  total,
+  jumlahDiterima
+) => {
   try {
     // const responseFileUpload = await customAPI.post(
     //   "/order/file-upload",
@@ -32,6 +50,13 @@ export const createOrder = async (client, date, status, items) => {
     // );
     // console.log(responseFileUpload.data.url);
 
+    await customAPI.post("/piutang", {
+      client,
+      date,
+      total: total,
+      jumlahDiterima: jumlahDiterima,
+    });
+
     const data = await customAPI.post("/order", {
       client,
       date,
@@ -40,7 +65,7 @@ export const createOrder = async (client, date, status, items) => {
       // image: responseFileUpload.data.url,
     });
     toast.success("Berhasil menambahkan order");
-    // console.log(data.data);
+    console.log(data.data);
     return data.data;
   } catch (error) {
     const errorMessage = error?.response?.data?.message;

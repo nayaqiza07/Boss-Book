@@ -24,16 +24,43 @@ export const allPiutang = asyncHandler(async (req, res) => {
   // Search berdasarkan karatker nama
   let query;
   if (req.query.name) {
-    query = Piutang.find({
-      name: { $regex: req.query.name, $options: "i" },
-    });
+    query = Piutang.aggregate(
+      [
+        {
+          $lookup: {
+            from: "clients",
+            localField: "client",
+            foreignField: "_id",
+            as: "clientData",
+          },
+        },
+      ],
+      // Masih Error
+      {
+        $match: {
+          "clientData.name": { $regex: req.query.client, $options: "i" },
+        },
+      }
+    );
   } else {
-    query = Piutang.find(queryObj);
+    query = Piutang.aggregate(
+      [
+        {
+          $lookup: {
+            from: "clients",
+            localField: "client",
+            foreignField: "_id",
+            as: "clientData",
+          },
+        },
+      ],
+      queryObj
+    );
   }
 
   // Pagination
   const page = req.query.page * 1 || 1;
-  const limitData = req.query.limit * 1 || 2;
+  const limitData = req.query.limit * 1 || 10;
   const skipData = (page - 1) * limitData;
 
   query = query.skip(skipData).limit(limitData);

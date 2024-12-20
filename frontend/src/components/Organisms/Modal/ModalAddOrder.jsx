@@ -13,6 +13,7 @@ import { priceFormat } from "../../utils";
 import { Add01Icon, ArrowLeft01Icon } from "hugeicons-react";
 import Uploader from "../../Molecules/Uploader/Uploader";
 import FormTextarea from "@/components/Atoms/Form/FormTextarea";
+import Label from "@/components/Atoms/Input/Label";
 
 export const ModalAddOrder = ({
   openModalOrder,
@@ -22,13 +23,11 @@ export const ModalAddOrder = ({
   setAddProduct,
   handleChangeItem,
   items,
+  totalPriceItem,
   addItem,
   handleSubmit,
 }) => {
   const [clients, setClients] = useState([]);
-
-  // const [page] = useState(0);
-  // const [keyword] = useState("");
 
   useEffect(() => {
     fetchDataClient();
@@ -114,11 +113,28 @@ export const ModalAddOrder = ({
                     defaultValue={todayDate}
                     readonly={true}
                   />
-                  <label className="text-xs text-[#5E6366]">Order Status</label>
-                  <FormSelect
-                    list={list}
-                    name="status"
-                    placeholder="Select Status"
+                  <Label size="default">
+                    <span className="text-xs text-[#b9c0c4]">Order Status</span>
+                    <FormSelect
+                      list={list}
+                      name="status"
+                      placeholder="Select Status"
+                    />
+                  </Label>
+
+                  <FormInput
+                    // icon={<HiOutlineCalendar size={25} color="#ABAFB1" />}
+                    type="number"
+                    name="total"
+                    placeholder="Total"
+                    readonly={true}
+                    value={totalPriceItem}
+                  />
+                  <FormInput
+                    // icon={<HiOutlineCalendar size={25} color="#ABAFB1" />}
+                    type="number"
+                    name="jumlahDiterima"
+                    placeholder="Jumlah Diterima"
                   />
                 </div>
               </div>
@@ -204,14 +220,19 @@ export const ModalAddOrder = ({
                     subTitle={"Add product items to this order"}
                   />
                 ) : (
-                  <div className="max-h-60 overflow-y-auto flex flex-col gap-3">
+                  <div className="max-h-96 overflow-y-auto flex flex-col gap-3">
                     {items?.map((item, index) => (
                       <div
                         key={index}
                         className="py-1 px-2 text-left text-sm text-primary_100 border rounded-lg"
                       >
                         <p>Nama : {item.name}</p>
-                        <p>Ukuran : {item.note}</p>
+                        <p>
+                          Keterangan :{" "}
+                          {item.note.split("\n").map((row, index) => (
+                            <p key={index}>{row}</p>
+                          ))}
+                        </p>
                         <p>Qty : {item.quantity}</p>
                         <p>Price: {priceFormat(item.price)}</p>
                         <p>

@@ -33,10 +33,17 @@ const Table = (props) => {
               </td>
 
               <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                {data.name}
+                {isUtang
+                  ? data.name
+                  : data.clientData.map((client) => (
+                      <span key={client._id}>{client.name}</span>
+                    ))}
               </td>
               <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                {data.keterangan}
+                {/* {data.keterangan} */}
+                {data.keterangan.split("\n").map((row, index) => (
+                  <p key={index}>{row}</p>
+                ))}
               </td>
               <td className="whitespace-nowrap  px-6 py-3">{data.date}</td>
               <td className="whitespace-nowrap  px-6 py-3">

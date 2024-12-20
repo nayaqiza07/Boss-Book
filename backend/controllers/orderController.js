@@ -65,21 +65,90 @@ export const createOrder = asyncHandler(async (req, res) => {
 
 // Read All Order
 export const allOrder = asyncHandler(async (req, res) => {
+  // Req Query
+  const queryObj = { ...req.query };
+
+  // fungsi untuk mengabaikan jika ada req page dan limit
+  const excludeField = ["page", "limit", "client"];
+  excludeField.forEach((element) => delete queryObj[element]);
+
+  // Search berdasarkan karatker nama
+  let query;
+  if (req.query.client) {
+    query = Order.aggregate(
+      [
+        {
+          $lookup: {
+            from: "clients",
+            localField: "client",
+            foreignField: "_id",
+            as: "clientData",
+          },
+        },
+      ],
+      // Masih Error
+      {
+        // client: { $regex: req.query.client, $options: "i" },
+        $match: {
+          "clientData.name": { $regex: req.query.client, $options: "i" },
+        },
+      }
+    );
+  } else {
+    query = Order.aggregate(
+      [
+        {
+          $lookup: {
+            from: "clients",
+            localField: "client",
+            foreignField: "_id",
+            as: "clientData",
+          },
+        },
+      ],
+      queryObj
+    );
+  }
+
+  // Pagination
+  const page = req.query.page * 1 || 1;
+  const limitData = req.query.limit * 1 || 10;
+  const skipData = (page - 1) * limitData;
+
+  query = query.skip(skipData).limit(limitData);
+
+  let countOrder = await Order.countDocuments(queryObj);
+  if (req.query.page) {
+    if (skipData >= countOrder) {
+      res.status(404);
+      throw new Error("This page doesn't exist");
+    }
+  }
+
+  const order = await query;
+  const totalPage = Math.ceil(countOrder / limitData);
+
   // const allOrder = await Order.find();
-  const allOrder = await Order.aggregate([
-    {
-      $lookup: {
-        from: "clients",
-        localField: "client",
-        foreignField: "_id",
-        as: "clientData",
-      },
-    },
-  ]);
+  // const allOrder = await Order.aggregate([
+  //   {
+  //     $lookup: {
+  //       from: "clients",
+  //       localField: "client",
+  //       foreignField: "_id",
+  //       as: "clientData",
+  //     },
+  //   },
+  // ]);
 
   return res.status(200).json({
     message: "Seluruh Order berhasil ditampilkan",
-    data: allOrder,
+    data: order,
+    pagination: {
+      limitOrder: limitData,
+      totalDataOrder: countOrder,
+      page,
+      totalPage,
+    },
   });
 });
 

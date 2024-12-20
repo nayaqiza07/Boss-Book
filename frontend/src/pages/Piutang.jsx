@@ -105,8 +105,14 @@ const Piutang = () => {
     const data = Object.fromEntries(dataForm);
     // console.log(data);
 
-    await createPiutang(data.name, data.date, data.total, data.jumlahDiterima);
-    fetchDataPiutang();
+    await createPiutang(
+      data.client,
+      data.keterangan,
+      data.date,
+      data.total,
+      data.jumlahDiterima
+    );
+    fetchDataPiutang(keyword, page);
 
     // Reset nilai form
     formRef.current.reset();
@@ -136,7 +142,7 @@ const Piutang = () => {
       await updatePiutang(piutangById._id, jumlah);
     }
 
-    fetchDataPiutang();
+    fetchDataPiutang(keyword, page);
   };
 
   const handleModalUpdate = (id) => {
@@ -147,7 +153,7 @@ const Piutang = () => {
   const handleDelete = async (e) => {
     e.preventDefault();
     await deletePiutang(piutangById._id);
-    fetchDataPiutang();
+    fetchDataPiutang(keyword, page);
   };
 
   const handleModalDelete = (id) => {

@@ -1,14 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { dateFormat } from "@/components/utils";
 import FormInput from "@/components/Atoms/Form/FormInput";
 import FormTextarea from "@/components/Atoms/Form/FormTextarea";
+import FormSelect from "@/components/Atoms/Form/FormSelect";
+import { getAllClients } from "@/api/clientApi";
 
 const FormPiutang = (props) => {
   const { isUtang } = props;
 
+  const [clients, setClients] = useState([]);
+
+  const fetchDataClient = () => {
+    getAllClients().then((result) => {
+      setClients(result);
+    });
+  };
+
+  useEffect(() => {
+    fetchDataClient();
+  }, []);
+
   return (
     <div className="w-full">
-      <FormInput type="text" name="name" placeholder="Nama" />
+      {isUtang ? (
+        <FormInput type="text" name="name" placeholder="Nama" />
+      ) : (
+        <FormSelect list={clients} name="client" placeholder="Select Client" />
+      )}
       <FormTextarea type="text" name="keterangan" placeholder="Keterangan" />
       <FormInput
         type="text"

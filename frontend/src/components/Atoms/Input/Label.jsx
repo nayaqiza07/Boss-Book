@@ -10,7 +10,7 @@ const Label = (props) => {
   };
 
   const sizeClasses = {
-    default: "text-xs font-medium",
+    default: "",
     xs: "text-xs py-1 px-4 rounded",
     sm: "text-sm py-1 px-4 rounded",
     md: "text-base py-1.5 px-4 rounded",

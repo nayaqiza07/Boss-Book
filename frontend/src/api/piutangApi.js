@@ -4,10 +4,17 @@ import { toast } from "react-toastify";
 // CRUD
 
 // Create Piutang (POST)
-export const createPiutang = async (name, date, total, jumlahDiterima) => {
+export const createPiutang = async (
+  client,
+  keterangan,
+  date,
+  total,
+  jumlahDiterima
+) => {
   try {
     const response = await customAPI.post("/piutang", {
-      name,
+      client,
+      keterangan,
       date,
       total,
       jumlahDiterima: jumlahDiterima || 0,

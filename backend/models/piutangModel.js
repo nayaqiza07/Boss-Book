@@ -3,9 +3,18 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const piutangSchema = new Schema({
-  name: {
+  // name: {
+  //   type: String,
+  //   required: [true, "Nama harus diisi"],
+  // },
+  client: {
+    type: Schema.ObjectId,
+    ref: "Client",
+    required: true,
+  },
+  keterangan: {
     type: String,
-    required: [true, "Nama harus diisi"],
+    default: "-",
   },
   date: {
     type: String,
@@ -13,11 +22,11 @@ const piutangSchema = new Schema({
   },
   total: {
     type: Number,
-    required: [true, "Total harus diisi"],
+    // required: [true, "Total harus diisi"],
   },
   jumlahDiterima: {
     type: Number,
-    required: [true, "Jumlah diterima harus diisi"],
+    // required: [true, "Jumlah diterima harus diisi"],
   },
 });
 

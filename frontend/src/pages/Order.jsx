@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Card } from "@components/Organisms/Card/Card";
 import { ModalAddOrder } from "@components/Organisms/Modal/ModalAddOrder";
 import { SelectMenuMonth } from "@components/Atoms/Select/SelectMenu";
@@ -7,6 +7,8 @@ import ModalUpdateOrder from "@components/Organisms/Modal/ModalUpdateOrder";
 import { Bag } from "@components/Icon/Icon";
 import TableOrder from "@components/Organisms/Table/TableOrder";
 import TableOrderMobile from "@components/Organisms/Table/TableOrderMobile";
+
+// API
 import {
   getOrders,
   createOrder,
@@ -23,12 +25,27 @@ import SearchTable from "@components/Molecules/Search/SearchTable";
 import Pagination from "@components/Molecules/Pagination/Pagination";
 import Button from "@components/Atoms/Button/Button";
 
+// Redux Action
+import {
+  setLimitData,
+  setTotalData,
+  setPage,
+  setTotalPage,
+  setKeyword,
+  setQuery,
+} from "@/redux/slices/paginationSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 const Order = () => {
+  const { limitData, totalData, page, totalPage, keyword, query } = useSelector(
+    (state) => state.paginationState
+  );
+  const dispatch = useDispatch();
+
   const [openModalOrder, setOpenModalOrder] = useState(false);
   const [openModalInvoice, setOpenModalInvoice] = useState(false);
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
-  const [search, setSearch] = useState("");
   const [orders, setOrders] = useState([]);
   const [dataOrderById, setDataOrderById] = useState("");
 
@@ -36,9 +53,25 @@ const Order = () => {
   const [addProduct, setAddProduct] = useState(false);
   const [inputItem, setInputItem] = useState({});
 
+  const fetchDataOrder = useCallback(
+    (keyword, page) => {
+      getOrders(keyword, page).then(
+        ({ res, limitOrder, totalDataOrder, currentPage, totalPage }) => {
+          setOrders(res);
+
+          dispatch(setLimitData(limitOrder));
+          dispatch(setTotalData(totalDataOrder));
+          dispatch(setPage(currentPage));
+          dispatch(setTotalPage(totalPage));
+        }
+      );
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
-    fetchDataOrder();
-  }, []);
+    fetchDataOrder(keyword, page);
+  }, [keyword, page, fetchDataOrder]);
 
   const filterPending = orders.filter((order) => order.status === "Pending");
   const filterInProgress = orders.filter(
@@ -47,12 +80,6 @@ const Order = () => {
   const filterCompleted = orders.filter(
     (order) => order.status === "Completed"
   );
-
-  const fetchDataOrder = () => {
-    getOrders().then((result) => {
-      setOrders(result);
-    });
-  };
 
   const fetchDataOrderById = (id) => {
     getOrderById(id).then((result) => {
@@ -69,6 +96,7 @@ const Order = () => {
   };
 
   // Menyimpan input item product kedalam array saat addItem di klik on Modal
+  const [totalPriceItem, setTotalPriceItem] = useState(0);
   const [items] = useState([]);
   const addItem = () => {
     items.push({
@@ -78,6 +106,14 @@ const Order = () => {
       price: parseInt(inputItem.price),
       // image: inputItem.image,
     });
+
+    let total = 0;
+    for (const item of items) {
+      const totalPerItem = item.quantity * item.price;
+      total += totalPerItem;
+      setTotalPriceItem(total);
+    }
+
     toast.success("Item berhasil ditambahkan");
     setAddProduct(false);
     // console.log(items);
@@ -93,7 +129,15 @@ const Order = () => {
     const data = Object.fromEntries(dataForm);
     // console.log(data);
 
-    await createOrder(data.client, data.date, data.status, items, data.image);
+    await createOrder(
+      data.client,
+      data.date,
+      data.status,
+      items,
+      // data.image,
+      data.total,
+      data.jumlahDiterima
+    );
     fetchDataOrder();
   };
 
@@ -123,6 +167,12 @@ const Order = () => {
     // console.log(dataOrderById._id, data.status);
     setOpenModalUpdate(false);
     fetchDataOrder();
+  };
+
+  const searchData = (e) => {
+    e.preventDefault();
+    dispatch(setPage(1));
+    dispatch(setKeyword(query));
   };
 
   return (
@@ -217,9 +267,10 @@ const Order = () => {
             <>
               {/* Third Head Start */}
               <SearchTable
-                placeholder="Enter order number"
-                search={search}
-                setSearch={setSearch}
+                placeholder="Enter Name"
+                query={query}
+                setQuery={setQuery}
+                searchData={searchData}
               />
               {/* Third Head End */}
 
@@ -227,7 +278,6 @@ const Order = () => {
               <div className="hidden overflow-x-auto mt-5 md:block">
                 <TableOrder
                   orders={orders}
-                  search={search}
                   handleModalInvoice={handleModalInvoice}
                   handleModalUpdateOrder={handleModalUpdateOrder}
                 />
@@ -238,7 +288,6 @@ const Order = () => {
               <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
                 <TableOrderMobile
                   orders={orders}
-                  search={search}
                   handleModalInvoice={handleModalInvoice}
                   handleModalUpdateOrder={handleModalUpdateOrder}
                 />
@@ -246,7 +295,13 @@ const Order = () => {
               {/* Table view up to the `md:` breakpoint End  */}
 
               {/* Third Pagination Start */}
-              <Pagination />
+              <Pagination
+                limitData={limitData}
+                totalData={totalData}
+                page={page}
+                totalPage={totalPage}
+                setPage={setPage}
+              />
               {/* Third Pagination End */}
             </>
           )}
@@ -263,6 +318,7 @@ const Order = () => {
         setAddProduct={setAddProduct}
         handleChangeItem={handleChangeItem}
         items={items}
+        totalPriceItem={totalPriceItem}
         addItem={addItem}
         handleSubmit={handleSubmit}
       />
