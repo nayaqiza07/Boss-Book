@@ -15,7 +15,7 @@ export const getClients = async (keyword, page) => {
     const totalPage = response.data.pagination.totalPage;
 
     // console.log({ limitClient });
-    // console.log(client, pagination, params);
+    console.log(client);
     return { client, limitClient, totalClient, currentPage, totalPage };
   } catch (error) {
     console.log(error);
@@ -40,11 +40,11 @@ export const getClientById = async (id) => {
 };
 
 // POST Data Client
-export const createClient = async (name, email, phone, address) => {
+export const createClient = async (name, role, phone, address) => {
   try {
     const data = await customAPI.post("/client", {
       name,
-      email,
+      role,
       phone,
       address,
     });

@@ -3,11 +3,19 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const transaksiSchema = new Schema({
-  deskripsi: {
+  name: {
     type: String,
-    required: [true, "Deskripsi harus diisi"],
+    required: [true, "Nama harus diisi"],
+  },
+  keterangan: {
+    type: String,
+    default: "-",
   },
   date: {
+    type: String,
+    required: true,
+  },
+  jenis: {
     type: String,
     required: true,
   },
@@ -15,13 +23,21 @@ const transaksiSchema = new Schema({
     type: String,
     required: [true, "Kategori harus dipilih"],
   },
-  status: {
+  jumlah: {
+    type: Number,
+    required: [true, "Nominal harus diisi"],
+  },
+  pembayaran: {
     type: String,
     required: true,
   },
-  nominal: {
+  jatuhTempo: {
+    type: String,
+    default: null,
+  },
+  jumlahPembayaran: {
     type: Number,
-    required: [true, "Nominal harus diisi"],
+    default: 0,
   },
 });
 

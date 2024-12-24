@@ -19,6 +19,7 @@ const TableClient = ({ dataClients }) => {
             <th className="font-normal px-6 py-3 hidden lg:table-cell">
               Email
             </th>
+            <th className="font-normal px-6 py-3 hidden lg:table-cell">Role</th>
             <th className="font-normal px-6 py-3 hidden xl:table-cell">
               Phone
             </th>
@@ -56,6 +57,9 @@ const TableClient = ({ dataClients }) => {
               </td>
               <td className="whitespace-nowrap px-6 py-2.5 hidden lg:table-cell">
                 {client.email}
+              </td>
+              <td className="whitespace-nowrap px-6 py-2.5 hidden lg:table-cell">
+                {client.role}
               </td>
               <td className="whitespace-nowrap px-6 py-2.5 hidden xl:table-cell">
                 {client.phone}

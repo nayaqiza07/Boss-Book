@@ -25,25 +25,6 @@ export const SidebarItem = [
     iconActive: <Swap set="bulk" primaryColor="white" size={20} />,
   },
   {
-    key: "piutang",
-    label: "Piutang",
-    path: "/piutang",
-    icon: <Ticket primaryColor="#53545c" size={20} />,
-    iconActive: <Ticket set="bulk" primaryColor="white" size={20} />,
-    sidebarSubItem: [
-      {
-        key: "piutang",
-        label: "Piutang",
-        path: "/piutang",
-      },
-      {
-        key: "utang",
-        label: "Utang",
-        path: "/utang",
-      },
-    ],
-  },
-  {
     key: "income",
     label: "Income",
     path: "/income",
@@ -136,6 +117,25 @@ export const SidebarItem = [
         label: "Packaging",
         // path: "/sales",
         // icon: <PiCoin size={20} />,
+      },
+    ],
+  },
+  {
+    key: "preorder",
+    label: "Pre Order",
+    path: "/piutang",
+    icon: <Ticket primaryColor="#53545c" size={20} />,
+    iconActive: <Ticket set="bulk" primaryColor="white" size={20} />,
+    sidebarSubItem: [
+      {
+        key: "penjualan",
+        label: "Penjualan",
+        path: "/piutang",
+      },
+      {
+        key: "gajiKaryawan",
+        label: "Gaji Karyawan",
+        path: "/utang",
       },
     ],
   },

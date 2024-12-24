@@ -1,7 +1,7 @@
-import { getTransaksi } from "@/api/transaksiApi";
+import { getAllTransaksi } from "@/api/transaksiApi";
 import CardSummary from "@/components/Organisms/Card/CardSummary";
 import { priceFormat } from "@/components/utils";
-import { SidebarItem } from "@components/Organisms/Sidebar/SidebarItem";
+// import { SidebarItem } from "@components/Organisms/Sidebar/SidebarItem";
 import { useEffect, useState } from "react";
 import { ArrowUp } from "react-iconly";
 
@@ -22,7 +22,7 @@ const Outcome = () => {
   }, []);
 
   const fetchDataOutcome = () => {
-    getTransaksi().then(
+    getAllTransaksi().then(
       ({
         resOutcome,
         totalAccomodation,
@@ -52,11 +52,11 @@ const Outcome = () => {
   return (
     <>
       {/* Nav Link Start */}
-      <div className="border-b bg-white px-5 flex gap-3 overflow-auto">
+      {/* <div className="border-b bg-white px-5 flex gap-3 overflow-auto">
         {SidebarItem.filter((item) => item.path === "/outcome").map((sub) =>
           sub.sidebarSubItem.map((s) => <p key={s.key}>{s.label}</p>)
         )}
-      </div>
+      </div> */}
       {/* Nav Link End */}
 
       <div>
@@ -66,7 +66,7 @@ const Outcome = () => {
             <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
             <div className="grid grid-cols-2 mt-8">
               <CardSummary.Body
-                title="Accomodation"
+                title="Akomodasi"
                 data={priceFormat(totalAccomodation)}
               />
             </div>
@@ -75,7 +75,7 @@ const Outcome = () => {
           <CardSummary>
             <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
             <div className="grid grid-cols-2 mt-8">
-              <CardSummary.Body title="Ads" data={priceFormat(totalAds)} />
+              <CardSummary.Body title="Iklan" data={priceFormat(totalAds)} />
             </div>
           </CardSummary>
 
@@ -83,7 +83,7 @@ const Outcome = () => {
             <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
             <div className="grid grid-cols-2 mt-8">
               <CardSummary.Body
-                title="Employee Salaries"
+                title="Gaji Karyawan"
                 data={priceFormat(totalEmployeeSalaries)}
               />
             </div>
@@ -93,7 +93,7 @@ const Outcome = () => {
             <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
             <div className="grid grid-cols-2 mt-8">
               <CardSummary.Body
-                title="Electricity"
+                title="Listrik"
                 data={priceFormat(totalElectricity)}
               />
             </div>
@@ -102,7 +102,7 @@ const Outcome = () => {
           <CardSummary>
             <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
             <div className="grid grid-cols-2 mt-8">
-              <CardSummary.Body title="Tools" data={priceFormat(totalTools)} />
+              <CardSummary.Body title="Alat" data={priceFormat(totalTools)} />
             </div>
           </CardSummary>
 
@@ -110,7 +110,7 @@ const Outcome = () => {
             <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
             <div className="grid grid-cols-2 mt-8">
               <CardSummary.Body
-                title="Raw Material"
+                title="Bahan Baku"
                 data={priceFormat(totalRawMaterial)}
               />
             </div>
@@ -120,7 +120,7 @@ const Outcome = () => {
             <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
             <div className="grid grid-cols-2 mt-8">
               <CardSummary.Body
-                title="Accessories"
+                title="Aksesoris"
                 data={priceFormat(totalAccessories)}
               />
             </div>

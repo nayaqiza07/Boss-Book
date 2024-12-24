@@ -66,7 +66,7 @@ const Client = () => {
     const data = Object.fromEntries(dataForm);
     // console.log(data);
 
-    await createClient(data.name, data.email, data.phone, data.address);
+    await createClient(data.name, data.role, data.phone, data.address);
     fetchDataClient(keyword, page);
   };
 
@@ -81,7 +81,7 @@ const Client = () => {
       {/* Top Start */}
       <section className="grid grid-rows-1 grid-cols-1">
         <div className="flex justify-between items-center">
-          <h1 className="text-night_60 font-medium">Client Summary</h1>
+          <h1 className="text-night_60 font-medium">Contact</h1>
           <Button
             variant="primary"
             size="md"

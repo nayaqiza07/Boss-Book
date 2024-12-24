@@ -16,6 +16,11 @@ const clientSchema = new Schema({
     required: [true, "Email harus diisi"],
     default: "-",
   },
+  role: {
+    type: String,
+    required: [true, "Role harus diisi"],
+    enum: ["Client", "Karyawan"],
+  },
   phone: {
     type: String,
     required: [true, "Nomor Telepon Client harus diisi"],

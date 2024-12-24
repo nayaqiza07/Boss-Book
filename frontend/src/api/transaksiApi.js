@@ -5,19 +5,25 @@ import { toast } from "react-toastify";
 
 // Create Transaksi (POST)
 export const createTransaksi = async (
-  deskripsi,
+  name,
+  keterangan,
   date,
+  jenis,
   kategori,
-  status,
-  nominal
+  jumlah,
+  pembayaran,
+  jatuhTempo
 ) => {
   try {
     const response = await customAPI.post("/transaksi", {
-      deskripsi,
+      name,
+      keterangan,
       date,
+      jenis,
       kategori,
-      status,
-      nominal,
+      jumlah,
+      pembayaran,
+      jatuhTempo,
     });
     toast.success("Berhasil menambahkan data transaksi");
     return response.data;
@@ -30,10 +36,20 @@ export const createTransaksi = async (
 export const getTransaksi = async (keyword, page) => {
   try {
     const response = await customAPI.get(
-      `/transaksi?deskripsi=${keyword}&page=${page}`
+      `/transaksi?name=${keyword}&page=${page}`
     );
 
     const res = response.data.data;
+
+    const resTunai = res.filter((data) => data.pembayaran === "tunai");
+
+    const resPengeluaranNonTunai =
+      res.filter(
+        (data) => data.pembayaran === "nonTunai" && data.jenis === "Pengeluaran"
+      ) || null;
+    const resPemasukanNonTunai = res.filter(
+      (data) => data.pembayaran === "nonTunai" && data.jenis === "Pemasukan"
+    );
 
     const limitTransaksi = response.data.pagination.limitTransaksi;
     const totalDataTransaksi = response.data.pagination.totalDataTransaksi;
@@ -41,7 +57,16 @@ export const getTransaksi = async (keyword, page) => {
     const totalPage = response.data.pagination.totalPage;
 
     console.log({ limitTransaksi, totalDataTransaksi, currentPage, totalPage });
-    return { res, limitTransaksi, totalDataTransaksi, currentPage, totalPage };
+    return {
+      res,
+      resTunai,
+      resPengeluaranNonTunai,
+      resPemasukanNonTunai,
+      limitTransaksi,
+      totalDataTransaksi,
+      currentPage,
+      totalPage,
+    };
   } catch (error) {
     console.log(error);
   }
@@ -58,8 +83,17 @@ export const getAllTransaksi = async () => {
     const totalIn = response.data.totalIn;
     const totalOut = response.data.totalOut;
 
+    const totalInNonTunai = response.data.totalInNonTunai;
+    const totalDiterimaNonTunai = response.data.totalDiterimaNonTunai;
+    const totalBelumDiterimaNonTunai = response.data.totalBelumDiterimaNonTunai;
+
+    const totalOutNonTunai = response.data.totalOutNonTunai;
+    const totalDibayarNonTunai = response.data.totalDibayarNonTunai;
+    const totalBelumDibayarNonTunai = response.data.totalBelumDibayarNonTunai;
+
     // Income
     const resIncome = response.data.income;
+    const totalModal = response.data.totalModal;
     const totalSales = response.data.totalSales;
     const totalCommision = response.data.totalCommision;
     const totalServicesRevenue = response.data.totalServicesRevenue;
@@ -75,6 +109,7 @@ export const getAllTransaksi = async () => {
     const totalAccessories = response.data.totalAccessories;
     const totalFoamFabric = response.data.totalFoamFabric;
     const totalPackaging = response.data.totalPackaging;
+    const totalOngkir = response.data.totalOngkir;
 
     return {
       res,
@@ -82,10 +117,20 @@ export const getAllTransaksi = async () => {
       totalPersen,
       totalIn,
       totalOut,
+
+      totalInNonTunai,
+      totalDiterimaNonTunai,
+      totalBelumDiterimaNonTunai,
+      totalOutNonTunai,
+      totalDibayarNonTunai,
+      totalBelumDibayarNonTunai,
+
       resIncome,
+      totalModal,
       totalSales,
       totalCommision,
       totalServicesRevenue,
+
       resOutcome,
       totalAccomodation,
       totalAds,
@@ -96,6 +141,7 @@ export const getAllTransaksi = async () => {
       totalAccessories,
       totalFoamFabric,
       totalPackaging,
+      totalOngkir,
     };
   } catch (error) {
     console.log(error);
@@ -114,10 +160,11 @@ export const getTransaksiById = async (id) => {
 };
 
 // Update Transaksi (PUT)
-export const updateTransaksi = async (id, jumlahDiterima) => {
+export const updateTransaksi = async (id, jumlahPembayaran, pembayaran) => {
   try {
     const response = await customAPI.put(`/transaksi/${id}`, {
-      jumlahDiterima,
+      jumlahPembayaran,
+      pembayaran,
     });
     toast.info("Berhasil update transaksi");
     return response.data;

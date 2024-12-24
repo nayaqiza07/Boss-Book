@@ -4,29 +4,33 @@ import { toast } from "react-toastify";
 
 // API
 import {
-  getPiutang,
-  getPiutangById,
-  createPiutang,
-  updatePiutang,
-  deletePiutang,
-  getAllPiutang,
-} from "@/api/piutangApi";
+  createTransaksi,
+  getTransaksi,
+  getAllTransaksi,
+  getTransaksiById,
+  updateTransaksi,
+} from "@/api/transaksiApi";
 
 // Assets
 import { Bag } from "@/assets/Icon/Bag";
 
 // Components
-import { SidebarItem } from "@components/Organisms/Sidebar/SidebarItem";
-import { Card } from "@components/Organisms/Card/Card";
-import Table from "@components/Organisms/Table/Table";
-import Modal from "@components/Organisms/Modal/Modal";
-import CardSummary from "@/components/Organisms/Card/CardSummary";
-import HeaderPages from "@/components/Molecules/Header/HeaderPages";
-import TableMobile from "@/components/Organisms/Table/TableMobile";
-import SearchTable from "@/components/Molecules/Search/SearchTable";
-import Pagination from "@/components/Molecules/Pagination/Pagination";
-import FormPiutang from "@/components/Organisms/Form/FormPiutang";
 import { priceFormat } from "@/components/utils";
+
+// Molecules
+import HeaderPages from "@/components/Molecules/Header/HeaderPages";
+import Pagination from "@/components/Molecules/Pagination/Pagination";
+import SearchTable from "@/components/Molecules/Search/SearchTable";
+
+// Organisms
+import { Card } from "@components/Organisms/Card/Card";
+import CardSummary from "@/components/Organisms/Card/CardSummary";
+import FormTransaksi from "@/components/Organisms/Form/FormTransaksi";
+import Modal from "@components/Organisms/Modal/Modal";
+import ModalTransaksi from "@/components/Organisms/Modal/ModalTransaksi";
+import { SidebarItem } from "@components/Organisms/Sidebar/SidebarItem";
+import Table from "@components/Organisms/Table/Table";
+import TableMobile from "@/components/Organisms/Table/TableMobile";
 
 // Redux Actions
 import { useDispatch, useSelector } from "react-redux";
@@ -46,26 +50,35 @@ const Piutang = () => {
   const dispatch = useDispatch();
 
   const [openModal, setOpenModal] = useState(false);
-  const [modalDelete, setModalDelete] = useState(false);
+  // const [modalDelete, setModalDelete] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
-
-  // Data
-  const [piutang, setPiutang] = useState([]);
-  const [piutangById, setPiutangById] = useState("");
-  const [totalPiutang, setTotalPiutang] = useState(0);
-  const [totalSudahDiterima, setTotalSudahDiterima] = useState(0);
-  const [totalBelumDiterima, setTotalBelumDiterima] = useState(0);
 
   const formRef = useRef(null);
 
-  const fetchDataPiutang = useCallback(
-    (keyword, page) => {
-      getPiutang(keyword, page).then(
-        ({ res, limitPiutang, totalDataPiutang, currentPage, totalPage }) => {
-          setPiutang(res);
+  // Data
+  const [pemasukanNonTunai, setPemasukanNonTunai] = useState([]);
+  const [pemasukanNonTunaiById, setPemasukanNonTunaiById] = useState("");
+  const [pembayaran, setPembayaran] = useState();
 
-          dispatch(setLimitData(limitPiutang));
-          dispatch(setTotalData(totalDataPiutang));
+  const [totalInNonTunai, setTotalInNonTunai] = useState(0);
+  const [totalDiterimaNonTunai, setTotalDiterimaNonTunai] = useState(0);
+  const [totalBelumDiterimaNonTunai, setTotalBelumDiterimaNonTunai] =
+    useState(0);
+
+  const fetchTransaksiNonTunai = useCallback(
+    (keyword, page) => {
+      getTransaksi(keyword, page).then(
+        ({
+          resPemasukanNonTunai,
+          limitTransaksi,
+          totalDataTransaksi,
+          currentPage,
+          totalPage,
+        }) => {
+          setPemasukanNonTunai(resPemasukanNonTunai);
+
+          dispatch(setLimitData(limitTransaksi));
+          dispatch(setTotalData(totalDataTransaksi));
           dispatch(setPage(currentPage));
           dispatch(setTotalPage(totalPage));
         }
@@ -74,26 +87,30 @@ const Piutang = () => {
     [dispatch]
   );
 
-  const fetchAllDataPiutang = () => {
-    getAllPiutang().then(
-      ({ totalPiutang, totalSudahDiterima, totalBelumDiterima }) => {
-        setTotalPiutang(totalPiutang);
-        setTotalSudahDiterima(totalSudahDiterima);
-        setTotalBelumDiterima(totalBelumDiterima);
+  const fetchAllTransaksiNonTunai = () => {
+    getAllTransaksi().then(
+      ({
+        totalInNonTunai,
+        totalDiterimaNonTunai,
+        totalBelumDiterimaNonTunai,
+      }) => {
+        setTotalInNonTunai(totalInNonTunai);
+        setTotalDiterimaNonTunai(totalDiterimaNonTunai);
+        setTotalBelumDiterimaNonTunai(totalBelumDiterimaNonTunai);
       }
     );
   };
 
   useEffect(() => {
-    fetchDataPiutang(keyword, page);
-  }, [keyword, page, fetchDataPiutang]);
+    fetchTransaksiNonTunai(keyword, page);
+  }, [keyword, page, fetchTransaksiNonTunai]);
 
   useEffect(() => {
-    fetchAllDataPiutang();
+    fetchAllTransaksiNonTunai();
   }, []);
 
-  const fetchDataPiutangById = (id) => {
-    getPiutangById(id).then((result) => setPiutangById(result));
+  const fetchPemasukanNonTunaiById = (id) => {
+    getTransaksiById(id).then((result) => setPemasukanNonTunaiById(result));
   };
 
   const handleSubmit = async (e) => {
@@ -105,17 +122,31 @@ const Piutang = () => {
     const data = Object.fromEntries(dataForm);
     // console.log(data);
 
-    await createPiutang(
-      data.client,
+    const jatuhTempo = data.jatuhTempo
+      ? data.jatuhTempo.split("-").reverse().join("/")
+      : null;
+
+    await createTransaksi(
+      data.name,
       data.keterangan,
       data.date,
-      data.total,
-      data.jumlahDiterima
+      data.jenis,
+      data.kategori,
+      data.jumlah,
+      pembayaran,
+      jatuhTempo
     );
-    fetchDataPiutang(keyword, page);
+
+    fetchTransaksiNonTunai(keyword, page);
+    fetchAllTransaksiNonTunai();
 
     // Reset nilai form
     formRef.current.reset();
+  };
+
+  const handleModalUpdate = (id) => {
+    setModalUpdate(true);
+    fetchPemasukanNonTunaiById(id);
   };
 
   const handleUpdate = async (e) => {
@@ -129,36 +160,29 @@ const Piutang = () => {
 
     const terima = data.terima;
     let jumlah;
+    let pembayaran = "";
 
     if (terima === "lunas") {
-      jumlah = piutangById.total;
+      jumlah = pemasukanNonTunaiById.jumlah;
     } else {
-      jumlah = piutangById.jumlahDiterima + parseInt(data.jumlahDiterima);
+      jumlah =
+        pemasukanNonTunaiById.jumlahPembayaran + parseInt(data.jumlahDibayar);
     }
 
-    if (jumlah > piutangById.total) {
+    if (pemasukanNonTunaiById.jumlah === jumlah) {
+      pembayaran = "tunai";
+    } else {
+      pembayaran = "nonTunai";
+    }
+
+    if (jumlah > pemasukanNonTunaiById.jumlah) {
       toast.warning("Jumlah diterima tidak bisa melebihi total");
     } else {
-      await updatePiutang(piutangById._id, jumlah);
+      await updateTransaksi(pemasukanNonTunaiById._id, jumlah, pembayaran);
     }
 
-    fetchDataPiutang(keyword, page);
-  };
-
-  const handleModalUpdate = (id) => {
-    setModalUpdate(true);
-    fetchDataPiutangById(id);
-  };
-
-  const handleDelete = async (e) => {
-    e.preventDefault();
-    await deletePiutang(piutangById._id);
-    fetchDataPiutang(keyword, page);
-  };
-
-  const handleModalDelete = (id) => {
-    setModalDelete(true);
-    fetchDataPiutangById(id);
+    fetchTransaksiNonTunai(keyword, page);
+    fetchAllTransaksiNonTunai();
   };
 
   const searchData = (e) => {
@@ -184,7 +208,7 @@ const Piutang = () => {
       <div className="p-5 grid gap-5 lg:grid-cols-3">
         {/* Top Start */}
         <HeaderPages
-          title="Piutang"
+          title="Penjualan"
           textBtn="Tambah"
           openModal={() => setOpenModal(true)}
         />
@@ -196,7 +220,7 @@ const Piutang = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Piutang"
-              data={priceFormat(totalPiutang)}
+              data={priceFormat(totalInNonTunai)}
             />
           </div>
         </CardSummary>
@@ -206,7 +230,7 @@ const Piutang = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Sudah Diterima"
-              data={priceFormat(totalSudahDiterima)}
+              data={priceFormat(totalDiterimaNonTunai)}
             />
           </div>
         </CardSummary>
@@ -216,7 +240,7 @@ const Piutang = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Belum Diterima"
-              data={priceFormat(totalBelumDiterima)}
+              data={priceFormat(totalBelumDiterimaNonTunai)}
             />
           </div>
         </CardSummary>
@@ -230,16 +254,16 @@ const Piutang = () => {
             searchData={searchData}
           />
           <Table
-            datas={piutang}
+            datas={pemasukanNonTunai}
             btnText="Terima"
-            handleDelete={handleModalDelete}
+            // handleDelete={handleModalDelete}
             handleUpdate={handleModalUpdate}
           />
           <TableMobile
-            datas={piutang}
+            datas={pemasukanNonTunai}
             btnText="Terima"
-            handleDelete={handleModalDelete}
-            handleUpdate={handleModalUpdate}
+            // handleDelete={handleModalDelete}
+            // handleUpdate={handleModalUpdate}
           />
           <Pagination
             limitData={limitData}
@@ -252,34 +276,29 @@ const Piutang = () => {
       </div>
 
       {/* Create Modal */}
-      <Modal openModal={openModal} closeModal={() => setOpenModal(false)}>
-        <Modal.Header
-          title="Tambah Piutang"
-          closeModal={() => setOpenModal(false)}
-        />
-        <form ref={formRef} onSubmit={handleSubmit}>
-          <Modal.Body>
-            <FormPiutang />
-          </Modal.Body>
-
-          <Modal.Footer
-            text="Tambah"
-            type="submit"
-            closeModal={() => setOpenModal(false)}
-            handleSubmit={() => setOpenModal(false)}
-          />
-        </form>
-      </Modal>
+      <ModalTransaksi
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        formRef={formRef}
+        pembayaran={pembayaran}
+        setPembayaran={setPembayaran}
+        handleSubmit={handleSubmit}
+      />
 
       {/* Update Modal */}
       <Modal openModal={modalUpdate} closeModal={() => setModalUpdate(false)}>
         <Modal.Header
-          title={piutangById.name}
+          title={pemasukanNonTunaiById.name}
           closeModal={() => setModalUpdate(false)}
         />
         <form onSubmit={handleUpdate}>
           <Modal.Body>
-            <FormPiutang.Terima />
+            <FormTransaksi.Terima
+              textJumlah={priceFormat(
+                pemasukanNonTunaiById.jumlah -
+                  pemasukanNonTunaiById.jumlahPembayaran
+              )}
+            />
           </Modal.Body>
           <Modal.Footer
             text="Terima"
@@ -291,7 +310,7 @@ const Piutang = () => {
       </Modal>
 
       {/* Delete Modal */}
-      <Modal openModal={modalDelete} closeModal={() => setModalDelete(false)}>
+      {/* <Modal openModal={modalDelete} closeModal={() => setModalDelete(false)}>
         <form onSubmit={handleDelete}>
           <Modal.Body>
             <div className="text-center">
@@ -310,7 +329,7 @@ const Piutang = () => {
             />
           </div>
         </form>
-      </Modal>
+      </Modal> */}
     </>
   );
 };

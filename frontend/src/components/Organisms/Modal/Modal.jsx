@@ -12,7 +12,7 @@ const Modal = (props) => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`w-fit p-6 bg-white border rounded-xl shadow transition-all ${
+        className={`w-fit p-6 bg-white border rounded-xl shadow transition-all max-w-72 ${
           openModal ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -42,10 +42,8 @@ const Header = (props) => {
 };
 
 const Body = (props) => {
-  const { children } = props;
-  return (
-    <div className="mt-7 flex justify-between items-center">{children}</div>
-  );
+  const { children, className } = props;
+  return <div className={`mt-7 ${className}`}>{children}</div>;
 };
 
 const Footer = (props) => {

@@ -33,7 +33,7 @@ export const allUtang = asyncHandler(async (req, res) => {
 
   // Pagination
   const page = req.query.page * 1 || 1;
-  const limitData = req.query.limit * 1 || 2;
+  const limitData = req.query.limit * 1 || 10;
   const skipData = (page - 1) * limitData;
 
   query = query.skip(skipData).limit(limitData);

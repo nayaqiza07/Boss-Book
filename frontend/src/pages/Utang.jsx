@@ -1,40 +1,44 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // API
 import {
-  createUtang,
-  getUtang,
-  getAllUtang,
-  getUtangById,
-  updateUtang,
-  deleteUtang,
-} from "@/api/utangApi";
+  createTransaksi,
+  getAllTransaksi,
+  getTransaksi,
+  getTransaksiById,
+  updateTransaksi,
+} from "@/api/transaksiApi";
 
 // Assets
 import { Bag } from "@/assets/Icon/Bag";
 
 // Components
+import { priceFormat } from "@/components/utils";
+
+// Molecules
+import HeaderPages from "@/components/Molecules/Header/HeaderPages";
+import Pagination from "@/components/Molecules/Pagination/Pagination";
+import SearchTable from "@/components/Molecules/Search/SearchTable";
+
+// Organisms
 import { Card } from "@components/Organisms/Card/Card";
+import CardSummary from "@/components/Organisms/Card/CardSummary";
+import FormTransaksi from "@/components/Organisms/Form/FormTransaksi";
+import Modal from "@/components/Organisms/Modal/Modal";
+import ModalTransaksi from "@/components/Organisms/Modal/ModalTransaksi";
 import { SidebarItem } from "@components/Organisms/Sidebar/SidebarItem";
 import Table from "@components/Organisms/Table/Table";
-import Modal from "@components/Organisms/Modal/Modal";
-import CardSummary from "@/components/Organisms/Card/CardSummary";
-import FormPiutang from "@/components/Organisms/Form/FormPiutang";
-import HeaderPages from "@/components/Molecules/Header/HeaderPages";
-import SearchTable from "@/components/Molecules/Search/SearchTable";
-import Pagination from "@/components/Molecules/Pagination/Pagination";
-import { priceFormat } from "@/components/utils";
 import TableMobile from "@/components/Organisms/Table/TableMobile";
 
 // Redux Actions
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setLimitData,
-  setTotalData,
+  // setLimitData,
+  // setTotalData,
   setPage,
-  setTotalPage,
+  // setTotalPage,
   setKeyword,
   setQuery,
 } from "@/redux/slices/paginationSlice";
@@ -47,54 +51,78 @@ const Utang = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
-  const [modalDelete, setModalDelete] = useState(false);
-
-  // Data
-  const [utang, setUtang] = useState([]);
-  const [utangById, setUtangById] = useState("");
-  const [totalUtang, setTotalUtang] = useState(0);
-  const [totalSudahDibayar, setTotalSudahDibayar] = useState(0);
-  const [totalBelumDibayar, setTotalBelumDibayar] = useState(0);
+  // const [modalDelete, setModalDelete] = useState(false);
 
   const formRef = useRef(null);
 
-  const fetchDataUtang = useCallback(
-    (keyword, page) => {
-      getUtang(keyword, page).then(
-        ({ res, limitUtang, totalDataUtang, currentPage, totalPage }) => {
-          setUtang(res);
+  // Data
+  const [trans, setTrans] = useState([]);
+  const [pengeluaranNonTunaiById, setPengeluaranNonTunaiById] = useState("");
+  const [pembayaran, setPembayaran] = useState();
 
-          dispatch(setLimitData(limitUtang));
-          dispatch(setTotalData(totalDataUtang));
-          dispatch(setPage(currentPage));
-          dispatch(setTotalPage(totalPage));
-        }
-      );
-    },
-    [dispatch]
-  );
+  const [totalOutNonTunai, setTotalOutNonTunai] = useState(0);
+  const [totalDibayarNonTunai, setTotalDibayarNonTunai] = useState(0);
+  const [totalBelumDibayarNonTunai, setTotalBelumDibayarNonTunai] = useState(0);
 
-  const fetchAllDataUtang = () => {
-    getAllUtang().then(
-      ({ totalUtang, totalSudahDibayar, totalBelumDibayar }) => {
-        setTotalUtang(totalUtang);
-        setTotalSudahDibayar(totalSudahDibayar);
-        setTotalBelumDibayar(totalBelumDibayar);
+  const fetchTransaksiNonTunai = (keyword, page) => {
+    getTransaksi(keyword, page).then(({ resPengeluaranNonTunai }) => {
+      setTrans(resPengeluaranNonTunai);
+    });
+  };
+
+  const fetchAllTransaksiNonTunai = () => {
+    getAllTransaksi().then(
+      ({
+        totalOutNonTunai,
+        totalDibayarNonTunai,
+        totalBelumDibayarNonTunai,
+      }) => {
+        setTotalOutNonTunai(totalOutNonTunai);
+        setTotalDibayarNonTunai(totalDibayarNonTunai);
+        setTotalBelumDibayarNonTunai(totalBelumDibayarNonTunai);
       }
     );
   };
 
   useEffect(() => {
-    fetchDataUtang(keyword, page);
-  }, [keyword, page, fetchDataUtang]);
+    fetchTransaksiNonTunai(keyword, page);
+  }, [keyword, page]);
 
   useEffect(() => {
-    fetchAllDataUtang();
+    fetchAllTransaksiNonTunai();
   }, []);
 
-  const fetchDataUtangById = (id) => {
-    getUtangById(id).then((result) => setUtangById(result));
+  const fetchPengeluaranNonTunaiById = (id) => {
+    getTransaksiById(id).then((result) => setPengeluaranNonTunaiById(result));
   };
+
+  // const fetchDataUtang = useCallback(
+  //   (keyword, page) => {
+  //     getUtang(keyword, page).then(
+  //       ({ res, limitUtang, totalDataUtang, currentPage, totalPage }) => {
+  //         setUtang(res);
+
+  //         dispatch(setLimitData(limitUtang));
+  //         dispatch(setTotalData(totalDataUtang));
+  //         dispatch(setPage(currentPage));
+  //         dispatch(setTotalPage(totalPage));
+  //       }
+  //     );
+  //   },
+  //   [dispatch]
+  // );
+
+  // useEffect(() => {
+  //   fetchDataUtang(keyword, page);
+  // }, [keyword, page, fetchDataUtang]);
+
+  // useEffect(() => {
+  //   fetchAllDataUtang();
+  // }, []);
+
+  // const fetchDataUtangById = (id) => {
+  //   getUtangById(id).then((result) => setUtangById(result));
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -105,17 +133,31 @@ const Utang = () => {
     const data = Object.fromEntries(dataForm);
     // console.log(data);
 
-    await createUtang(
+    const jatuhTempo = data.jatuhTempo
+      ? data.jatuhTempo.split("-").reverse().join("/")
+      : null;
+
+    await createTransaksi(
       data.name,
       data.keterangan,
       data.date,
-      data.total,
-      data.jumlahDibayar
+      data.jenis,
+      data.kategori,
+      data.jumlah,
+      pembayaran,
+      jatuhTempo
     );
-    fetchDataUtang(keyword, page);
+
+    fetchTransaksiNonTunai(keyword, page);
+    fetchAllTransaksiNonTunai();
 
     // Reset nilai form
     formRef.current.reset();
+  };
+
+  const handleModalUpdate = (id) => {
+    setModalUpdate(true);
+    fetchPengeluaranNonTunaiById(id);
   };
 
   const handleUpdate = async (e) => {
@@ -129,37 +171,41 @@ const Utang = () => {
 
     const terima = data.terima;
     let jumlah;
+    let pembayaran = "";
 
     if (terima === "lunas") {
-      jumlah = utangById.total;
+      jumlah = pengeluaranNonTunaiById.jumlah;
     } else {
-      jumlah = utangById.jumlahDibayar + parseInt(data.jumlahDibayar);
+      jumlah =
+        pengeluaranNonTunaiById.jumlahPembayaran + parseInt(data.jumlahDibayar);
     }
 
-    if (jumlah > utangById.total) {
+    if (pengeluaranNonTunaiById.jumlah === jumlah) {
+      pembayaran = "tunai";
+    } else {
+      pembayaran = "nonTunai";
+    }
+
+    if (jumlah > pengeluaranNonTunaiById.jumlah) {
       toast.warning("Jumlah bayar tidak bisa melebihi total");
     } else {
-      await updateUtang(utangById._id, jumlah);
+      await updateTransaksi(pengeluaranNonTunaiById._id, jumlah, pembayaran);
     }
 
-    fetchDataUtang(keyword, page);
+    fetchTransaksiNonTunai(keyword, page);
+    fetchAllTransaksiNonTunai();
   };
 
-  const handleModalUpdate = (id) => {
-    setModalUpdate(true);
-    fetchDataUtangById(id);
-  };
+  // const handleDelete = async (e) => {
+  //   e.preventDefault();
+  //   await deleteUtang(utangById._id);
+  //   fetchDataUtang(keyword, page);
+  // };
 
-  const handleDelete = async (e) => {
-    e.preventDefault();
-    await deleteUtang(utangById._id);
-    fetchDataUtang(keyword, page);
-  };
-
-  const handleModalDelete = (id) => {
-    setModalDelete(true);
-    fetchDataUtangById(id);
-  };
+  // const handleModalDelete = (id) => {
+  //   setModalDelete(true);
+  //   fetchDataUtangById(id);
+  // };
 
   const searchData = (e) => {
     e.preventDefault();
@@ -184,7 +230,7 @@ const Utang = () => {
       <div className="p-5 grid gap-5 lg:grid-cols-3">
         {/* Top Start */}
         <HeaderPages
-          title="Utang"
+          title="Gaji Karyawan"
           textBtn="Tambah"
           openModal={() => setOpenModal(true)}
         />
@@ -196,7 +242,7 @@ const Utang = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Utang"
-              data={priceFormat(totalUtang)}
+              data={priceFormat(totalOutNonTunai)}
             />
           </div>
         </CardSummary>
@@ -206,7 +252,7 @@ const Utang = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Sudah Dibayar"
-              data={priceFormat(totalSudahDibayar)}
+              data={priceFormat(totalDibayarNonTunai)}
             />
           </div>
         </CardSummary>
@@ -216,7 +262,7 @@ const Utang = () => {
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Belum Dibayar"
-              data={priceFormat(totalBelumDibayar)}
+              data={priceFormat(totalBelumDibayarNonTunai)}
             />
           </div>
         </CardSummary>
@@ -230,18 +276,18 @@ const Utang = () => {
             searchData={searchData}
           />
           <Table
-            datas={utang}
+            datas={trans}
             isUtang={true}
             btnText="Bayar"
-            handleDelete={handleModalDelete}
+            // handleDelete={handleModalDelete}
             handleUpdate={handleModalUpdate}
           />
           <TableMobile
-            datas={utang}
+            datas={trans}
             isUtang={true}
             btnText="Bayar"
-            handleDelete={handleModalDelete}
-            handleUpdate={handleModalUpdate}
+            // handleDelete={handleModalDelete}
+            // handleUpdate={handleModalUpdate}
           />
           <Pagination
             limitData={limitData}
@@ -254,33 +300,29 @@ const Utang = () => {
       </div>
 
       {/* Create Modal */}
-      <Modal openModal={openModal} closeModal={() => setOpenModal(false)}>
-        <Modal.Header
-          title="Tambah Utang"
-          closeModal={() => setOpenModal(false)}
-        />
-        <form ref={formRef} onSubmit={handleSubmit}>
-          <Modal.Body>
-            <FormPiutang isUtang={true} />
-          </Modal.Body>
-          <Modal.Footer
-            text="Tambah"
-            type="submit"
-            closeModal={() => setOpenModal(false)}
-            handleSubmit={() => setOpenModal(false)}
-          />
-        </form>
-      </Modal>
+      <ModalTransaksi
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        formRef={formRef}
+        pembayaran={pembayaran}
+        setPembayaran={setPembayaran}
+        handleSubmit={handleSubmit}
+      />
 
       {/* Update Modal */}
       <Modal openModal={modalUpdate} closeModal={() => setModalUpdate(false)}>
         <Modal.Header
-          title={utangById.name}
+          title={pengeluaranNonTunaiById.name}
           closeModal={() => setModalUpdate(false)}
         />
         <form onSubmit={handleUpdate}>
           <Modal.Body>
-            <FormPiutang.Terima isUtang={true} />
+            <FormTransaksi.Terima
+              textJumlah={priceFormat(
+                pengeluaranNonTunaiById.jumlah -
+                  pengeluaranNonTunaiById.jumlahPembayaran
+              )}
+            />
           </Modal.Body>
           <Modal.Footer
             text="Bayar"
@@ -292,7 +334,7 @@ const Utang = () => {
       </Modal>
 
       {/* Delete Modal */}
-      <Modal openModal={modalDelete} closeModal={() => setModalDelete(false)}>
+      {/* <Modal openModal={modalDelete} closeModal={() => setModalDelete(false)}>
         <form onSubmit={handleDelete}>
           <Modal.Body>
             <div className="text-center">
@@ -309,7 +351,7 @@ const Utang = () => {
             />
           </div>
         </form>
-      </Modal>
+      </Modal> */}
     </>
   );
 };

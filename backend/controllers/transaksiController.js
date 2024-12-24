@@ -17,14 +17,14 @@ export const getTransaksi = asyncHandler(async (req, res) => {
   const queryObj = { ...req.query };
 
   // fungsi untuk mengabaikan jika ada req page dan limit
-  const excludeField = ["page", "limit", "deskripsi"];
+  const excludeField = ["page", "limit", "name"];
   excludeField.forEach((element) => delete queryObj[element]);
 
   // Search berdasarkan karatker nama
   let query;
-  if (req.query.deskripsi) {
+  if (req.query.name) {
     query = Transaksi.find({
-      deskripsi: { $regex: req.query.deskripsi, $options: "i" },
+      name: { $regex: req.query.name, $options: "i" },
     });
   } else {
     query = Transaksi.find(queryObj);
@@ -65,81 +65,130 @@ export const getAllTransaksi = asyncHandler(async (req, res) => {
   const allTransaksi = await Transaksi.find();
 
   const totalIn = allTransaksi
-    .filter((data) => data.status === "In")
-    .map((data) => data.nominal)
+    .filter((data) => data.jenis === "Pemasukan" && data.pembayaran === "tunai")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalOut = allTransaksi
-    .filter((data) => data.status === "Out")
-    .map((data) => data.nominal)
+    .filter(
+      (data) => data.jenis === "Pengeluaran" && data.pembayaran === "tunai"
+    )
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalTransaksi = totalIn - totalOut;
   const totalPersen = Math.floor(((totalIn - totalOut) / totalIn) * 100) || 0;
 
+  const totalInNonTunai = allTransaksi
+    .filter(
+      (data) => data.jenis === "Pemasukan" && data.pembayaran === "nonTunai"
+    )
+    .map((data) => data.jumlah)
+    .reduce((data, num) => data + num, 0);
+
+  const totalDiterimaNonTunai = allTransaksi
+    .filter(
+      (data) => data.jenis === "Pemasukan" && data.pembayaran === "nonTunai"
+    )
+    .map((data) => data.jumlahPembayaran)
+    .reduce((data, num) => data + num, 0);
+
+  const totalBelumDiterimaNonTunai = totalInNonTunai - totalDiterimaNonTunai;
+
+  const totalOutNonTunai = allTransaksi
+    .filter(
+      (data) => data.jenis === "Pengeluaran" && data.pembayaran === "nonTunai"
+    )
+    .map((data) => data.jumlah)
+    .reduce((data, num) => data + num, 0);
+
+  const totalDibayarNonTunai = allTransaksi
+    .filter(
+      (data) => data.jenis === "Pengeluaran" && data.pembayaran === "nonTunai"
+    )
+    .map((data) => data.jumlahPembayaran)
+    .reduce((data, num) => data + num, 0);
+
+  const totalBelumDibayarNonTunai = totalOutNonTunai - totalDibayarNonTunai;
+
   // Income By Kategori
-  const income = allTransaksi.filter((data) => data.status === "In");
+  const income = allTransaksi.filter(
+    (data) => data.jenis === "Pemasukan" && data.pembayaran === "tunai"
+  );
+
+  const totalModal = income
+    .filter((data) => data.kategori === "Modal")
+    .map((data) => data.jumlah)
+    .reduce((data, num) => data + num, 0);
+
   const totalSales = income
-    .filter((data) => data.kategori === "Sales")
-    .map((data) => data.nominal)
+    .filter((data) => data.kategori === "Penjualan")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalCommision = income
-    .filter((data) => data.kategori === "Commision")
-    .map((data) => data.nominal)
+    .filter((data) => data.kategori === "Komisi")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalServicesRevenue = income
-    .filter((data) => data.kategori === "Services Revenue")
-    .map((data) => data.nominal)
+    .filter((data) => data.kategori === "Pendapatan Jasa")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   // Outcome By Kategori
-  const outcome = allTransaksi.filter((data) => data.status === "Out");
+  const outcome = allTransaksi.filter(
+    (data) => data.jenis === "Pengeluaran" && data.pembayaran === "tunai"
+  );
 
   const totalAccomodation = outcome
-    .filter((data) => data.kategori === "Accomodation")
-    .map((data) => data.nominal)
+    .filter((data) => data.kategori === "Akomodasi")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalAds = outcome
-    .filter((data) => data.kategori === "Ads")
-    .map((data) => data.nominal)
+    .filter((data) => data.kategori === "Iklan")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalEmployeeSalaries = income
-    .filter((data) => data.kategori === "Employee Salaries")
-    .map((data) => data.nominal)
+    .filter((data) => data.kategori === "Gaji Karyawan")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalElectricity = outcome
-    .filter((data) => data.kategori === "Electricity")
-    .map((data) => data.nominal)
+    .filter((data) => data.kategori === "Listrik")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalTools = outcome
-    .filter((data) => data.kategori === "Tools")
-    .map((data) => data.nominal)
+    .filter((data) => data.kategori === "Alat")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalRawMaterial = outcome
-    .filter((data) => data.kategori === "Raw Material")
-    .map((data) => data.nominal)
+    .filter((data) => data.kategori === "Bahan Baku")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalAccessories = outcome
-    .filter((data) => data.kategori === "Accessories")
-    .map((data) => data.nominal)
+    .filter((data) => data.kategori === "Aksesoris")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalFoamFabric = outcome
     .filter((data) => data.kategori === "Foam & Fabric")
-    .map((data) => data.nominal)
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   const totalPackaging = outcome
     .filter((data) => data.kategori === "Packaging")
-    .map((data) => data.nominal)
+    .map((data) => data.jumlah)
+    .reduce((data, num) => data + num, 0);
+
+  const totalOngkir = outcome
+    .filter((data) => data.kategori === "Ongkos Kirim")
+    .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
   return res.status(200).json({
@@ -149,7 +198,14 @@ export const getAllTransaksi = asyncHandler(async (req, res) => {
     totalPersen,
     totalIn,
     totalOut,
+    totalInNonTunai,
+    totalDiterimaNonTunai,
+    totalBelumDiterimaNonTunai,
+    totalOutNonTunai,
+    totalDibayarNonTunai,
+    totalBelumDibayarNonTunai,
     income,
+    totalModal,
     totalSales,
     totalCommision,
     totalServicesRevenue,
@@ -163,6 +219,7 @@ export const getAllTransaksi = asyncHandler(async (req, res) => {
     totalAccessories,
     totalFoamFabric,
     totalPackaging,
+    totalOngkir,
   });
 });
 

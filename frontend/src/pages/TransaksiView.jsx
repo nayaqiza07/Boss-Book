@@ -16,12 +16,10 @@ import HeaderPages from "@/components/Molecules/Header/HeaderPages";
 import Pagination from "@/components/Molecules/Pagination/Pagination";
 import SearchTable from "@/components/Molecules/Search/SearchTable";
 import CardSummary from "@/components/Organisms/Card/CardSummary";
-import Modal from "@/components/Organisms/Modal/Modal";
-import FormTransaksi from "@/components/Organisms/Form/FormTransaksi";
-import Button from "@/components/Atoms/Button/Button";
 import TableTransaksi from "@/components/Organisms/Table/TableTransaksi";
 import TableTransaksiMobile from "@/components/Organisms/Table/TableTransaksiMobile";
 import { priceFormat } from "@/components/utils";
+import ModalTransaksi from "@/components/Organisms/Modal/ModalTransaksi";
 
 // Redux Actions
 import { useDispatch, useSelector } from "react-redux";
@@ -41,9 +39,7 @@ const TransaksiView = () => {
   const dispatch = useDispatch();
 
   const [openModal, setOpenModal] = useState(false);
-  const [judul, setJudul] = useState("");
-  const [status, setStatus] = useState("");
-  const [options, setOptions] = useState("");
+  const [pembayaran, setPembayaran] = useState();
 
   // Data
   const [transaksi, setTransaksi] = useState([]);
@@ -58,13 +54,13 @@ const TransaksiView = () => {
     (keyword, page) => {
       getTransaksi(keyword, page).then(
         ({
-          res,
+          resTunai,
           limitTransaksi,
           totalDataTransaksi,
           currentPage,
           totalPage,
         }) => {
-          setTransaksi(res);
+          setTransaksi(resTunai);
 
           dispatch(setLimitData(limitTransaksi));
           dispatch(setTotalData(totalDataTransaksi));
@@ -95,18 +91,8 @@ const TransaksiView = () => {
     fetchAllDataTransaksi();
   }, []);
 
-  const handleModalPemasukan = () => {
+  const handleModal = () => {
     setOpenModal(true);
-    setJudul("Tambah Pemasukan");
-    setStatus("In");
-    setOptions(optionsPemasukan);
-  };
-
-  const handleModalPengeluaran = () => {
-    setOpenModal(true);
-    setJudul("Tambah Pengeluaran");
-    setStatus("Out");
-    setOptions(optionsPengeluaran);
   };
 
   const handleSubmit = async (e) => {
@@ -116,14 +102,21 @@ const TransaksiView = () => {
     const form = e.target;
     const dataForm = new FormData(form);
     const data = Object.fromEntries(dataForm);
-    console.log(data);
+    // console.log(data);
+
+    const jatuhTempo = data.jatuhTempo
+      ? data.jatuhTempo.split("-").reverse().join("/")
+      : null;
 
     await createTransaksi(
-      data.deskripsi,
+      data.name,
+      data.keterangan,
       data.date,
+      data.jenis,
       data.kategori,
-      data.status,
-      data.nominal
+      data.jumlah,
+      pembayaran,
+      jatuhTempo
     );
 
     fetchDataTransaksi(keyword, page);
@@ -138,83 +131,15 @@ const TransaksiView = () => {
     dispatch(setKeyword(query));
   };
 
-  // Data Kategori
-  const optionsPemasukan = [
-    {
-      name: "Sales",
-      _id: "Sales",
-    },
-    {
-      name: "Commision",
-      _id: "Commision",
-    },
-    {
-      name: "Services Revenue",
-      _id: "Services revenue",
-    },
-  ];
-
-  const optionsPengeluaran = [
-    {
-      name: "Accomodation",
-      _id: "Accomodation",
-    },
-    {
-      name: "Accessories",
-      _id: "Accessories",
-    },
-    {
-      name: "Ads",
-      _id: "Ads",
-    },
-    {
-      name: "Electricity",
-      _id: "Electricity",
-    },
-    {
-      name: "Employee Salaries",
-      _id: "Employee Salaries",
-    },
-    {
-      name: "Finishing",
-      _id: "Finishing",
-    },
-    {
-      name: "Foam & Fabric",
-      _id: "Foam & Fabric",
-    },
-    {
-      name: "Packaging",
-      _id: "Packaging",
-    },
-    {
-      name: "Raw Material",
-      _id: "Raw material",
-    },
-    {
-      name: "Tools",
-      _id: "Tools",
-    },
-  ];
-
   return (
     <>
       <div className="p-5 grid gap-5 lg:grid-cols-3">
         {/* Top Start */}
         <HeaderPages
           title="Transaksi"
-          textBtn="Pemasukan"
-          openModal={handleModalPemasukan}
-        >
-          {/* Button Kedua */}
-          <Button
-            onClick={handleModalPengeluaran}
-            variant="secondary"
-            size="md"
-          >
-            Pengeluaran
-          </Button>
-        </HeaderPages>
+          textBtn="Tambah"
+          openModal={handleModal}
+        ></HeaderPages>
         {/* Top Start */}
 
         {/* Second Start */}
@@ -273,20 +198,14 @@ const TransaksiView = () => {
       </div>
 
       {/* Create Modal */}
-      <Modal openModal={openModal} closeModal={() => setOpenModal(false)}>
-        <Modal.Header title={judul} closeModal={() => setOpenModal(false)} />
-        <form ref={formRef} onSubmit={handleSubmit}>
-          <Modal.Body>
-            <FormTransaksi status={status} list={options} />
-          </Modal.Body>
-          <Modal.Footer
-            text="Tambah"
-            type="submit"
-            closeModal={() => setOpenModal(false)}
-            handleSubmit={() => setOpenModal(false)}
-          />
-        </form>
-      </Modal>
+      <ModalTransaksi
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        formRef={formRef}
+        pembayaran={pembayaran}
+        setPembayaran={setPembayaran}
+        handleSubmit={handleSubmit}
+      />
     </>
   );
 };
