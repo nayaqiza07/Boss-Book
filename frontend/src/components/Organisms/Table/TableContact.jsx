@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Checkbox } from "@components/Atoms/Checkbox/Checkbox";
 import Button from "@components/Atoms/Button/Button";
 
-const TableClient = ({ dataClients }) => {
+const TableContact = ({ dataClients }) => {
   return (
     <>
       <table className="w-full">
@@ -12,7 +12,7 @@ const TableClient = ({ dataClients }) => {
               <Checkbox />
             </th>
             <th className="font-normal px-6 py-3 hidden lg:table-cell">Name</th>
-            <th className="font-normal px-6 py-3 lg:hidden">Client</th>
+            <th className="font-normal px-6 py-3 lg:hidden">Contact</th>
             <th className="font-normal px-6 py-3 hidden xl:table-cell">
               Address
             </th>
@@ -83,4 +83,4 @@ const TableClient = ({ dataClients }) => {
   );
 };
 
-export default TableClient;
+export default TableContact;

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 // Create Transaksi (POST)
 export const createTransaksi = async (
-  name,
+  client,
   keterangan,
   date,
   jenis,
@@ -16,7 +16,7 @@ export const createTransaksi = async (
 ) => {
   try {
     const response = await customAPI.post("/transaksi", {
-      name,
+      client,
       keterangan,
       date,
       jenis,
@@ -43,10 +43,9 @@ export const getTransaksi = async (keyword, page) => {
 
     const resTunai = res.filter((data) => data.pembayaran === "tunai");
 
-    const resPengeluaranNonTunai =
-      res.filter(
-        (data) => data.pembayaran === "nonTunai" && data.jenis === "Pengeluaran"
-      ) || null;
+    const resPengeluaranNonTunai = res.filter(
+      (data) => data.pembayaran === "nonTunai" && data.jenis === "Pengeluaran"
+    );
     const resPemasukanNonTunai = res.filter(
       (data) => data.pembayaran === "nonTunai" && data.jenis === "Pemasukan"
     );
@@ -56,7 +55,7 @@ export const getTransaksi = async (keyword, page) => {
     const currentPage = response.data.pagination.page;
     const totalPage = response.data.pagination.totalPage;
 
-    console.log({ limitTransaksi, totalDataTransaksi, currentPage, totalPage });
+    // console.log({ limitTransaksi, totalDataTransaksi, currentPage, totalPage });
     return {
       res,
       resTunai,
@@ -78,6 +77,10 @@ export const getAllTransaksi = async () => {
     const response = await customAPI.get("/transaksi/all");
 
     const res = response.data.data;
+
+    const resPemasukanNonTunai = response.data.resPemasukanNonTunai;
+    const resPengeluaranNonTunai = response.data.resPengeluaranNonTunai;
+
     const totalTransaksi = response.data.totalTransaksi;
     const totalPersen = response.data.totalPersen;
     const totalIn = response.data.totalIn;
@@ -113,6 +116,9 @@ export const getAllTransaksi = async () => {
 
     return {
       res,
+      resPemasukanNonTunai,
+      resPengeluaranNonTunai,
+
       totalTransaksi,
       totalPersen,
       totalIn,
@@ -159,12 +165,46 @@ export const getTransaksiById = async (id) => {
   }
 };
 
-// Update Transaksi (PUT)
-export const updateTransaksi = async (id, jumlahPembayaran, pembayaran) => {
+// Update Transaksi Tunai (PUT)
+export const updateTransaksiTunai = async (
+  id,
+  name,
+  keterangan,
+  date,
+  jenis,
+  kategori,
+  jumlah,
+  pembayaran,
+  jatuhTempo
+) => {
   try {
     const response = await customAPI.put(`/transaksi/${id}`, {
-      jumlahPembayaran,
+      name,
+      keterangan,
+      date,
+      jenis,
+      kategori,
+      jumlah,
       pembayaran,
+      jatuhTempo,
+    });
+    toast.info("Berhasil update transaksi");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Update Transaksi Non Tunai (PUT)
+export const updateTransaksiNonTunai = async (
+  id,
+  pembayaran,
+  jumlahPembayaran
+) => {
+  try {
+    const response = await customAPI.put(`/transaksi/${id}`, {
+      pembayaran,
+      jumlahPembayaran,
     });
     toast.info("Berhasil update transaksi");
     return response.data;

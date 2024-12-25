@@ -8,14 +8,19 @@ import { getClients, createClient } from "@/api/clientApi";
 import { BigUser2 } from "@/assets/Icon/BigUser2";
 
 // Components
+
+// Atoms
 import Button from "@components/Atoms/Button/Button";
-import { Card } from "@components/Organisms/Card/Card";
+
+// Molecules
 import { DataEmpty } from "@components/Molecules/404/DataEmpty";
-import { ModalAddClient } from "@components/Organisms/Modal/ModalAddClient";
+
+import { Card } from "@components/Organisms/Card/Card";
+import ModalAddContact from "@/components/Organisms/Modal/ModalAddContact";
 import Pagination from "@components/Molecules/Pagination/Pagination";
 import SearchTable from "@components/Molecules/Search/SearchTable";
-import TableClient from "@components/Organisms/Table/TableClient";
-import TableClientMobile from "@components/Organisms/Table/TableClientMobile";
+import TableContact from "@/components/Organisms/Table/TableContact";
+import TableContactMobile from "@/components/Organisms/Table/TableContactMobile";
 
 // Redux Actions
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +33,7 @@ import {
   setQuery,
 } from "@/redux/slices/paginationSlice";
 
-const Client = () => {
+const Contact = () => {
   const { limitData, totalData, page, totalPage, keyword, query } = useSelector(
     (state) => state.paginationState
   );
@@ -89,7 +94,7 @@ const Client = () => {
             className="flex gap-1"
           >
             <AddUser primaryColor="white" />
-            New Client
+            New Contact
           </Button>
         </div>
       </section>
@@ -101,14 +106,14 @@ const Client = () => {
           {dataClients?.length === 0 ? (
             <DataEmpty
               icon={<BigUser2 />}
-              title={"Add Your Client"}
-              subTitle={"Add client to this section"}
+              title={"Add Your Contact"}
+              subTitle={"Add contact to this section"}
             />
           ) : (
             <>
               {/* Second Head Start */}
               <SearchTable
-                placeholder="Enter client name"
+                placeholder="Enter contact name"
                 query={query}
                 setQuery={setQuery}
                 searchData={searchData}
@@ -117,13 +122,13 @@ const Client = () => {
 
               {/* Second Table Start */}
               <div className="hidden overflow-x-auto mt-5 md:block">
-                <TableClient dataClients={dataClients} />
+                <TableContact dataClients={dataClients} />
               </div>
               {/* Second Table End */}
 
               {/* Table view up to the `md:` breakpoint Start  */}
               <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-                <TableClientMobile dataClients={dataClients} />
+                <TableContactMobile dataClients={dataClients} />
               </div>
               {/* Table view up to the `md:` breakpoint End  */}
             </>
@@ -143,7 +148,7 @@ const Client = () => {
       </section>
       {/* Second End */}
 
-      <ModalAddClient
+      <ModalAddContact
         openModalClient={openModalClient}
         setOpenModalClient={setOpenModalClient}
         handleSubmit={handleSubmit}
@@ -152,4 +157,4 @@ const Client = () => {
   );
 };
 
-export default Client;
+export default Contact;

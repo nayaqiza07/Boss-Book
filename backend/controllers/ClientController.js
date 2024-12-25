@@ -29,7 +29,7 @@ export const allClient = asyncHandler(async (req, res) => {
       name: { $regex: req.query.name, $options: "i" },
     });
   } else {
-    query = Client.find(queryObj);
+    query = Client.find(queryObj).sort({ createdAt: -1 });
   }
 
   // Pagination

@@ -42,7 +42,7 @@ export const OrderStatusChart = ({ datas }) => {
       const { name, value } = payload[0];
       return (
         <div className="p-4 bg-white border flex flex-col gap-4 rounded-md">
-          <p
+          {/* <p
             className={`label ${
               name === "Completed"
                 ? "text-primary_100"
@@ -50,7 +50,8 @@ export const OrderStatusChart = ({ datas }) => {
                 ? "text-[#97a5eb]"
                 : "text-secondary_100"
             }`}
-          >{`${name}: ${value.toFixed(0)}%`}</p>
+          >{`${name}: ${value.toFixed(0)}%`}</p> */}
+          <p className={`label`}>{`${name}: ${value.toFixed(0)}%`}</p>
         </div>
       );
     }

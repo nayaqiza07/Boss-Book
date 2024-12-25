@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import {
   Activity,
+  ArrowDown,
+  ArrowUp,
   Buy,
   Category,
   Chart,
@@ -22,7 +24,7 @@ import { Card } from "@/components/Organisms/Card/Card";
 import ContentReport from "@/components/Molecules/Report/ContentReport";
 import { OrderStatusChart } from "@/components/Organisms/Chart/OrderStatusChart";
 
-const Income = () => {
+const Laporan = () => {
   const [totalPemasukan, setTotalPemasukan] = useState(0);
   const [totalModal, setTotalModal] = useState(0);
   const [totalSales, setTotalSales] = useState(0);
@@ -155,7 +157,15 @@ const Income = () => {
         <div className="p-5 grid gap-5 lg:grid-cols-2">
           <Card>
             <div className="flex flex-col gap-5">
-              <h1>Total Pemasukan {priceFormat(totalPemasukan)}</h1>
+              <div className="flex flex-col items-center">
+                <h1 className="flex gap-1 items-center">
+                  <ArrowDown primaryColor={"#519c66"} size={20} />
+                  Pemasukan
+                </h1>
+                <span className="text-action_go">
+                  {priceFormat(totalPemasukan)}
+                </span>
+              </div>
               <OrderStatusChart datas={dataPemasukan} />
               <h1>Detail Pemasukan</h1>
               <ContentReport
@@ -183,7 +193,15 @@ const Income = () => {
 
           <Card>
             <div className="flex flex-col gap-5">
-              <h1>Total Pengeluaran {priceFormat(totalPengeluaran)}</h1>
+              <div className="flex flex-col items-center">
+                <h1 className="flex gap-1 items-center">
+                  <ArrowUp primaryColor={"#cc5f5f"} size={20} />
+                  Pengeluaran
+                </h1>
+                <span className="text-action_stop">
+                  {priceFormat(totalPengeluaran)}
+                </span>
+              </div>
               <OrderStatusChart datas={dataPengeluaran} />
               <h1>Detail Pengeluaran</h1>
               <ContentReport
@@ -244,4 +262,4 @@ const Income = () => {
   );
 };
 
-export default Income;
+export default Laporan;

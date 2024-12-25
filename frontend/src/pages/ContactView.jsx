@@ -14,12 +14,12 @@ import { Card } from "@components/Organisms/Card/Card";
 import CardSummary from "@/components/Organisms/Card/CardSummary";
 import { DataEmpty } from "@components/Molecules/404/DataEmpty";
 import { Modal } from "@components/Organisms/Modal";
-import { ModalEditClient } from "@components/Organisms/Modal/ModalEditClient";
+import ModalEditContact from "@/components/Organisms/Modal/ModalEditContact";
 import { ModalInvoice } from "@components/Organisms/Modal/ModalInvoice";
 import TableClientOrder from "@components/Organisms/Table/TableClientOrder";
 import TableClientOrderMobile from "@components/Organisms/Table/TableClientOrderMobile";
 
-const ClientView = () => {
+const ContactView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -75,7 +75,7 @@ const ClientView = () => {
 
   const handleDeleteClient = () => {
     deleteClient(id);
-    navigate("/client");
+    navigate("/contact");
   };
 
   const filterPending = clientOrder.filter((item) => item.status === "Pending");
@@ -93,10 +93,10 @@ const ClientView = () => {
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center">
           <div className="lg:flex lg:gap-6">
             <h1 className="flex gap-3 justify-between text-night_60 font-medium">
-              Client ID <span className="text-night_30 text-right">#{id}</span>
+              Contact ID <span className="text-night_30 text-right">#{id}</span>
             </h1>
             <h1 className="flex gap-3 justify-between text-night_60 font-medium">
-              Client Since
+              Contact Since
               <span className="text-night_30 text-right">{client.date}</span>
             </h1>
           </div>
@@ -107,14 +107,14 @@ const ClientView = () => {
               className="flex items-center bg-[#5570F1]/20 text-primary_100 text-sm rounded-xl gap-3 py-3 px-5"
             >
               <EditSquare primaryColor="#5570F1" />
-              Edit Client
+              Edit Contact
             </button>
             <button
               onClick={() => setModalDelete(true)}
               className="flex items-center bg-[#cc5f5f]/20 text-[#cc5f5f] text-sm rounded-xl gap-3 py-3 px-5"
             >
               <Delete primaryColor="#cc5f5f" />
-              Delete Client
+              Delete Contact
             </button>
           </div>
         </div>
@@ -179,7 +179,7 @@ const ClientView = () => {
       </Card>
       {/* Content End */}
 
-      <ModalEditClient
+      <ModalEditContact
         openModalEdit={modalEdit}
         setOpenModalEdit={setModalEdit}
         client={client}
@@ -231,4 +231,4 @@ const ClientView = () => {
   );
 };
 
-export default ClientView;
+export default ContactView;

@@ -18,7 +18,10 @@ const Table = (props) => {
               <th className="py-3">
                 <Checkbox />
               </th>
-              <th className="font-normal px-6 py-3">Nama</th>
+              <th className="font-normal px-6 py-3">Kategori</th>
+              <th className="font-normal px-6 py-3 hidden xl:table-cell">
+                Nama
+              </th>
               <th className="font-normal px-6 py-3">Keterangan</th>
               <th className="font-normal px-6 py-3 hidden xl:table-cell">
                 Tanggal
@@ -39,16 +42,25 @@ const Table = (props) => {
           <tbody className="border-b border-[#E1E2E9]">
             {datas.length > 0 &&
               datas.map((data, index) => (
-                <tr key={index + 1} className="text-night_40 text-left text-sm">
+                <tr
+                  key={index + 1}
+                  className="text-night_40 text-left text-sm border-b"
+                >
                   <td className="py-3">
                     <Checkbox />
                   </td>
 
                   <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
-                    {data.name}
-
+                    {data.kategori}
                     {/* Stack Table Start */}
                     <dl className="xl:hidden">
+                      <dt className="sr-only">Nama</dt>
+                      <dd className="text-night_20 text-xs mt-1 truncate">
+                        {data.name ||
+                          data.clientData.map((client) => (
+                            <span key={client._id}>{client.name}</span>
+                          ))}
+                      </dd>
                       <dt className="sr-only">Date</dt>
                       <dd className="text-night_20 text-xs mt-1 truncate">
                         {data.date}
@@ -63,6 +75,12 @@ const Table = (props) => {
                       </dd>
                     </dl>
                     {/* Stack Table End */}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-3 hidden xl:table-cell">
+                    {data.name ||
+                      data.clientData.map((client) => (
+                        <span key={client._id}>{client.name}</span>
+                      ))}
                   </td>
                   <td className="whitespace-nowrap px-6 py-3 w-full max-w-0 sm:w-auto sm:max-w-none">
                     {data.keterangan.split("\n").map((row, index) => (

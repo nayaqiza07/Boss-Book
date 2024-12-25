@@ -35,8 +35,8 @@ export const ModalAddOrder = ({
 
   // Fetch data client untuk form select
   const fetchDataClient = () => {
-    getAllClients().then((result) => {
-      setClients(result);
+    getAllClients().then(({ resClient }) => {
+      setClients(resClient);
     });
   };
 

@@ -2,7 +2,7 @@ import { CloseSquare } from "react-iconly";
 import Button from "@/components/Atoms/Button/Button";
 
 const Modal = (props) => {
-  const { openModal, closeModal, children } = props;
+  const { openModal, closeModal, children, className } = props;
   return (
     <div
       onClick={closeModal}
@@ -12,7 +12,7 @@ const Modal = (props) => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`w-fit p-6 bg-white border rounded-xl shadow transition-all max-w-72 ${
+        className={`w-fit p-6 bg-white border rounded-xl shadow transition-all ${className} ${
           openModal ? "opacity-100" : "opacity-0"
         }`}
       >

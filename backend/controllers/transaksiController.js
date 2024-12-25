@@ -27,7 +27,19 @@ export const getTransaksi = asyncHandler(async (req, res) => {
       name: { $regex: req.query.name, $options: "i" },
     });
   } else {
-    query = Transaksi.find(queryObj);
+    query = Transaksi.aggregate(
+      [
+        {
+          $lookup: {
+            from: "clients",
+            localField: "client",
+            foreignField: "_id",
+            as: "clientData",
+          },
+        },
+      ],
+      queryObj
+    ).sort({ createdAt: -1 });
   }
 
   // Pagination
@@ -62,7 +74,24 @@ export const getTransaksi = asyncHandler(async (req, res) => {
 
 // Read All Transaksi without limit, page, name
 export const getAllTransaksi = asyncHandler(async (req, res) => {
-  const allTransaksi = await Transaksi.find();
+  // const allTransaksi = await Transaksi.find();
+  const allTransaksi = await Transaksi.aggregate([
+    {
+      $lookup: {
+        from: "clients",
+        localField: "client",
+        foreignField: "_id",
+        as: "clientData",
+      },
+    },
+  ]).sort({ createdAt: -1 });
+
+  const resPemasukanNonTunai = allTransaksi.filter(
+    (data) => data.jenis === "Pemasukan" && data.pembayaran === "nonTunai"
+  );
+  const resPengeluaranNonTunai = allTransaksi.filter(
+    (data) => data.jenis === "Pengeluaran" && data.pembayaran === "nonTunai"
+  );
 
   const totalIn = allTransaksi
     .filter((data) => data.jenis === "Pemasukan" && data.pembayaran === "tunai")
@@ -194,6 +223,8 @@ export const getAllTransaksi = asyncHandler(async (req, res) => {
   return res.status(200).json({
     message: "Seluruh Data Transaksi berhasil di tampilkan",
     data: allTransaksi,
+    resPemasukanNonTunai,
+    resPengeluaranNonTunai,
     totalTransaksi,
     totalPersen,
     totalIn,

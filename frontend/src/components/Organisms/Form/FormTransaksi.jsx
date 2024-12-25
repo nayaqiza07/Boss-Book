@@ -6,13 +6,33 @@ import { dateFormat } from "@/components/utils";
 import { useState } from "react";
 
 const FormTransaksi = (props) => {
-  const { jenisList, jenis, setJenis, pembayaran, setPembayaran, optionList } =
-    props;
+  const {
+    jenisList,
+    jenis,
+    setJenis,
+    pembayaran,
+    setPembayaran,
+    optionList,
+    isEdit,
+    data,
+    dataName,
+  } = props;
 
   return (
     <div className="w-full">
-      <FormInput type="text" name="name" placeholder="Nama" />
-      <FormTextarea type="text" name="keterangan" placeholder="Keterangan" />
+      {/* <FormInput
+        type="text"
+        name="name"
+        placeholder="Nama"
+        defaultValue={isEdit && data.name}
+      /> */}
+      <FormSelect name="contact" placeholder="Contact" list={dataName} />
+      <FormTextarea
+        type="text"
+        name="keterangan"
+        placeholder="Keterangan"
+        defaultValue={isEdit && data.keterangan}
+      />
       <FormInput
         type="text"
         name="date"
@@ -27,7 +47,12 @@ const FormTransaksi = (props) => {
         onChange={(e) => setJenis(e.target.value)}
       />
       <FormSelect name="kategori" placeholder="Kategori" list={optionList} />
-      <FormInput type="number" name="jumlah" placeholder="Jumlah" />
+      <FormInput
+        type="number"
+        name="jumlah"
+        placeholder="Jumlah"
+        defaultValue={isEdit && data.jumlah}
+      />
       <div className="flex justify-around mb-7">
         <label>
           <input

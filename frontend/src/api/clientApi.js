@@ -14,8 +14,7 @@ export const getClients = async (keyword, page) => {
     const currentPage = response.data.pagination.page;
     const totalPage = response.data.pagination.totalPage;
 
-    // console.log({ limitClient });
-    console.log(client);
+    // console.log(client);
     return { client, limitClient, totalClient, currentPage, totalPage };
   } catch (error) {
     console.log(error);
@@ -26,8 +25,14 @@ export const getClients = async (keyword, page) => {
 export const getAllClients = async () => {
   try {
     const response = await customAPI.get(`/client/all`);
-    // console.log(response.data.data);
-    return response.data.data;
+
+    const res = response.data.data;
+    const resClient = res.filter((data) => data.role === "Client");
+    const resKaryawan = res.filter((data) => data.role === "Karyawan");
+
+    console.log({ resClient, resKaryawan });
+
+    return { res, resClient, resKaryawan };
   } catch (error) {
     console.log(error);
   }

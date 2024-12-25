@@ -13,16 +13,15 @@ import ProtectedRoute from "@components/utils/ProtectedRoute";
 // Page Component
 import Dashboard from "@pages/Dashboard";
 import TransaksiView from "@pages/TransaksiView";
-import Piutang from "@pages/Piutang";
-import Utang from "@pages/Utang";
-import Income from "@pages/Income";
-import Outcome from "@pages/Outcome";
+import Penjualan from "@/pages/Penjualan";
+import GajiKaryawan from "@/pages/GajiKaryawan";
+import Laporan from "@/pages/Laporan";
 import Order from "@pages/Order";
 import Calculator from "@/pages/Calculator";
 import CalculatorData from "./pages/CalculatorData";
 import CalculatorView from "./pages/CalculatorView";
-import Client from "@pages/Client";
-import ClientView from "@pages/ClientView";
+import Contact from "@/pages/Contact";
+import ContactView from "@/pages/ContactView";
 
 // Loader API Data
 // import { getClients } from "./api/clientApi";
@@ -49,20 +48,16 @@ const router = createBrowserRouter([
         element: <TransaksiView />,
       },
       {
-        path: "piutang",
-        element: <Piutang />,
+        path: "penjualan",
+        element: <Penjualan />,
       },
       {
-        path: "utang",
-        element: <Utang />,
+        path: "gaji",
+        element: <GajiKaryawan />,
       },
       {
-        path: "income",
-        element: <Income />,
-      },
-      {
-        path: "outcome",
-        element: <Outcome />,
+        path: "laporan",
+        element: <Laporan />,
       },
       {
         path: "order",
@@ -82,13 +77,13 @@ const router = createBrowserRouter([
         element: <CalculatorView />,
       },
       {
-        path: "client",
-        element: <Client />,
+        path: "contact",
+        element: <Contact />,
         // loader: () => getClients(),
       },
       {
-        path: "client/view/:id",
-        element: <ClientView />,
+        path: "contact/view/:id",
+        element: <ContactView />,
       },
     ],
   },

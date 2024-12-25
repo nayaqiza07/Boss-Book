@@ -5,45 +5,23 @@ import {
   CardCol,
   CardRow,
 } from "@components/Organisms/Card/Card";
-import { useEffect, useState } from "react";
-import { getClients } from "@/api/clientApi";
 import { SummaryChart } from "@components/Organisms/Chart/SummaryChart";
 import { OrderStatusChart } from "@components/Organisms/Chart/OrderStatusChart";
+import CardSummary from "@/components/Organisms/Card/CardSummary";
+import { User } from "react-iconly";
 
 const Dashboard = () => {
-  const [clients, setClients] = useState([]);
-
-  useEffect(() => {
-    getClients().then((result) => {
-      setClients(result);
-    });
-  }, []);
-
   return (
     <div className="p-5 grid gap-5 lg:grid-cols-3">
       {/* 1st Start */}
-      <Card>
-        <div className="flex justify-between">
-          <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-            {/* <HiOutlineUsers size={20} color="#130F26" /> */}
-          </div>
-          <SelectMenuMonth />
+      <CardSummary>
+        <CardSummary.Header icon={<User colorStroke={"#130F26"} />} />
+        <div className="grid grid-cols-3 mt-8">
+          <CardSummary.Body title="Semua Contact" data={0} />
+          <CardSummary.Body title="Client" data={0} />
+          <CardSummary.Body title="Karyawan" data={0} />
         </div>
-        <div className="flex flex-row justify-between mt-7">
-          <div>
-            <h5 className="text-night_30">All Clients</h5>
-            <p className="text-night_60 font-medium">{clients.length}</p>
-          </div>
-          <div>
-            <h5 className="text-night_30">Active</h5>
-            <p className="text-night_60 font-medium">0</p>
-          </div>
-          <div>
-            <h5 className="text-night_30">In-Active</h5>
-            <p className="text-night_60 font-medium">0</p>
-          </div>
-        </div>
-      </Card>
+      </CardSummary>
 
       <Card>
         <div className="flex justify-between">
@@ -54,15 +32,15 @@ const Dashboard = () => {
         </div>
         <div className="flex flex-row justify-between mt-7">
           <div>
-            <h5 className="text-night_30">All Clients</h5>
-            <p className="text-night_60 font-medium">{clients.length}</p>
-          </div>
-          <div>
-            <h5 className="text-night_30">Active</h5>
+            <h5 className="text-night_30">All Contact</h5>
             <p className="text-night_60 font-medium">0</p>
           </div>
           <div>
-            <h5 className="text-night_30">In-Active</h5>
+            <h5 className="text-night_30">Client</h5>
+            <p className="text-night_60 font-medium">0</p>
+          </div>
+          <div>
+            <h5 className="text-night_30">Karyawan</h5>
             <p className="text-night_60 font-medium">0</p>
           </div>
         </div>
@@ -134,7 +112,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-2 mt-7">
             <div>
               <h5 className="text-white">All Clients 05</h5>
-              <p className="text-white font-medium">{clients.length}</p>
+              <p className="text-white font-medium">0</p>
             </div>
             <div>
               <h5 className="text-white">Active</h5>
@@ -153,7 +131,7 @@ const Dashboard = () => {
           <div className="flex flex-row justify-between mt-7">
             <div>
               <h5 className="text-night_30">All Clients 06</h5>
-              <p className="text-night_60 font-medium">{clients.length}</p>
+              <p className="text-night_60 font-medium">0</p>
             </div>
             <div>
               <h5 className="text-night_30">Active</h5>
@@ -174,7 +152,7 @@ const Dashboard = () => {
         <div className="flex flex-row justify-between mt-7">
           <div>
             <h5 className="text-night_30">All Clients 07</h5>
-            <p className="text-night_60 font-medium">{clients.length}</p>
+            <p className="text-night_60 font-medium">0</p>
           </div>
           <div>
             <h5 className="text-night_30">Active</h5>

@@ -2,18 +2,9 @@ import { useState } from "react";
 import FormTransaksi from "../Form/FormTransaksi";
 import Modal from "./Modal";
 
-const ModalTransaksi = (props) => {
-  const {
-    openModal,
-    setOpenModal,
-    formRef,
-    dataName,
-    pembayaran,
-    setPembayaran,
-    handleSubmit,
-    isEdit,
-    data,
-  } = props;
+const ModalEditTransaksi = (props) => {
+  const { openModal, setOpenModal, pembayaran, setPembayaran, handleUpdate } =
+    props;
 
   const [jenis, setJenis] = useState("");
 
@@ -105,16 +96,12 @@ const ModalTransaksi = (props) => {
   ];
 
   return (
-    <Modal
-      openModal={openModal}
-      closeModal={() => setOpenModal(false)}
-      className="max-w-72"
-    >
+    <Modal openModal={openModal} closeModal={() => setOpenModal(false)}>
       <Modal.Header
-        title={isEdit ? "Edit Transaksi" : "Tambah Transaksi"}
+        title="Edit Transaksi"
         closeModal={() => setOpenModal(false)}
       />
-      <form ref={formRef} onSubmit={handleSubmit}>
+      <form onSubmit={handleUpdate}>
         <Modal.Body className="max-h-96 overflow-y-auto lg:max-h-fit">
           <FormTransaksi
             jenisList={jenisList}
@@ -123,13 +110,10 @@ const ModalTransaksi = (props) => {
             pembayaran={pembayaran}
             setPembayaran={setPembayaran}
             optionList={getOptionList()}
-            isEdit={isEdit}
-            data={data}
-            dataName={dataName}
           />
         </Modal.Body>
         <Modal.Footer
-          text={isEdit ? "Simpan" : "Tambah"}
+          text="Tambah"
           type="submit"
           closeModal={() => setOpenModal(false)}
           handleSubmit={() => setOpenModal(false)}
@@ -139,4 +123,4 @@ const ModalTransaksi = (props) => {
   );
 };
 
-export default ModalTransaksi;
+export default ModalEditTransaksi;
