@@ -30,9 +30,20 @@ export const getAllClients = async () => {
     const resClient = res.filter((data) => data.role === "Client");
     const resKaryawan = res.filter((data) => data.role === "Karyawan");
 
-    console.log({ resClient, resKaryawan });
+    const totalContact = response.data.totalContact;
+    const totalClient = response.data.totalClient;
+    const totalKaryawan = response.data.totalKaryawan;
 
-    return { res, resClient, resKaryawan };
+    // console.log({ totalContact, totalClient, totalKaryawan });
+
+    return {
+      res,
+      resClient,
+      resKaryawan,
+      totalContact,
+      totalClient,
+      totalKaryawan,
+    };
   } catch (error) {
     console.log(error);
   }

@@ -66,9 +66,18 @@ export const allClient = asyncHandler(async (req, res) => {
 export const clientData = asyncHandler(async (req, res) => {
   const clientData = await Client.find();
 
+  const totalContact = await Client.countDocuments();
+  const totalClient = await Client.find({ role: "Client" }).countDocuments();
+  const totalKaryawan = await Client.find({
+    role: "Karyawan",
+  }).countDocuments();
+
   return res.status(200).json({
     message: "Detail data Client berhasil ditampilkan",
     data: clientData,
+    totalContact,
+    totalClient,
+    totalKaryawan,
   });
 });
 

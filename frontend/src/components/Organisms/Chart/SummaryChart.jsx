@@ -12,33 +12,63 @@ export const SummaryChart = () => {
   const data = [
     {
       month: "Jan",
-      total: 4000,
-      pv: 2400,
+      pemasukan: 0,
+      pengeluaran: 0,
     },
     {
       month: "Feb",
-      total: 3000,
-      pv: 1398,
+      pemasukan: 0,
+      pengeluaran: 0,
     },
     {
       month: "Mar",
-      total: 2000,
-      pv: 9800,
+      pemasukan: 0,
+      pengeluaran: 0,
     },
     {
       month: "Apr",
-      total: 2780,
-      pv: 3908,
+      pemasukan: 0,
+      pengeluaran: 0,
     },
     {
       month: "May",
-      total: 1890,
-      pv: 4800,
+      pemasukan: 0,
+      pengeluaran: 0,
     },
     {
       month: "Jun",
-      total: 2390,
-      pv: 3800,
+      pemasukan: 0,
+      pengeluaran: 0,
+    },
+    {
+      month: "Jul",
+      pemasukan: 0,
+      pengeluaran: 0,
+    },
+    {
+      month: "Aug",
+      pemasukan: 0,
+      pengeluaran: 0,
+    },
+    {
+      month: "Sep",
+      pemasukan: 0,
+      pengeluaran: 0,
+    },
+    {
+      month: "Okt",
+      pemasukan: 0,
+      pengeluaran: 0,
+    },
+    {
+      month: "Nov",
+      pemasukan: 0,
+      pengeluaran: 0,
+    },
+    {
+      month: "Des",
+      pemasukan: 9000,
+      pengeluaran: 3800,
     },
   ];
 
@@ -46,7 +76,7 @@ export const SummaryChart = () => {
     <ResponsiveContainer width="100%" height={250}>
       <AreaChart
         data={data}
-        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+        // margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
       >
         <defs>
           <linearGradient id="primary" x1="0" y1="0" x2="0" y2="1">
@@ -64,14 +94,14 @@ export const SummaryChart = () => {
         <Tooltip />
         <Area
           type="monotone"
-          dataKey="total"
+          dataKey="pemasukan"
           stroke="#5570f1"
           fillOpacity={1}
           fill="url(#primary)"
         />
         <Area
           type="monotone"
-          dataKey="pv"
+          dataKey="pengeluaran"
           stroke="#ffcc91"
           fillOpacity={1}
           fill="url(#secondary)"

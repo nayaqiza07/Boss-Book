@@ -1,21 +1,23 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Button from "@components/Atoms/Button/Button";
 
-const Uploader = () => {
+const Uploader = (props) => {
+  const { selectedImages, setSelectedImages } = props;
   // const [image, setImage] = useState(null);
   // const [fileName, setFileName] = useState("");
 
-  const [selectedImages, setSelectedImages] = useState([]);
+  // const [selectedImages, setSelectedImages] = useState([]);
 
   const onSelectFile = (e) => {
     const selectedFile = e.target.files;
     const selectedFileArray = Array.from(selectedFile);
 
-    const imagesArray = selectedFileArray.map((file) => {
-      return URL.createObjectURL(file);
+    const image = selectedFileArray.map((file) => {
+      // return URL.createObjectURL(file);
+      return file;
     });
 
-    setSelectedImages((prev) => prev.concat(imagesArray));
+    setSelectedImages((prev) => prev.concat(image));
     // console.log(imagesArray);
   };
 

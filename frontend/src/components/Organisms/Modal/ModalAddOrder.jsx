@@ -26,6 +26,8 @@ export const ModalAddOrder = ({
   totalPriceItem,
   addItem,
   handleSubmit,
+  selectedImages,
+  setSelectedImages,
 }) => {
   const [clients, setClients] = useState([]);
 
@@ -131,11 +133,11 @@ export const ModalAddOrder = ({
                     value={totalPriceItem}
                   />
                   <FormInput
-                    // icon={<HiOutlineCalendar size={25} color="#ABAFB1" />}
                     type="number"
-                    name="jumlahDiterima"
-                    placeholder="Jumlah Diterima"
+                    name="jumlahPembayaran"
+                    placeholder="Jumlah Pembayaran"
                   />
+                  <FormInput type="date" name="jatuhTempo" />
                 </div>
               </div>
             </div>
@@ -248,7 +250,10 @@ export const ModalAddOrder = ({
 
             {/* Uploader Start */}
             <div>
-              <Uploader />
+              <Uploader
+                selectedImages={selectedImages}
+                setSelectedImages={setSelectedImages}
+              />
               {/* <input type="file" name="image" /> */}
             </div>
             {/* Uploader End */}

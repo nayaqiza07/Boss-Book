@@ -15,7 +15,7 @@ export const getOrders = async (keyword, page) => {
     const totalPage = response.data.pagination.totalPage;
 
     // return response.data.data;
-    console.log(res);
+    // console.log(res);
     return { res, limitOrder, totalDataOrder, currentPage, totalPage };
   } catch (error) {
     console.log(error);
@@ -35,38 +35,48 @@ export const createOrder = async (
   date,
   status,
   items,
+  image,
   total,
-  jumlahDiterima
+  jumlahPembayaran,
+  jatuhTempo
 ) => {
   try {
-    // const responseFileUpload = await customAPI.post(
-    //   "/order/file-upload",
-    //   {
-    //     image: image,
-    //   },
-    //   {
-    //     headers: { "Content-Type": "multipart/form-data" },
-    //   }
-    // );
-    // console.log(responseFileUpload.data.url);
+    const responseFileUpload = await customAPI.post(
+      "/order/file-upload",
+      {
+        image: image,
+      },
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+    console.log(responseFileUpload.data.url);
+    // console.log(image.map((img) => img.name));
 
-    await customAPI.post("/piutang", {
-      client,
-      date,
-      total: total,
-      jumlahDiterima: jumlahDiterima,
-    });
-
-    const data = await customAPI.post("/order", {
-      client,
-      date,
-      status,
-      items,
-      // image: responseFileUpload.data.url,
-    });
-    toast.success("Berhasil menambahkan order");
-    console.log(data.data);
-    return data.data;
+    // Create ke dalam Transaksi (Jenis: Pemasukan, Kategori: Penjualan, Pembayaran: Non Tunai)
+    // await customAPI.post("/transaksi", {
+    //   client,
+    //   keterangan: "Order Masuk",
+    //   date,
+    //   jenis: "Pemasukan",
+    //   kategori: "Penjualan",
+    //   jumlah: total,
+    //   pembayaran: "nonTunai",
+    //   jumlahPembayaran: jumlahPembayaran,
+    //   jatuhTempo,
+    // });
+    // Create ke dalam Order
+    // const data = await customAPI.post("/order", {
+    //   client,
+    //   date,
+    //   status,
+    //   items,
+    //   // image: responseFileUpload.data.url,
+    //   image,
+    // });
+    // toast.success("Berhasil menambahkan order");
+    // console.log(data.data);
+    // return data.data;
   } catch (error) {
     const errorMessage = error?.response?.data?.message;
     toast.error(errorMessage);

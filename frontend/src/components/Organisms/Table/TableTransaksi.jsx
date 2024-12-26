@@ -41,7 +41,7 @@ const TableTransaksi = (props) => {
               datas.map((data, index) => (
                 <tr
                   key={index + 1}
-                  className="text-night_40 text-left text-sm border-b"
+                  className="text-night_40 text-left text-sm font-medium border-b"
                 >
                   <td className="py-2.5">
                     <Checkbox />

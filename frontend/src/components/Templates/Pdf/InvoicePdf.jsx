@@ -102,9 +102,9 @@ const InvoicePdf = ({ dataOrderById, componentPrint }) => {
         </section>
         {/* Section 5 End */}
 
-        {/* <div className="flex flex-col justify-center items-center">
-          <img src={dataOrderById.image} width={500} height={500} />
-        </div> */}
+        <div className="flex flex-col justify-center items-center">
+          <img src={dataOrderById.image} width={250} height={250} />
+        </div>
       </div>
     </>
   );

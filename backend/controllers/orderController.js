@@ -222,32 +222,40 @@ export const currentClientOrder = asyncHandler(async (req, res) => {
 // });
 
 export const fileUpload = asyncHandler(async (req, res) => {
+  const files = req.files;
   const imageUrls = [];
 
-  for (const file of req.files) {
-    const stream = cloudinary.uploader.upload_stream(
-      {
-        folder: "uploads",
-        allowed_formats: ["jpg", "png", "jpeg"],
-      },
-      function (error, result) {
-        if (error) {
-          console.log(error);
-          return res.status(500).json({
-            message: "Gagal upload gambar",
-            error: error,
-          });
+  const uploadPromises = files.map((file) => {
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: "uploads",
+          allowed_formats: ["png", "jpg", "jpeg"],
+        },
+        (error, result) => {
+          if (error) {
+            console.log(error);
+            reject(error);
+            return res.status(500).json({
+              message: "Gagal upload gambar",
+              error: error,
+            });
+          } else {
+            imageUrls.push(result.secure_url);
+            resolve();
+          }
         }
+      );
 
-        imageUrls.push(result.secure_url);
+      streamifier.createReadStream(file.buffer).pipe(uploadStream);
+    });
+  });
 
-        res.json({
-          message: "Gambar berhasil di upload",
-          url: imageUrls,
-        });
-      }
-    );
+  // Tunggu hingga semua upload selesai sebelum memberikan respon (Jika upload belum selesai, respon akan ditahan hingga upload selesai)
+  await Promise.all(uploadPromises);
 
-    streamifier.createReadStream(file.buffer).pipe(stream);
-  }
+  res.status(201).json({
+    message: "Gambar berhasil di upload",
+    url: imageUrls,
+  });
 });

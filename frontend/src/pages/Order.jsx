@@ -97,6 +97,8 @@ const Order = () => {
 
   // Menyimpan input item product kedalam array saat addItem di klik on Modal
   const [totalPriceItem, setTotalPriceItem] = useState(0);
+  const [selectedImages, setSelectedImages] = useState([]);
+
   const [items] = useState([]);
   const addItem = () => {
     items.push({
@@ -128,15 +130,22 @@ const Order = () => {
     const dataForm = new FormData(form);
     const data = Object.fromEntries(dataForm);
     // console.log(data);
+    console.log(selectedImages);
+    console.log(data.image);
+
+    const jatuhTempo = data.jatuhTempo
+      ? data.jatuhTempo.split("-").reverse().join("/")
+      : null;
 
     await createOrder(
       data.client,
       data.date,
       data.status,
       items,
-      // data.image,
+      selectedImages,
       data.total,
-      data.jumlahDiterima
+      data.jumlahPembayaran,
+      jatuhTempo
     );
     fetchDataOrder();
   };
@@ -321,6 +330,8 @@ const Order = () => {
         totalPriceItem={totalPriceItem}
         addItem={addItem}
         handleSubmit={handleSubmit}
+        selectedImages={selectedImages}
+        setSelectedImages={setSelectedImages}
       />
       {/* Modal Add Order End */}
 
