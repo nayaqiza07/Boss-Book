@@ -1,7 +1,18 @@
+import Button from "@/components/Atoms/Button/Button";
 import { Search02Icon } from "hugeicons-react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
-const SearchTable = ({ placeholder, query, setQuery, searchData }) => {
+const SearchTable = (props) => {
+  const {
+    placeholder,
+    query,
+    setQuery,
+    searchData,
+    isHistory,
+    historyPath,
+    // setOpenModal,
+  } = props;
   const dispatch = useDispatch();
 
   return (
@@ -22,10 +33,17 @@ const SearchTable = ({ placeholder, query, setQuery, searchData }) => {
           </div>
         </form>
 
-        <button className="flex items-center gap-2 border border-night_50 rounded px-2 py-1 text-night_50">
-          {/* <HiOutlineFilter /> */}
-          Filter
-        </button>
+        {isHistory && (
+          <Link to={historyPath}>
+            <Button
+              variant="primaryOutline"
+              size="sm"
+              // onClick={() => setOpenModal(true)}
+            >
+              History
+            </Button>
+          </Link>
+        )}
       </div>
     </>
   );

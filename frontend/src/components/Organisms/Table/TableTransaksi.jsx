@@ -38,7 +38,7 @@ const TableTransaksi = (props) => {
           <tbody className="border-b border-[#E1E2E9]">
             {datas.length > 0 &&
               // datas.filter((data) => data.kategori === "nonTunai") &&
-              datas.map((data, index) => (
+              datas?.map((data, index) => (
                 <tr
                   key={index + 1}
                   className="text-night_40 text-left text-sm font-medium border-b"
@@ -54,10 +54,9 @@ const TableTransaksi = (props) => {
                     <dl className="xl:hidden">
                       <dt className="sr-only">Nama</dt>
                       <dd className="text-night_20 text-xs mt-1 truncate">
-                        {data.name ||
-                          data.clientData.map((client) => (
-                            <span key={client._id}>{client.name}</span>
-                          ))}
+                        {data.clientData.map((client) => (
+                          <span key={client._id}>{client.name}</span>
+                        ))}
                       </dd>
                       <dt className="sr-only">Jumlah</dt>
                       <dd className="text-night_20 text-xs mt-1 truncate">
@@ -67,10 +66,9 @@ const TableTransaksi = (props) => {
                     {/* Stack Table End */}
                   </td>
                   <td className="whitespace-nowrap px-5 py-2.5 hidden xl:table-cell">
-                    {data.name ||
-                      data.clientData.map((client) => (
-                        <span key={client._id}>{client.name}</span>
-                      ))}
+                    {data.clientData.map((client) => (
+                      <span key={client._id}>{client.name}</span>
+                    ))}
                   </td>
                   <td className="whitespace-nowrap px-5 py-2.5 w-full max-w-0 sm:w-auto sm:max-w-none">
                     {data.keterangan.split("\n").map((row, index) => (

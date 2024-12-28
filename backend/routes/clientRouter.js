@@ -23,15 +23,15 @@ router.post("/", protectedMiddleware, createClient);
 
 // Read Data Client
 // GET /api/v1/client
-router.get("/", allClient);
+router.get("/", protectedMiddleware, allClient);
 
 // Read Data Client
 // GET /api/v1/client
-router.get("/all", clientData);
+router.get("/all", protectedMiddleware, clientData);
 
 // Detail Data Client
 // GET /api/v1/client/:id
-router.get("/:id", detailClient);
+router.get("/:id", protectedMiddleware, detailClient);
 
 // Update Data Client
 // PUT /api/v1/client/:id

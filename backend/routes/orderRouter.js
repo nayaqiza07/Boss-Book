@@ -48,8 +48,7 @@ router.get("/view/:id", protectedMiddleware, currentClientOrder);
 router.post(
   "/file-upload",
   protectedMiddleware,
-  // upload.single("image"),
-  upload.array("image"),
+  upload.array("images"),
   fileUpload
 );
 

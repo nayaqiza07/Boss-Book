@@ -8,34 +8,32 @@ import {
 } from "recharts";
 
 export const OrderStatusChart = ({ datas }) => {
-  console.log(datas);
+  // console.log(datas);
 
   const colors = [
-    "#F44336",
-    "#FF9800",
-    "#FFEB3B",
-    "#4CAF50",
-    "#2196F3",
-    "#9C27B0",
-    "#009688",
-    "#FFC107",
-    "#673AB7",
-    "#03A9F4",
+    "#B7B7B7",
+    "#A1D6B2",
+    "#295F98",
+    "#F0A8D0",
+    "#91DDCF",
+    "#FF8A8A",
+    "#EF9C66",
+    "#B3C8CF",
+    "#8E7AB5",
+    "#F6F193",
   ];
   // const colors = [
-  //   "#2ecc71",
-  //   "#3498db",
-  //   "#9b59b6",
-  //   "#f1c40f",
-  //   "#e74c3c",
-  //   "#1abc9c",
-  //   "#e67e22",
-  //   "#8e44ad",
-  //   "#34495e",
-  //   "#95a5a6",
+  //   "#F44336",
+  //   "#FF9800",
+  //   "#FFEB3B",
+  //   "#4CAF50",
+  //   "#2196F3",
+  //   "#9C27B0",
+  //   "#009688",
+  //   "#FFC107",
+  //   "#673AB7",
+  //   "#03A9F4",
   // ];
-
-  // const colors = ["#5570f1", "#97a5eb", "#ffcc91", "#ffcc91"];
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
@@ -62,15 +60,6 @@ export const OrderStatusChart = ({ datas }) => {
   return (
     <ResponsiveContainer width="100%" height={250}>
       <PieChart>
-        {/* <Pie
-          data={datas}
-          cx="50%"
-          cy="50%"
-          innerRadius={60}
-          outerRadius={120}
-          stroke="none"
-          fill="#EEF0FA"
-        /> */}
         <Legend />
         <Pie
           data={datas}
@@ -78,9 +67,7 @@ export const OrderStatusChart = ({ datas }) => {
           nameKey="kategori"
           cx="50%"
           cy="50%"
-          innerRadius={80}
-          outerRadius={100}
-          stroke="none"
+          outerRadius={80}
         >
           {datas &&
             datas.map((entry, index) => (

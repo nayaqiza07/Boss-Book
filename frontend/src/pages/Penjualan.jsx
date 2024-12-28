@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Bag } from "react-iconly";
 
 // API
 import {
   createTransaksi,
   deleteTransaksi,
+  editTransaksiNonTunai,
   getAllTransaksi,
   getTransaksiById,
   updateTransaksiNonTunai,
@@ -13,7 +15,6 @@ import {
 import { getAllClients } from "@/api/clientApi";
 
 // Assets
-import { Bag } from "@/assets/Icon/Bag";
 
 // Components
 import { priceFormat } from "@/components/utils";
@@ -33,24 +34,9 @@ import { SidebarItem } from "@components/Organisms/Sidebar/SidebarItem";
 import Table from "@components/Organisms/Table/Table";
 import TableMobile from "@/components/Organisms/Table/TableMobile";
 
-// Redux Actions
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   setLimitData,
-//   setTotalData,
-//   setPage,
-//   setTotalPage,
-//   setKeyword,
-//   setQuery,
-// } from "@/redux/slices/paginationSlice";
-
 const Penjualan = () => {
-  // const { limitData, totalData, page, totalPage, keyword, query } = useSelector(
-  //   (state) => state.paginationState
-  // );
-  // const dispatch = useDispatch();
-
   const [openModal, setOpenModal] = useState(false);
+  const [modalEdit, setModalEdit] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
 
@@ -63,52 +49,27 @@ const Penjualan = () => {
   const [pemasukanNonTunaiById, setPemasukanNonTunaiById] = useState("");
   const [pembayaran, setPembayaran] = useState();
 
-  const [totalInNonTunai, setTotalInNonTunai] = useState(0);
-  const [totalDiterimaNonTunai, setTotalDiterimaNonTunai] = useState(0);
-  const [totalBelumDiterimaNonTunai, setTotalBelumDiterimaNonTunai] =
-    useState(0);
-
-  // const fetchTransaksiNonTunai = useCallback(
-  //   (keyword, page) => {
-  //     getTransaksi(keyword, page).then(
-  //       ({
-  //         resPemasukanNonTunai,
-  //         limitTransaksi,
-  //         totalDataTransaksi,
-  //         currentPage,
-  //         totalPage,
-  //       }) => {
-  //         setPemasukanNonTunai(resPemasukanNonTunai);
-
-  //         dispatch(setLimitData(limitTransaksi));
-  //         dispatch(setTotalData(totalDataTransaksi));
-  //         dispatch(setPage(currentPage));
-  //         dispatch(setTotalPage(totalPage));
-  //       }
-  //     );
-  //   },
-  //   [dispatch]
-  // );
+  const [totalPenjualan, setTotalPenjualan] = useState(0);
+  const [totalDiterima, setTotalDiterima] = useState(0);
+  const [totalBelumDiterima, setTotalBelumDiterima] = useState(0);
 
   const fetchAllTransaksiNonTunai = () => {
     getAllTransaksi().then(
       ({
         resPemasukanNonTunai,
-        totalInNonTunai,
-        totalDiterimaNonTunai,
-        totalBelumDiterimaNonTunai,
+
+        totalPenjualan,
+        totalDiterima,
+        totalBelumDiterima,
       }) => {
         setPemasukanNonTunai(resPemasukanNonTunai);
-        setTotalInNonTunai(totalInNonTunai);
-        setTotalDiterimaNonTunai(totalDiterimaNonTunai);
-        setTotalBelumDiterimaNonTunai(totalBelumDiterimaNonTunai);
+
+        setTotalPenjualan(totalPenjualan);
+        setTotalDiterima(totalDiterima);
+        setTotalBelumDiterima(totalBelumDiterima);
       }
     );
   };
-
-  // useEffect(() => {
-  //   fetchTransaksiNonTunai(keyword, page);
-  // }, [keyword, page, fetchTransaksiNonTunai]);
 
   useEffect(() => {
     fetchAllTransaksiNonTunai();
@@ -157,6 +118,38 @@ const Penjualan = () => {
 
     // Reset nilai form
     formRef.current.reset();
+  };
+
+  const handleModalEdit = (id) => {
+    setModalEdit(true);
+    fetchPemasukanNonTunaiById(id);
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+
+    // Ambil Inputan Form
+    const form = e.target;
+    const dataForm = new FormData(form);
+    const data = Object.fromEntries(dataForm);
+    // console.log(data);
+
+    const jatuhTempo = data.jatuhTempo
+      ? data.jatuhTempo.split("-").reverse().join("/")
+      : null;
+
+    await editTransaksiNonTunai(
+      pemasukanNonTunaiById._id,
+      data.contact,
+      data.keterangan,
+      data.jenis,
+      data.kategori,
+      data.jumlah,
+      pembayaran,
+      jatuhTempo
+    );
+
+    fetchAllTransaksiNonTunai();
   };
 
   const handleModalUpdate = (id) => {
@@ -245,32 +238,32 @@ const Penjualan = () => {
         {/* Top Start */}
 
         {/* Second Start */}
-        <CardSummary>
-          <CardSummary.Header icon={<Bag colorStroke={"#130F26"} />} />
+        <CardSummary backgroundColor="bg-[#FFB26F]">
+          <CardSummary.Header icon={<Bag primaryColor={"#130F26"} />} />
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Penjualan"
-              data={priceFormat(totalInNonTunai)}
+              data={priceFormat(totalPenjualan)}
             />
           </div>
         </CardSummary>
 
-        <CardSummary>
-          <CardSummary.Header icon={<Bag colorStroke={"#130F26"} />} />
+        <CardSummary backgroundColor="bg-[#91DDCF]">
+          <CardSummary.Header icon={<Bag primaryColor={"#130F26"} />} />
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Sudah Diterima"
-              data={priceFormat(totalDiterimaNonTunai)}
+              data={priceFormat(totalDiterima)}
             />
           </div>
         </CardSummary>
 
-        <CardSummary>
-          <CardSummary.Header icon={<Bag colorStroke={"#130F26"} />} />
+        <CardSummary backgroundColor="bg-[#FF8080]">
+          <CardSummary.Header icon={<Bag primaryColor={"#130F26"} />} />
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Belum Diterima"
-              data={priceFormat(totalBelumDiterimaNonTunai)}
+              data={priceFormat(totalBelumDiterima)}
             />
           </div>
         </CardSummary>
@@ -282,26 +275,23 @@ const Penjualan = () => {
             // query={query}
             // setQuery={setQuery}
             searchData={searchData}
+            isHistory={true}
+            historyPath="/history/penjualan"
           />
           <Table
             datas={pemasukanNonTunai}
             btnText="Terima"
+            handleEdit={handleModalEdit}
             handleDelete={handleModalDelete}
             handleUpdate={handleModalUpdate}
           />
           <TableMobile
             datas={pemasukanNonTunai}
             btnText="Terima"
-            // handleDelete={handleModalDelete}
-            // handleUpdate={handleModalUpdate}
+            handleEdit={handleModalEdit}
+            handleDelete={handleModalDelete}
+            handleUpdate={handleModalUpdate}
           />
-          {/* <Pagination
-            limitData={limitData}
-            totalData={totalData}
-            page={page}
-            totalPage={totalPage}
-            setPage={setPage}
-          /> */}
         </Card>
       </div>
 
@@ -313,6 +303,18 @@ const Penjualan = () => {
         pembayaran={pembayaran}
         setPembayaran={setPembayaran}
         handleSubmit={handleSubmit}
+        dataName={client}
+      />
+
+      {/* Edit Modal */}
+      <ModalTransaksi
+        openModal={modalEdit}
+        setOpenModal={setModalEdit}
+        isEdit={true}
+        data={pemasukanNonTunaiById}
+        pembayaran={pembayaran}
+        setPembayaran={setPembayaran}
+        handleSubmit={handleEdit}
         dataName={client}
       />
 

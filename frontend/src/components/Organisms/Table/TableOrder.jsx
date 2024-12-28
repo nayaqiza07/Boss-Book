@@ -95,7 +95,7 @@ const TableOrder = ({ orders, handleModalInvoice, handleModalUpdateOrder }) => {
                   order.status === "Completed"
                     ? "bg-[#519c66]/20 text-action_go"
                     : order.status === "In-Progress"
-                    ? "bg-[#5570F1]/20 text-primary_100"
+                    ? "bg-white text-primary_100"
                     : "bg-[#cc5f5f]/20 text-action_stop"
                 }`}
               >

@@ -1,9 +1,11 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Graph, Logout } from "react-iconly";
+import { Logout } from "react-iconly";
 import { SidebarItem } from "./SidebarItem";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "@/redux/slices/userSlice";
 import customAPI from "@/api/axios";
+
+import logo from "@/assets/logo/logo kotak.png";
 
 export const Sidebar = ({ sidebarOpen }) => {
   const user = useSelector((state) => state.userState.user);
@@ -23,20 +25,24 @@ export const Sidebar = ({ sidebarOpen }) => {
 
   return (
     <aside
-      className={`border-r h-screen bg-white sticky top-0 ${
+      className={`border-r h-screen bg-[#F8FAFC] sticky top-0 ${
         sidebarOpen ? "block" : "hidden lg:block"
       }`}
     >
       <nav className="w-72 h-full flex flex-col">
         {/* Top Sidebar Start */}
-        <div className="px-6 h-16 border-b flex flex-row items-center cursor-default gap-2">
-          <Graph
+        <div className="px-6 h-16 border-b flex justify-center items-center cursor-default gap-2">
+          {/* <Graph
             set="bulk"
             primaryColor="#97a5eb"
             secondaryColor="#ffead1"
             size={50}
+          /> */}
+          <img
+            src={logo}
+            // alt={fileName}
+            className="rounded-l-md w-[100px] h-[50px] object-cover"
           />
-          <h1 className="text-xl font-bold text-night_60">Boss Book</h1>
         </div>
         {/* Top Sidebar End */}
 
@@ -74,7 +80,7 @@ export const SidebarMenus = ({ item }) => {
     <div>
       <Link to={item.path}>
         <li
-          className={`relative flex items-center py-2 px-3 my-1 rounded-md cursor-pointer transition-all ${
+          className={`relative flex items-center py-2 px-3 my-1 rounded-md cursor-pointer transition-all font-semibold ${
             pathname === item.path
               ? "bg-primary_100 text-white ml-5"
               : "text-night_50 hover:bg-[#5570f1]/20 hover:text-primary_100"

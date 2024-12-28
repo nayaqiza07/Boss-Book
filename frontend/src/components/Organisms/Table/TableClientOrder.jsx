@@ -17,7 +17,10 @@ const TableClientOrder = ({ clientOrder, handleModalInvoice }) => {
       </thead>
       <tbody className="border-b border-[#E1E2E9]">
         {clientOrder.map((order) => (
-          <tr key={order._id} className="text-night_40 text-left text-sm">
+          <tr
+            key={order._id}
+            className="text-night_40 text-left text-sm font-medium border-b"
+          >
             <td className="py-3">
               <Checkbox />
             </td>

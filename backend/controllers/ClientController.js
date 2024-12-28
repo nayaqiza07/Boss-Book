@@ -34,7 +34,7 @@ export const allClient = asyncHandler(async (req, res) => {
 
   // Pagination
   const page = req.query.page * 1 || 1;
-  const limitData = req.query.limit * 1 || 10;
+  const limitData = req.query.limit * 1 || 12;
   const skipData = (page - 1) * limitData;
 
   query = query.skip(skipData).limit(limitData);

@@ -72,28 +72,24 @@ export const allOrder = asyncHandler(async (req, res) => {
   const excludeField = ["page", "limit", "client"];
   excludeField.forEach((element) => delete queryObj[element]);
 
-  // Search berdasarkan karatker nama
+  // Search berdasarkan karatker nama client
   let query;
   if (req.query.client) {
-    query = Order.aggregate(
-      [
-        {
-          $lookup: {
-            from: "clients",
-            localField: "client",
-            foreignField: "_id",
-            as: "clientData",
-          },
-        },
-      ],
-      // Masih Error
+    query = Order.aggregate([
       {
-        // client: { $regex: req.query.client, $options: "i" },
+        $lookup: {
+          from: "clients",
+          localField: "client",
+          foreignField: "_id",
+          as: "clientData",
+        },
+      },
+      {
         $match: {
           "clientData.name": { $regex: req.query.client, $options: "i" },
         },
-      }
-    );
+      },
+    ]);
   } else {
     query = Order.aggregate(
       [
@@ -248,14 +244,16 @@ export const fileUpload = asyncHandler(async (req, res) => {
       );
 
       streamifier.createReadStream(file.buffer).pipe(uploadStream);
+      // console.log(file);
     });
   });
 
   // Tunggu hingga semua upload selesai sebelum memberikan respon (Jika upload belum selesai, respon akan ditahan hingga upload selesai)
   await Promise.all(uploadPromises);
+  // console.log(imageUrls);
 
   res.status(201).json({
     message: "Gambar berhasil di upload",
-    url: imageUrls,
+    urls: imageUrls,
   });
 });

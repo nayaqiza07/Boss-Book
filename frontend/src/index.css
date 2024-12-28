@@ -18,11 +18,16 @@
 }
 
 /* Color Variable */
+/* Orange = #FFB26F */
+/* Green = #91DDCF */
+/* Blue = #7BD3EA */
+/* Red = #FF8080 */
+
 @layer base {
   :root {
     --color-main-background: #f4f5fa;
 
-    --color-primary_100: #5570f1;
+    --color-primary_100: #789dbc;
     --color-primary_90: #6078ec;
     --color-primary_80: #6d83ec;
     --color-primary_70: #7c8fec;

@@ -14,9 +14,9 @@ import { SelectMenuMonth } from "@components/Atoms/Select/SelectMenu";
 // Organisms
 import {
   Card,
-  CardPrimary,
+  // CardPrimary,
   CardCol,
-  CardRow,
+  // CardRow,
 } from "@components/Organisms/Card/Card";
 import CardSummary from "@/components/Organisms/Card/CardSummary";
 import { OrderStatusChart } from "@components/Organisms/Chart/OrderStatusChart";
@@ -49,14 +49,14 @@ const Dashboard = () => {
         totalIn,
         totalOut,
         totalModal,
-        totalInNonTunai,
-        totalOutNonTunai,
+        totalPenjualan,
+        totalGajiKaryawan,
       }) => {
         setPemasukan(totalIn);
         setPengeluaran(totalOut);
         setModal(totalModal);
-        setPenjualan(totalInNonTunai);
-        setGajiKaryawan(totalOutNonTunai);
+        setPenjualan(totalPenjualan);
+        setGajiKaryawan(totalGajiKaryawan);
       }
     );
   };
@@ -70,33 +70,25 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="p-5 grid gap-5 lg:grid-cols-4">
+    <div className="p-5 grid gap-5 lg:grid-cols-3">
       {/* 1st Start */}
-      <CardSummary>
-        <CardSummary.Header icon={<TwoUsers colorStroke={"#130F26"} />} />
-        <div className="grid grid-cols-3 mt-8">
-          <CardSummary.Body title="Contact" data={contact} />
-          <CardSummary.Body title="Client" data={client} />
-          <CardSummary.Body title="Karyawan" data={karyawan} />
-        </div>
-      </CardSummary>
 
-      <CardSummary>
-        <CardSummary.Header icon={<Wallet colorStroke={"#130F26"} />} />
+      <CardSummary backgroundColor="bg-[#FFB26F]">
+        <CardSummary.Header icon={<Wallet primaryColor={"#130F26"} />} />
         <div className="grid mt-8">
           <CardSummary.Body title="Modal" data={priceFormat(modal)} />
         </div>
       </CardSummary>
 
-      <CardSummary>
-        <CardSummary.Header icon={<ArrowDown colorStroke={"#130F26"} />} />
+      <CardSummary backgroundColor="bg-[#91DDCF]">
+        <CardSummary.Header icon={<ArrowDown primaryColor={"#130F26"} />} />
         <div className="grid mt-8">
           <CardSummary.Body title="Pemasukan" data={priceFormat(pemasukan)} />
         </div>
       </CardSummary>
 
-      <CardSummary>
-        <CardSummary.Header icon={<ArrowUp colorStroke={"#130F26"} />} />
+      <CardSummary backgroundColor="bg-[#FF8080]">
+        <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
         <div className="grid mt-8">
           <CardSummary.Body
             title="Pengeluaran"
@@ -106,16 +98,25 @@ const Dashboard = () => {
       </CardSummary>
       {/* 1st End */}
 
+      <CardSummary backgroundColor="bg-white">
+        <CardSummary.Header icon={<TwoUsers primaryColor={"#130F26"} />} />
+        <div className="grid grid-cols-3 mt-8">
+          <CardSummary.Body title="Contact" data={contact} />
+          <CardSummary.Body title="Client" data={client} />
+          <CardSummary.Body title="Karyawan" data={karyawan} />
+        </div>
+      </CardSummary>
+
       <div className="grid gap-5">
-        <CardSummary>
-          <CardSummary.Header icon={<Buy colorStroke={"#130F26"} />} />
+        <CardSummary backgroundColor="bg-white">
+          <CardSummary.Header icon={<Buy primaryColor={"#130F26"} />} />
           <div className="grid mt-8">
             <CardSummary.Body title="Penjualan" data={priceFormat(penjualan)} />
           </div>
         </CardSummary>
 
-        <CardSummary>
-          <CardSummary.Header icon={<Paper colorStroke={"#130F26"} />} />
+        <CardSummary backgroundColor="bg-white">
+          <CardSummary.Header icon={<Paper primaryColor={"#130F26"} />} />
           <div className="grid mt-8">
             <CardSummary.Body
               title="Gaji Karyawan"
@@ -152,52 +153,9 @@ const Dashboard = () => {
         </div>
       </Card>
 
-      <div className="grid gap-5">
-        <CardPrimary>
-          <div className="flex justify-between">
-            <div className="bg-white/15 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              {/* <HiOutlineUsers size={20} color="white" /> */}
-            </div>
-          </div>
-          <div className="grid grid-cols-2 mt-7">
-            <div>
-              <h5 className="text-white">All Clients 05</h5>
-              <p className="text-white font-medium">0</p>
-            </div>
-            <div>
-              <h5 className="text-white">Active</h5>
-              <p className="text-white font-medium">0</p>
-            </div>
-          </div>
-        </CardPrimary>
-
-        <Card>
-          <div className="flex justify-between">
-            <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              {/* <HiOutlineUsers size={20} color="#130F26" /> */}
-            </div>
-            <SelectMenuMonth />
-          </div>
-          <div className="flex flex-row justify-between mt-7">
-            <div>
-              <h5 className="text-night_30">All Clients 06</h5>
-              <p className="text-night_60 font-medium">0</p>
-            </div>
-            <div>
-              <h5 className="text-night_30">Active</h5>
-              <p className="text-night_60 font-medium">0</p>
-            </div>
-            <div>
-              <h5 className="text-night_30">In-Active</h5>
-              <p className="text-night_60 font-medium">0</p>
-            </div>
-          </div>
-        </Card>
-      </div>
-
-      <CardRow>
+      <Card>
         <div className="flex justify-between">
-          <h3 className="text-night_60 font-medium">Recent Orders</h3>
+          <h3 className="text-night_60 font-medium">Order Terbaru</h3>
         </div>
         <div className="flex flex-row justify-between mt-7">
           <div>
@@ -213,13 +171,13 @@ const Dashboard = () => {
             <p className="text-night_60 font-medium">0</p>
           </div>
         </div>
-      </CardRow>
+      </Card>
       {/* 2nd End */}
 
       {/* 3rd Start */}
       <CardCol>
         <div className="flex justify-between">
-          <h3 className="text-night_60 font-medium">Summary</h3>
+          <h3 className="text-night_60 font-medium">Grafik</h3>
           <SelectMenuMonth />
         </div>
         <div className="mt-7">

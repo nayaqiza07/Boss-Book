@@ -3,11 +3,11 @@ import { toast } from "react-toastify";
 
 const initialState = {
   jenisKayuData: [
-    { name: "Jati Kampung", _id: "Jati Kampung", perkalianJenisKayu: 20 },
+    { name: "Jati Kampung", _id: "Jati Kampung", perkalianJenisKayu: 17 },
     { name: "Jati Sulawesi", _id: "Jati Sulawesi", perkalianJenisKayu: 24 },
     { name: "Jati TPK", _id: "Jati TPK", perkalianJenisKayu: 28 },
-    { name: "Mahoni", _id: "Mahoni", perkalianJenisKayu: 17 },
-    { name: "Mindi", _id: "Mindi", perkalianJenisKayu: 17 },
+    { name: "Mahoni", _id: "Mahoni", perkalianJenisKayu: 15 },
+    { name: "Mindi", _id: "Mindi", perkalianJenisKayu: 15 },
   ],
   jenisKayu: "",
   perkalianJenisKayu: 1,

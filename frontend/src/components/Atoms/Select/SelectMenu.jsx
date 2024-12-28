@@ -97,7 +97,7 @@ export const SelectMenuPages = () => {
 export const SelectMenuMonth = () => {
   return (
     <>
-      <select className="rounded-lg text-night_10 px-[11px] py-1 focus:outline-none text-xs text-right">
+      <select className="rounded-lg text-black px-[11px] py-1 focus:outline-none text-xs text-right">
         {optionMonths.map((item, index) => (
           <option key={index + 1} value={item.value}>
             {item.label}

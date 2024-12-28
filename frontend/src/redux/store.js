@@ -22,8 +22,8 @@ export const store = configureStore({
   },
 });
 
-console.log("On Create Store : ", store.getState());
+// console.log("On Create Store : ", store.getState());
 
-store.subscribe(() => {
-  console.log("Store Change : ", store.getState());
-});
+// store.subscribe(() => {
+//   console.log("Store Change : ", store.getState());
+// });

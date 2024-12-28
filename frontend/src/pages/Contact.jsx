@@ -5,7 +5,6 @@ import { AddUser } from "react-iconly";
 import { getClients, createClient } from "@/api/clientApi";
 
 // Assets
-import { BigUser2 } from "@/assets/Icon/BigUser2";
 
 // Components
 
@@ -13,8 +12,8 @@ import { BigUser2 } from "@/assets/Icon/BigUser2";
 import Button from "@components/Atoms/Button/Button";
 
 // Molecules
-import { DataEmpty } from "@components/Molecules/404/DataEmpty";
 
+// Organisms
 import { Card } from "@components/Organisms/Card/Card";
 import ModalAddContact from "@/components/Organisms/Modal/ModalAddContact";
 import Pagination from "@components/Molecules/Pagination/Pagination";
@@ -103,36 +102,26 @@ const Contact = () => {
       {/* Second Start */}
       <section className="grid grid-rows-1 grid-cols-1">
         <Card>
-          {dataClients?.length === 0 ? (
-            <DataEmpty
-              icon={<BigUser2 />}
-              title={"Add Your Contact"}
-              subTitle={"Add contact to this section"}
-            />
-          ) : (
-            <>
-              {/* Second Head Start */}
-              <SearchTable
-                placeholder="Enter contact name"
-                query={query}
-                setQuery={setQuery}
-                searchData={searchData}
-              />
-              {/* Second Head End */}
+          {/* Second Head Start */}
+          <SearchTable
+            placeholder="Enter contact name"
+            query={query}
+            setQuery={setQuery}
+            searchData={searchData}
+          />
+          {/* Second Head End */}
 
-              {/* Second Table Start */}
-              <div className="hidden overflow-x-auto mt-5 md:block">
-                <TableContact dataClients={dataClients} />
-              </div>
-              {/* Second Table End */}
+          {/* Second Table Start */}
+          <div className="hidden overflow-x-auto mt-5 md:block">
+            <TableContact dataClients={dataClients} />
+          </div>
+          {/* Second Table End */}
 
-              {/* Table view up to the `md:` breakpoint Start  */}
-              <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
-                <TableContactMobile dataClients={dataClients} />
-              </div>
-              {/* Table view up to the `md:` breakpoint End  */}
-            </>
-          )}
+          {/* Table view up to the `md:` breakpoint Start  */}
+          <div className="grid grid-cols-1 gap-5 pt-3 mt-5 sm:grid-cols-2 md:hidden">
+            <TableContactMobile dataClients={dataClients} />
+          </div>
+          {/* Table view up to the `md:` breakpoint End  */}
 
           {/* Second Pagination Start */}
           <Pagination

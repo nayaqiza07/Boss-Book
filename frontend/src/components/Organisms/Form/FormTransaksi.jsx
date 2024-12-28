@@ -33,12 +33,14 @@ const FormTransaksi = (props) => {
         placeholder="Keterangan"
         defaultValue={isEdit && data.keterangan}
       />
-      <FormInput
-        type="text"
-        name="date"
-        defaultValue={dateFormat()}
-        readonly={true}
-      />
+      {!isEdit && (
+        <FormInput
+          type="text"
+          name="date"
+          defaultValue={dateFormat()}
+          readonly={true}
+        />
+      )}
       <FormSelect
         name="jenis"
         placeholder="Jenis"

@@ -22,6 +22,7 @@ import CalculatorData from "./pages/CalculatorData";
 import CalculatorView from "./pages/CalculatorView";
 import Contact from "@/pages/Contact";
 import ContactView from "@/pages/ContactView";
+import HistoryPengeluaran from "@/pages/HistoryPengeluaran";
 
 // Loader API Data
 // import { getClients } from "./api/clientApi";
@@ -33,6 +34,7 @@ import { action as SignUpAction } from "@pages/auth/SignUpView";
 
 // Storage
 import { store } from "./redux/store";
+import HistoryPenjualan from "./pages/HistoryPenjualan";
 
 const router = createBrowserRouter([
   {
@@ -84,6 +86,14 @@ const router = createBrowserRouter([
       {
         path: "contact/view/:id",
         element: <ContactView />,
+      },
+      {
+        path: "history/penjualan",
+        element: <HistoryPenjualan />,
+      },
+      {
+        path: "history/pengeluaran",
+        element: <HistoryPengeluaran />,
       },
     ],
   },

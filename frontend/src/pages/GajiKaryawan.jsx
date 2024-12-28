@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Bag } from "react-iconly";
 
 // API
 import {
   createTransaksi,
   deleteTransaksi,
+  editTransaksiNonTunai,
   getAllTransaksi,
   getTransaksiById,
   updateTransaksiNonTunai,
@@ -13,7 +15,6 @@ import {
 import { getAllClients } from "@/api/clientApi";
 
 // Assets
-import { Bag } from "@/assets/Icon/Bag";
 
 // Components
 import { priceFormat } from "@/components/utils";
@@ -33,24 +34,9 @@ import { SidebarItem } from "@components/Organisms/Sidebar/SidebarItem";
 import Table from "@components/Organisms/Table/Table";
 import TableMobile from "@/components/Organisms/Table/TableMobile";
 
-// Redux Actions
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   // setLimitData,
-//   // setTotalData,
-//   setPage,
-//   // setTotalPage,
-//   setKeyword,
-//   setQuery,
-// } from "@/redux/slices/paginationSlice";
-
 const GajiKaryawan = () => {
-  // const { limitData, totalData, page, totalPage, keyword, query } = useSelector(
-  //   (state) => state.paginationState
-  // );
-  // const dispatch = useDispatch();
-
   const [openModal, setOpenModal] = useState(false);
+  const [modalEdit, setModalEdit] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
 
@@ -63,35 +49,27 @@ const GajiKaryawan = () => {
   const [pengeluaranNonTunaiById, setPengeluaranNonTunaiById] = useState("");
   const [pembayaran, setPembayaran] = useState();
 
-  const [totalOutNonTunai, setTotalOutNonTunai] = useState(0);
-  const [totalDibayarNonTunai, setTotalDibayarNonTunai] = useState(0);
-  const [totalBelumDibayarNonTunai, setTotalBelumDibayarNonTunai] = useState(0);
-
-  // const fetchTransaksiNonTunai = (keyword, page) => {
-  //   getTransaksi(keyword, page).then(({ resPengeluaranNonTunai }) => {
-  //     setTrans(resPengeluaranNonTunai);
-  //   });
-  // };
+  const [totalGajiKaryawan, setTotalGajiKaryawan] = useState(0);
+  const [totalDibayar, setTotalDibayar] = useState(0);
+  const [totalBelumDibayar, setTotalBelumDibayar] = useState(0);
 
   const fetchAllTransaksiNonTunai = () => {
     getAllTransaksi().then(
       ({
         resPengeluaranNonTunai,
-        totalOutNonTunai,
-        totalDibayarNonTunai,
-        totalBelumDibayarNonTunai,
+
+        totalGajiKaryawan,
+        totalDibayar,
+        totalBelumDibayar,
       }) => {
         setPengeluaranNonTunai(resPengeluaranNonTunai);
-        setTotalOutNonTunai(totalOutNonTunai);
-        setTotalDibayarNonTunai(totalDibayarNonTunai);
-        setTotalBelumDibayarNonTunai(totalBelumDibayarNonTunai);
+
+        setTotalGajiKaryawan(totalGajiKaryawan);
+        setTotalDibayar(totalDibayar);
+        setTotalBelumDibayar(totalBelumDibayar);
       }
     );
   };
-
-  // useEffect(() => {
-  //   fetchTransaksiNonTunai(keyword, page);
-  // }, [keyword, page]);
 
   useEffect(() => {
     fetchAllTransaksiNonTunai();
@@ -110,34 +88,6 @@ const GajiKaryawan = () => {
       setKaryawan(resKaryawan);
     });
   };
-
-  // const fetchDataUtang = useCallback(
-  //   (keyword, page) => {
-  //     getUtang(keyword, page).then(
-  //       ({ res, limitUtang, totalDataUtang, currentPage, totalPage }) => {
-  //         setUtang(res);
-
-  //         dispatch(setLimitData(limitUtang));
-  //         dispatch(setTotalData(totalDataUtang));
-  //         dispatch(setPage(currentPage));
-  //         dispatch(setTotalPage(totalPage));
-  //       }
-  //     );
-  //   },
-  //   [dispatch]
-  // );
-
-  // useEffect(() => {
-  //   fetchDataUtang(keyword, page);
-  // }, [keyword, page, fetchDataUtang]);
-
-  // useEffect(() => {
-  //   fetchAllDataUtang();
-  // }, []);
-
-  // const fetchDataUtangById = (id) => {
-  //   getUtangById(id).then((result) => setUtangById(result));
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -168,6 +118,38 @@ const GajiKaryawan = () => {
 
     // Reset nilai form
     formRef.current.reset();
+  };
+
+  const handleModalEdit = (id) => {
+    setModalEdit(true);
+    fetchPengeluaranNonTunaiById(id);
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+
+    // Ambil Inputan Form
+    const form = e.target;
+    const dataForm = new FormData(form);
+    const data = Object.fromEntries(dataForm);
+    // console.log(data);
+
+    const jatuhTempo = data.jatuhTempo
+      ? data.jatuhTempo.split("-").reverse().join("/")
+      : null;
+
+    await editTransaksiNonTunai(
+      pengeluaranNonTunaiById._id,
+      data.contact,
+      data.keterangan,
+      data.jenis,
+      data.kategori,
+      data.jumlah,
+      pembayaran,
+      jatuhTempo
+    );
+
+    fetchAllTransaksiNonTunai();
   };
 
   const handleModalUpdate = (id) => {
@@ -267,32 +249,32 @@ const GajiKaryawan = () => {
         {/* Top Start */}
 
         {/* Second Start */}
-        <CardSummary>
-          <CardSummary.Header icon={<Bag colorStroke={"#130F26"} />} />
+        <CardSummary backgroundColor="bg-[#FFB26F]">
+          <CardSummary.Header icon={<Bag primaryColor={"#130F26"} />} />
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Gaji Karyawan"
-              data={priceFormat(totalOutNonTunai)}
+              data={priceFormat(totalGajiKaryawan)}
             />
           </div>
         </CardSummary>
 
-        <CardSummary>
-          <CardSummary.Header icon={<Bag colorStroke={"#130F26"} />} />
+        <CardSummary backgroundColor="bg-[#91DDCF]">
+          <CardSummary.Header icon={<Bag primaryColor={"#130F26"} />} />
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Sudah Dibayar"
-              data={priceFormat(totalDibayarNonTunai)}
+              data={priceFormat(totalDibayar)}
             />
           </div>
         </CardSummary>
 
-        <CardSummary>
-          <CardSummary.Header icon={<Bag colorStroke={"#130F26"} />} />
+        <CardSummary backgroundColor="bg-[#FF8080]">
+          <CardSummary.Header icon={<Bag primaryColor={"#130F26"} />} />
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <CardSummary.Body
               title="Total Belum Dibayar"
-              data={priceFormat(totalBelumDibayarNonTunai)}
+              data={priceFormat(totalBelumDibayar)}
             />
           </div>
         </CardSummary>
@@ -304,20 +286,24 @@ const GajiKaryawan = () => {
             // query={query}
             // setQuery={setQuery}
             searchData={searchData}
+            isHistory={true}
+            historyPath="/history/pengeluaran"
           />
           <Table
             datas={pengeluaranNonTunai}
-            isUtang={true}
+            isGaji={true}
             btnText="Bayar"
-            handleDelete={handleModalDelete}
+            handleEdit={handleModalEdit}
             handleUpdate={handleModalUpdate}
+            handleDelete={handleModalDelete}
           />
           <TableMobile
             datas={pengeluaranNonTunai}
-            isUtang={true}
+            isGaji={true}
             btnText="Bayar"
-            // handleDelete={handleModalDelete}
-            // handleUpdate={handleModalUpdate}
+            handleEdit={handleModalEdit}
+            handleUpdate={handleModalUpdate}
+            handleDelete={handleModalDelete}
           />
           {/* <Pagination
             limitData={limitData}
@@ -337,6 +323,18 @@ const GajiKaryawan = () => {
         pembayaran={pembayaran}
         setPembayaran={setPembayaran}
         handleSubmit={handleSubmit}
+        dataName={karyawan}
+      />
+
+      {/* Edit Modal */}
+      <ModalTransaksi
+        openModal={modalEdit}
+        setOpenModal={setModalEdit}
+        isEdit={true}
+        data={pengeluaranNonTunaiById}
+        pembayaran={pembayaran}
+        setPembayaran={setPembayaran}
+        handleSubmit={handleEdit}
         dataName={karyawan}
       />
 

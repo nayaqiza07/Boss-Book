@@ -1,4 +1,5 @@
 import { priceFormat } from "@components/utils";
+import logo from "@/assets/logo/logo kotak.png";
 
 const InvoicePdf = ({ dataOrderById, componentPrint }) => {
   return (
@@ -9,13 +10,21 @@ const InvoicePdf = ({ dataOrderById, componentPrint }) => {
         className="p-4 flex-1 w-[210mm] h-[297mm] text-sm border rounded"
       >
         {/* Section 1 Start */}
-        <section className="text-right">
-          <h6 className="font-bold">GEORGE FURNITURE</h6>
-          <p>
-            JL.Bangsri - Mlonggo Rt/39 Rw 08 Jambu - Mlonggo <br />
-            Jepara Jawa tengah 59452
-          </p>
-          <p>081779068604</p>
+        <section className="flex justify-between">
+          <img
+            src={logo}
+            alt="Logo"
+            className="rounded-l-md w-[100px] h-[50px] object-cover"
+          />
+          <div className="text-right">
+            <h6 className="font-bold">Faktur</h6>
+            <h6 className="font-bold">GEORGE FURNITURE</h6>
+            <p>
+              JL.Bangsri - Mlonggo Rt/39 Rw 08 Jambu - Mlonggo <br />
+              Jepara Jawa tengah 59452
+            </p>
+            <p>081779068604</p>
+          </div>
         </section>
         {/* Section 1 End */}
 

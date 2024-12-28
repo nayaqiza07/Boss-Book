@@ -130,8 +130,14 @@ const Order = () => {
     const dataForm = new FormData(form);
     const data = Object.fromEntries(dataForm);
     // console.log(data);
-    console.log(selectedImages);
-    console.log(data.image);
+    // console.log(selectedImages);
+    // console.log(data.image);
+
+    // const formData = new FormData();
+    // for (let i = 0; i < selectedImages.length; i++) {
+    //   formData.append("image", selectedImages[i]);
+    // }
+    // console.log(formData);
 
     const jatuhTempo = data.jatuhTempo
       ? data.jatuhTempo.split("-").reverse().join("/")
@@ -142,12 +148,13 @@ const Order = () => {
       data.date,
       data.status,
       items,
-      selectedImages,
+      data.image,
       data.total,
       data.jumlahPembayaran,
       jatuhTempo
     );
-    fetchDataOrder();
+
+    fetchDataOrder(keyword, page);
   };
 
   const handleModalInvoice = (id) => {
@@ -203,7 +210,7 @@ const Order = () => {
       {/* Top Start */}
 
       {/* Second Start */}
-      <div className="grid gap-5 grid-rows-1 lg:grid-cols-2">
+      <div className="grid gap-5 grid-rows-1">
         <Card>
           <div className="flex justify-between">
             <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
@@ -214,49 +221,26 @@ const Order = () => {
 
           <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
             <div>
-              <h5 className="text-night_30">All Orders</h5>
+              <h5 className="text-black">All Orders</h5>
               <p className="text-night_60 font-medium">{orders.length}</p>
             </div>
             <div>
-              <h5 className="text-night_30">Pending</h5>
+              <h5 className="text-black">Pending</h5>
               <p className="text-night_60 font-medium">
                 {filterPending.length}
               </p>
             </div>
             <div>
-              <h5 className="text-night_30">In-Progress</h5>
+              <h5 className="text-black">In-Progress</h5>
               <p className="text-night_60 font-medium">
                 {filterInProgress.length}
               </p>
             </div>
             <div>
-              <h5 className="text-night_30">Completed</h5>
+              <h5 className="text-black">Completed</h5>
               <p className="text-night_60 font-medium">
                 {filterCompleted.length}
               </p>
-            </div>
-          </div>
-        </Card>
-
-        <Card>
-          <div className="flex justify-between">
-            <div className="bg-secondary_30 rounded-lg w-[36px] h-[36px] flex justify-center items-center">
-              {/* <HiOutlineExclamationCircle size={20} color="#130F26" /> */}
-            </div>
-            <SelectMenuMonth />
-          </div>
-          <div className="flex flex-row justify-between mt-7">
-            <div>
-              <h5 className="text-night_30">Canceled</h5>
-              <p className="text-night_60 font-medium">30</p>
-            </div>
-            <div>
-              <h5 className="text-night_30">Returned</h5>
-              <p className="text-night_60 font-medium">657</p>
-            </div>
-            <div>
-              <h5 className="text-night_30">Damaged</h5>
-              <p className="text-night_60 font-medium">5</p>
             </div>
           </div>
         </Card>

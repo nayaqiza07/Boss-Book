@@ -5,7 +5,8 @@ import { Checkbox } from "@components/Atoms/Checkbox/Checkbox";
 import { Bag } from "react-iconly";
 
 const Table = (props) => {
-  const { datas, isUtang, btnText, handleUpdate, handleDelete } = props;
+  const { datas, isGaji, btnText, handleEdit, handleUpdate, handleDelete } =
+    props;
 
   return (
     <div className="hidden overflow-x-auto mt-5 md:block">
@@ -33,7 +34,7 @@ const Table = (props) => {
                 Total
               </th>
               <th className="font-normal px-6 py-3 hidden md:table-cell">
-                {isUtang ? "Jumlah Dibayar" : "Jumlah Diterima"}
+                {isGaji ? "Jumlah Dibayar" : "Jumlah Diterima"}
               </th>
               {/* <th className="font-normal px-6 py-3">Status</th> */}
               <th className="font-normal px-6 py-3">Action</th>
@@ -44,7 +45,7 @@ const Table = (props) => {
               datas.map((data, index) => (
                 <tr
                   key={index + 1}
-                  className="text-night_40 text-left text-sm border-b"
+                  className="text-night_40 text-left text-sm font-medium border-b"
                 >
                   <td className="py-3">
                     <Checkbox />
@@ -101,6 +102,14 @@ const Table = (props) => {
                   </td>
                   <td className="whitespace-nowrap px-6 py-3 hidden md:table-cell">
                     <div className="flex gap-3">
+                      <Button
+                        variant="primaryOutline"
+                        onClick={() => handleEdit(data._id)}
+                        size="sm"
+                      >
+                        Edit
+                      </Button>
+
                       <Button
                         variant="primary_2"
                         onClick={() => handleUpdate(data._id)}

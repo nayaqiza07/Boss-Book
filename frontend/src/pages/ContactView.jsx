@@ -122,7 +122,7 @@ const ContactView = () => {
       {/* Top Start */}
 
       {/* Content Start */}
-      <CardSummary>
+      <CardSummary backgroundColor="bg-white">
         <CardSummary.Header icon={<User primaryColor="#130F26" />} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-8">
           <CardSummary.Body title="Phone" data={client.phone} />
@@ -130,13 +130,14 @@ const ContactView = () => {
         </div>
       </CardSummary>
 
-      <CardSummary>
+      <CardSummary backgroundColor="bg-white">
         <CardSummary.Header icon={<Location primaryColor="#130F26" />} />
         <div className="grid grid-cols-1 mt-8">
           <CardSummary.Body title="Home Address" data={client.address} />
         </div>
       </CardSummary>
-      <CardSummary>
+
+      <CardSummary backgroundColor="bg-white">
         <CardSummary.Header icon={<Bag primaryColor="#130F26" />} />
         <div className="grid grid-cols-4 mt-8">
           <CardSummary.Body title="All Order" data={clientOrder.length} />

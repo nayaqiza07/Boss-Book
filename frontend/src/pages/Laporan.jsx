@@ -23,6 +23,7 @@ import { priceFormat } from "@/components/utils";
 import { Card } from "@/components/Organisms/Card/Card";
 import ContentReport from "@/components/Molecules/Report/ContentReport";
 import { OrderStatusChart } from "@/components/Organisms/Chart/OrderStatusChart";
+import CardSummary from "@/components/Organisms/Card/CardSummary";
 
 const Laporan = () => {
   const [totalPemasukan, setTotalPemasukan] = useState(0);
@@ -155,17 +156,28 @@ const Laporan = () => {
     <>
       <div>
         <div className="p-5 grid gap-5 lg:grid-cols-2">
+          <CardSummary backgroundColor="bg-[#91DDCF]">
+            <CardSummary.Header icon={<ArrowDown primaryColor={"#130F26"} />} />
+            <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
+              <CardSummary.Body
+                title="Pemasukan"
+                data={priceFormat(totalPemasukan)}
+              />
+            </div>
+          </CardSummary>
+
+          <CardSummary backgroundColor="bg-[#FF8080]">
+            <CardSummary.Header icon={<ArrowUp primaryColor={"#130F26"} />} />
+            <div className="grid grid-cols-2 justify-between mt-7 lg:flex lg:flex-row">
+              <CardSummary.Body
+                title="Pengeluaran"
+                data={priceFormat(totalPengeluaran)}
+              />
+            </div>
+          </CardSummary>
+
           <Card>
             <div className="flex flex-col gap-5">
-              <div className="flex flex-col items-center">
-                <h1 className="flex gap-1 items-center">
-                  <ArrowDown primaryColor={"#519c66"} size={20} />
-                  Pemasukan
-                </h1>
-                <span className="text-action_go">
-                  {priceFormat(totalPemasukan)}
-                </span>
-              </div>
               <OrderStatusChart datas={dataPemasukan} />
               <h1>Detail Pemasukan</h1>
               <ContentReport
@@ -193,15 +205,6 @@ const Laporan = () => {
 
           <Card>
             <div className="flex flex-col gap-5">
-              <div className="flex flex-col items-center">
-                <h1 className="flex gap-1 items-center">
-                  <ArrowUp primaryColor={"#cc5f5f"} size={20} />
-                  Pengeluaran
-                </h1>
-                <span className="text-action_stop">
-                  {priceFormat(totalPengeluaran)}
-                </span>
-              </div>
               <OrderStatusChart datas={dataPengeluaran} />
               <h1>Detail Pengeluaran</h1>
               <ContentReport

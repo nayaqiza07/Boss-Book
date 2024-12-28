@@ -1,5 +1,6 @@
 // import { useState } from "react";
 import Button from "@components/Atoms/Button/Button";
+import { Image, Upload } from "react-iconly";
 
 const Uploader = (props) => {
   const { selectedImages, setSelectedImages } = props;
@@ -17,8 +18,18 @@ const Uploader = (props) => {
       return file;
     });
 
+    // setSelectedImages((prev) => [...prev, image]);
     setSelectedImages((prev) => prev.concat(image));
-    // console.log(imagesArray);
+
+    // const files = Array.from(e.target.files);
+    // files.forEach((file) => {
+    //   const reader = new FileReader();
+    //   reader.readAsDataURL(file);
+    //   reader.onloadend = () => {
+    //     setSelectedImages((prev) => [...prev, reader.result]);
+    //   };
+    // });
+    // setSelectedImages((prev) => [...prev, files]);
   };
 
   // console.log(selectedImages);
@@ -44,7 +55,13 @@ const Uploader = (props) => {
           onClick={() => document.querySelector(".input-image").click()}
           className="mt-7 h-10 lg:h-80 flex flex-col justify-center items-center border-2 border-[#E1E2E9] bg-main_background rounded-lg cursor-pointer"
         >
-          <h6 className="text-primary_100 font-medium">Upload Image</h6>
+          <div className="mb-7 hidden lg:block">
+            <Image set="bulk" size={60} stroke="bold" primaryColor="#5570f1" />
+          </div>
+          <h6 className="flex gap-1 items-center text-primary_100 font-medium">
+            <Upload size={20} stroke="bold" />
+            Upload Image
+          </h6>
           <p className="hidden lg:block text-night_30 text-sm mt-2">
             Upload an image for your product
           </p>

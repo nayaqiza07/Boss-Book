@@ -16,34 +16,37 @@ const singleItem = Schema({
 //   image: { type: String, default: null },
 // });
 
-const orderSchema = new Schema({
-  orderNumber: {
-    type: String,
-    required: true,
-    // unique: true,
+const orderSchema = new Schema(
+  {
+    orderNumber: {
+      type: String,
+      required: true,
+      // unique: true,
+    },
+    client: {
+      type: Schema.ObjectId,
+      ref: "Client",
+      required: true,
+    },
+    date: {
+      type: String,
+      required: true,
+    },
+    total: {
+      type: Number,
+      required: [true, "Total harus diisi"],
+    },
+    status: {
+      type: String,
+      enum: ["Pending", "In-Progress", "Completed"],
+      default: "Pending",
+    },
+    items: [singleItem],
+    images: [{ type: String, default: null }],
+    // image: [singleImage],
   },
-  client: {
-    type: Schema.ObjectId,
-    ref: "Client",
-    required: true,
-  },
-  date: {
-    type: String,
-    required: true,
-  },
-  total: {
-    type: Number,
-    required: [true, "Total harus diisi"],
-  },
-  status: {
-    type: String,
-    enum: ["Pending", "In-Progress", "Completed"],
-    default: "Pending",
-  },
-  items: [singleItem],
-  image: [{ type: String, default: null }],
-  // image: [singleImage],
-});
+  { timestamps: true }
+);
 
 const Order = mongoose.model("Order", orderSchema);
 

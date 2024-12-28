@@ -36,7 +36,7 @@ export const createTransaksi = async (
 export const getTransaksi = async (keyword, page) => {
   try {
     const response = await customAPI.get(
-      `/transaksi?name=${keyword}&page=${page}`
+      `/transaksi?kategori=${keyword}&page=${page}`
     );
 
     const res = response.data.data;
@@ -46,6 +46,7 @@ export const getTransaksi = async (keyword, page) => {
     const resPengeluaranNonTunai = res.filter(
       (data) => data.pembayaran === "nonTunai" && data.jenis === "Pengeluaran"
     );
+
     const resPemasukanNonTunai = res.filter(
       (data) => data.pembayaran === "nonTunai" && data.jenis === "Pemasukan"
     );
@@ -56,6 +57,7 @@ export const getTransaksi = async (keyword, page) => {
     const totalPage = response.data.pagination.totalPage;
 
     // console.log({ limitTransaksi, totalDataTransaksi, currentPage, totalPage });
+    // console.log({ res });
     return {
       res,
       resTunai,
@@ -81,18 +83,21 @@ export const getAllTransaksi = async () => {
     const resPemasukanNonTunai = response.data.resPemasukanNonTunai;
     const resPengeluaranNonTunai = response.data.resPengeluaranNonTunai;
 
+    const historyPemasukan = response.data.historyPemasukan;
+    const historyPengeluaran = response.data.historyPengeluaran;
+
     const totalTransaksi = response.data.totalTransaksi;
     const totalPersen = response.data.totalPersen;
     const totalIn = response.data.totalIn;
     const totalOut = response.data.totalOut;
 
-    const totalInNonTunai = response.data.totalInNonTunai;
-    const totalDiterimaNonTunai = response.data.totalDiterimaNonTunai;
-    const totalBelumDiterimaNonTunai = response.data.totalBelumDiterimaNonTunai;
+    const totalPenjualan = response.data.totalPenjualan;
+    const totalDiterima = response.data.totalDiterima;
+    const totalBelumDiterima = response.data.totalBelumDiterima;
 
-    const totalOutNonTunai = response.data.totalOutNonTunai;
-    const totalDibayarNonTunai = response.data.totalDibayarNonTunai;
-    const totalBelumDibayarNonTunai = response.data.totalBelumDibayarNonTunai;
+    const totalGajiKaryawan = response.data.totalGajiKaryawan;
+    const totalDibayar = response.data.totalDibayar;
+    const totalBelumDibayar = response.data.totalBelumDibayar;
 
     // Income
     const resIncome = response.data.income;
@@ -119,17 +124,21 @@ export const getAllTransaksi = async () => {
       resPemasukanNonTunai,
       resPengeluaranNonTunai,
 
+      historyPemasukan,
+      historyPengeluaran,
+
       totalTransaksi,
       totalPersen,
       totalIn,
       totalOut,
 
-      totalInNonTunai,
-      totalDiterimaNonTunai,
-      totalBelumDiterimaNonTunai,
-      totalOutNonTunai,
-      totalDibayarNonTunai,
-      totalBelumDibayarNonTunai,
+      totalPenjualan,
+      totalDiterima,
+      totalBelumDiterima,
+
+      totalGajiKaryawan,
+      totalDibayar,
+      totalBelumDibayar,
 
       resIncome,
       totalModal,
@@ -168,9 +177,8 @@ export const getTransaksiById = async (id) => {
 // Update Transaksi Tunai (PUT)
 export const updateTransaksiTunai = async (
   id,
-  name,
+  client,
   keterangan,
-  date,
   jenis,
   kategori,
   jumlah,
@@ -179,9 +187,36 @@ export const updateTransaksiTunai = async (
 ) => {
   try {
     const response = await customAPI.put(`/transaksi/${id}`, {
-      name,
+      client,
       keterangan,
-      date,
+      jenis,
+      kategori,
+      jumlah,
+      pembayaran,
+      jatuhTempo,
+    });
+    toast.info("Berhasil update transaksi");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Edit Transaksi Non Tunai (PUT)
+export const editTransaksiNonTunai = async (
+  id,
+  client,
+  keterangan,
+  jenis,
+  kategori,
+  jumlah,
+  pembayaran,
+  jatuhTempo
+) => {
+  try {
+    const response = await customAPI.put(`/transaksi/${id}`, {
+      client,
+      keterangan,
       jenis,
       kategori,
       jumlah,

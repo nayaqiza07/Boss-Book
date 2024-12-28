@@ -163,7 +163,7 @@ const TransaksiView = () => {
     const form = e.target;
     const dataForm = new FormData(form);
     const data = Object.fromEntries(dataForm);
-    console.log(data);
+    // console.log(data);
 
     const jatuhTempo = data.jatuhTempo
       ? data.jatuhTempo.split("-").reverse().join("/")
@@ -171,9 +171,8 @@ const TransaksiView = () => {
 
     await updateTransaksiTunai(
       transaksiById._id,
-      data.name,
+      data.contact,
       data.keterangan,
-      data.date,
       data.jenis,
       data.kategori,
       data.jumlah,
@@ -213,9 +212,8 @@ const TransaksiView = () => {
           openModal={handleModal}
         ></HeaderPages>
         {/* Top Start */}
-
         {/* Second Start */}
-        <CardSummary>
+        <CardSummary backgroundColor="bg-[#FFB26F]">
           <CardSummary.Header icon={<Bag colorStroke={"#130F26"} />} />
           <div className="grid grid-cols-2 mt-8">
             <CardSummary.Body
@@ -232,14 +230,14 @@ const TransaksiView = () => {
           </div>
         </CardSummary>
 
-        <CardSummary>
+        <CardSummary backgroundColor="bg-[#91DDCF]">
           <CardSummary.Header icon={<Bag colorStroke={"#130F26"} />} />
           <div className="grid grid-cols-2 mt-8">
             <CardSummary.Body title="Pemasukan" data={priceFormat(totalIn)} />
           </div>
         </CardSummary>
 
-        <CardSummary>
+        <CardSummary backgroundColor="bg-[#FF8080]">
           <CardSummary.Header icon={<Bag colorStroke={"#130F26"} />} />
           <div className="grid grid-cols-2 mt-8">
             <CardSummary.Body
@@ -249,7 +247,6 @@ const TransaksiView = () => {
           </div>
         </CardSummary>
         {/* Second End */}
-
         <Card colSpan="lg:col-span-3">
           <SearchTable
             placeholder="Enter Name"
@@ -262,7 +259,11 @@ const TransaksiView = () => {
             handleUpdate={handleModalUpdate}
             handleDelete={handleModalDelete}
           />
-          <TableTransaksiMobile datas={transaksi} />
+          <TableTransaksiMobile
+            datas={transaksi}
+            handleUpdate={handleModalUpdate}
+            handleDelete={handleModalDelete}
+          />
           <Pagination
             limitData={limitData}
             totalData={totalData}

@@ -17,15 +17,27 @@ export const getTransaksi = asyncHandler(async (req, res) => {
   const queryObj = { ...req.query };
 
   // fungsi untuk mengabaikan jika ada req page dan limit
-  const excludeField = ["page", "limit", "name"];
+  const excludeField = ["page", "limit", "kategori"];
   excludeField.forEach((element) => delete queryObj[element]);
 
-  // Search berdasarkan karatker nama
+  // Search berdasarkan karakter kategori
   let query;
-  if (req.query.name) {
-    query = Transaksi.find({
-      name: { $regex: req.query.name, $options: "i" },
-    });
+  if (req.query.kategori) {
+    query = Transaksi.aggregate([
+      {
+        $lookup: {
+          from: "clients",
+          localField: "client",
+          foreignField: "_id",
+          as: "clientData",
+        },
+      },
+      {
+        $match: {
+          kategori: { $regex: req.query.kategori, $options: "i" },
+        },
+      },
+    ]);
   } else {
     query = Transaksi.aggregate(
       [
@@ -89,8 +101,23 @@ export const getAllTransaksi = asyncHandler(async (req, res) => {
   const resPemasukanNonTunai = allTransaksi.filter(
     (data) => data.jenis === "Pemasukan" && data.pembayaran === "nonTunai"
   );
+
   const resPengeluaranNonTunai = allTransaksi.filter(
     (data) => data.jenis === "Pengeluaran" && data.pembayaran === "nonTunai"
+  );
+
+  const historyPemasukan = allTransaksi.filter(
+    (data) =>
+      data.jenis === "Pemasukan" &&
+      data.kategori === "Penjualan" &&
+      data.jumlah === data.jumlahPembayaran
+  );
+
+  const historyPengeluaran = allTransaksi.filter(
+    (data) =>
+      data.jenis === "Pengeluaran" &&
+      data.kategori === "Gaji Karyawan" &&
+      data.jumlah === data.jumlahPembayaran
   );
 
   const totalIn = allTransaksi
@@ -108,37 +135,39 @@ export const getAllTransaksi = asyncHandler(async (req, res) => {
   const totalTransaksi = totalIn - totalOut;
   const totalPersen = Math.floor(((totalIn - totalOut) / totalIn) * 100) || 0;
 
-  const totalInNonTunai = allTransaksi
+  const totalPenjualan = allTransaksi
     .filter(
-      (data) => data.jenis === "Pemasukan" && data.pembayaran === "nonTunai"
+      (data) => data.jenis === "Pemasukan" && data.kategori === "Penjualan"
     )
     .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
-  const totalDiterimaNonTunai = allTransaksi
+  const totalDiterima = allTransaksi
     .filter(
-      (data) => data.jenis === "Pemasukan" && data.pembayaran === "nonTunai"
+      (data) => data.jenis === "Pemasukan" && data.kategori === "Penjualan"
     )
     .map((data) => data.jumlahPembayaran)
     .reduce((data, num) => data + num, 0);
 
-  const totalBelumDiterimaNonTunai = totalInNonTunai - totalDiterimaNonTunai;
+  const totalBelumDiterima = totalPenjualan - totalDiterima;
 
-  const totalOutNonTunai = allTransaksi
+  const totalGajiKaryawan = allTransaksi
     .filter(
-      (data) => data.jenis === "Pengeluaran" && data.pembayaran === "nonTunai"
+      (data) =>
+        data.jenis === "Pengeluaran" && data.kategori === "Gaji Karyawan"
     )
     .map((data) => data.jumlah)
     .reduce((data, num) => data + num, 0);
 
-  const totalDibayarNonTunai = allTransaksi
+  const totalDibayar = allTransaksi
     .filter(
-      (data) => data.jenis === "Pengeluaran" && data.pembayaran === "nonTunai"
+      (data) =>
+        data.jenis === "Pengeluaran" && data.kategori === "Gaji Karyawan"
     )
     .map((data) => data.jumlahPembayaran)
     .reduce((data, num) => data + num, 0);
 
-  const totalBelumDibayarNonTunai = totalOutNonTunai - totalDibayarNonTunai;
+  const totalBelumDibayar = totalGajiKaryawan - totalDibayar;
 
   // Income By Kategori
   const income = allTransaksi.filter(
@@ -225,16 +254,18 @@ export const getAllTransaksi = asyncHandler(async (req, res) => {
     data: allTransaksi,
     resPemasukanNonTunai,
     resPengeluaranNonTunai,
+    historyPemasukan,
+    historyPengeluaran,
     totalTransaksi,
     totalPersen,
     totalIn,
     totalOut,
-    totalInNonTunai,
-    totalDiterimaNonTunai,
-    totalBelumDiterimaNonTunai,
-    totalOutNonTunai,
-    totalDibayarNonTunai,
-    totalBelumDibayarNonTunai,
+    totalPenjualan,
+    totalDiterima,
+    totalBelumDiterima,
+    totalGajiKaryawan,
+    totalDibayar,
+    totalBelumDibayar,
     income,
     totalModal,
     totalSales,
